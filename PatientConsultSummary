@@ -6,22 +6,25 @@
 <body>
     <h1>Genetic Counseling Summary Form</h1>
     <form id="geneticForm">
-        <label for="counselorName">Counselor Name:</label>
+        <label for="counselorName">Genetic Counselor Name:</label>
         <input type="text" id="counselorName" name="counselorName"><br><br>
         
-        <label for="consultationTime">Consultation Date/Time:</label>
+        <label for="consultationTime">Consultation Date & Time:</label>
         <input type="datetime-local" id="consultationTime" name="consultationTime"><br><br>
         
-        <label for="ageOfEggDonor">Age of Egg Donor:</label>
+        <label for="patientName">Patient's Name:</label>
+        <input type="text" id="patientName" name="patientName"><br><br>
+
+        <label for="ageOfEggDonor">Age of Egg Source:</label>
         <input type="number" id="ageOfEggDonor" name="ageOfEggDonor"><br><br>
         
-        <label for="inheritancePattern">Inheritance Pattern:</label>
+        <label for="inheritancePattern">PGTM Indication Inheritance Pattern:</label>
         <input type="text" id="inheritancePattern" name="inheritancePattern"><br><br>
         
         <label for="geneTested">Gene Being Tested:</label>
         <input type="text" id="geneTested" name="geneTested"><br><br>
         
-        <label for="geneCarrier">Who has the gene:</label>
+        <label for="geneCarrier">Carrier (Egg source mother, father, etc.):</label>
         <input type="text" id="geneCarrier" name="geneCarrier"><br><br>
         
         <button type="button" onclick="submitForm()">Submit</button>
@@ -31,17 +34,21 @@
 
     <script>
         function submitForm() {
-            var output = "Summary:\\n";
-            output += "Counselor: " + document.getElementById('counselorName').value + "\\n";
-            output += "Consultation Time: " + document.getElementById('consultationTime').value + "\\n";
-            output += "Age of Egg Donor: " + document.getElementById('ageOfEggDonor').value + "\\n";
-            output += "Inheritance Pattern: " + document.getElementById('inheritancePattern').value + "\\n";
-            output += "Gene Tested: " + document.getElementById('geneTested').value + "\\n";
-            output += "Gene Carrier: " + document.getElementById('geneCarrier').value + "\\n";
+            var output = "Genetic Counseling Summary\\n\\n";
+            output += "Genetic Counselor: " + document.getElementById('counselorName').value + "\\n";
+            output += "Consultation Date & Time: " + document.getElementById('consultationTime').value + "\\n\\n";
+            output += "Patient Summary:\\n";
+            output += "Name: " + document.getElementById('patientName').value + "\\n";
+            output += "Age of Egg Source: " + document.getElementById('ageOfEggDonor').value + "\\n";
+            output += "PGTM Indication Inheritance Pattern: " + document.getElementById('inheritancePattern').value + "\\n\\n";
+            output += "Genetic Summary:\\n";
+            output += "Gene Being Tested: " + document.getElementById('geneTested').value + "\\n";
+            output += "Carrier: " + document.getElementById('geneCarrier').value + "\\n";
             
             document.getElementById('summaryOutput').innerText = output;
         }
     </script>
 </body>
 </html>
+
 
