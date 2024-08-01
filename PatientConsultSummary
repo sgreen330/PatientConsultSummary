@@ -12,8 +12,12 @@
         <label for="consultationTime">Consultation Date/Time:</label>
         <input type="datetime-local" id="consultationTime" name="consultationTime"><br><br>
         
-        <label for="patientSummary">Patient Summary:</label>
-        <textarea id="patientSummary" name="patientSummary"></textarea><br><br>
+        <h2>Patient Summary:</h2>
+        <label for="ageOfEggDonor">Age of Egg Donor:</label>
+        <input type="number" id="ageOfEggDonor" name="ageOfEggDonor"><br><br>
+        
+        <label for="inheritancePattern">Inheritance Pattern:</label>
+        <input type="text" id="inheritancePattern" name="inheritancePattern"><br><br>
         
         <label for="geneTested">Gene Being Tested:</label>
         <input type="text" id="geneTested" name="geneTested"><br><br>
@@ -24,16 +28,21 @@
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
+    <div id="summaryOutput" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
+
     <script>
         function submitForm() {
             var output = "Summary:\\n";
             output += "Counselor: " + document.getElementById('counselorName').value + "\\n";
             output += "Consultation Time: " + document.getElementById('consultationTime').value + "\\n";
-            output += "Patient Summary: " + document.getElementById('patientSummary').value + "\\n";
+            output += "Age of Egg Donor: " + document.getElementById('ageOfEggDonor').value + "\\n";
+            output += "Inheritance Pattern: " + document.getElementById('inheritancePattern').value + "\\n";
             output += "Gene Tested: " + document.getElementById('geneTested').value + "\\n";
             output += "Gene Carrier: " + document.getElementById('geneCarrier').value + "\\n";
-            alert(output);
+            
+            document.getElementById('summaryOutput').innerText = output;
         }
     </script>
 </body>
 </html>
+
