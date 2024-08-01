@@ -47,7 +47,10 @@
     <script>
         function submitForm() {
             var consultationDate = new Date(document.getElementById('consultationTime').value);
-            var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + consultationDate.getHours()%12 + (consultationDate.getHours() >= 12 ? 'pm' : 'am');
+            var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
+            var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
+            var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
+            var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
             
             var output = "<h2 class='bold'>Patient Consult Summary</h2>";
             output += "<strong>Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
@@ -59,8 +62,6 @@
             output += "<h3 class='underline'>Genetic Summary</h3>";
             output += "<span class='bold'>Gene Being Tested:</span> " + document.getElementById('geneTested').value + "<br>";
             output += "<span class='bold'>Carrier:</span> " + document.getElementById('geneCarrier').value + "<br><br>";
-            output += "<h3 class='underline'>Embryo Viability Assessment</h3>";
-            output += "Based on the genetic testing of your embryos and your age, there is a [Percentage] likelihood that the embryos are suitable for a successful pregnancy. This percentage reflects the potential outcomes given the specific mutation [Mutation Name] carried by " + document.getElementById('geneCarrier').value + ". It's important to discuss these results with your genetic counselor to understand all implications and potential next steps.<br><br>";
             output += "<h3 class='underline'>IVF Process Overview</h3>";
             output += "<span class='bold'>Initial Consultation:</span> Review of genetic test results and overall health assessment.<br>";
             output += "<span class='bold'>Treatment Planning:</span> Customized IVF treatment plan based on your specific genetic background and health status.<br>";
