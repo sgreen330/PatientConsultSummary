@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Genetic Counseling Form</title>
+</head>
+<body>
+    <h1>Genetic Counseling Summary Form</h1>
+    <form id="geneticForm">
+        <label for="counselorName">Counselor Name:</label>
+        <input type="text" id="counselorName" name="counselorName"><br><br>
+        
+        <label for="consultationTime">Consultation Date/Time:</label>
+        <input type="datetime-local" id="consultationTime" name="consultationTime"><br><br>
+        
+        <label for="patientSummary">Patient Summary:</label>
+        <textarea id="patientSummary" name="patientSummary"></textarea><br><br>
+        
+        <label for="geneTested">Gene Being Tested:</label>
+        <input type="text" id="geneTested" name="geneTested"><br><br>
+        
+        <label for="geneCarrier">Who has the gene:</label>
+        <input type="text" id="geneCarrier" name="geneCarrier"><br><br>
+        
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            var output = "Summary:\\n";
+            output += "Counselor: " + document.getElementById('counselorName').value + "\\n";
+            output += "Consultation Time: " + document.getElementById('consultationTime').value + "\\n";
+            output += "Patient Summary: " + document.getElementById('patientSummary').value + "\\n";
+            output += "Gene Tested: " + document.getElementById('geneTested').value + "\\n";
+            output += "Gene Carrier: " + document.getElementById('geneCarrier').value + "\\n";
+            alert(output);
+        }
+    </script>
+</body>
+</html>
