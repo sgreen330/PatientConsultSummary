@@ -19,36 +19,49 @@
         <input type="number" id="ageOfEggDonor" name="ageOfEggDonor"><br><br>
         
         <label for="inheritancePattern">PGTM Indication Inheritance Pattern:</label>
-        <input type="text" id="inheritancePattern" name="inheritancePattern"><br><br>
+        <select id="inheritancePattern" name="inheritancePattern">
+            <option value="Dominant">Dominant</option>
+            <option value="Recessive">Recessive</option>
+            <option value="X-linked">X-linked</option>
+        </select><br><br>
         
         <label for="geneTested">Gene Being Tested:</label>
         <input type="text" id="geneTested" name="geneTested"><br><br>
         
-        <label for="geneCarrier">Carrier (Egg source mother, father, etc.):</label>
+        <label for="geneCarrier">Carrier:</label>
         <input type="text" id="geneCarrier" name="geneCarrier"><br><br>
         
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-    <div id="summaryOutput" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
+    <div id="summaryOutput" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
 
     <script>
         function submitForm() {
-            var output = "Genetic Counseling Summary\\n\\n";
-            output += "Genetic Counselor: " + document.getElementById('counselorName').value + "\\n";
-            output += "Consultation Date & Time: " + document.getElementById('consultationTime').value + "\\n\\n";
-            output += "Patient Summary:\\n";
-            output += "Name: " + document.getElementById('patientName').value + "\\n";
-            output += "Age of Egg Source: " + document.getElementById('ageOfEggDonor').value + "\\n";
-            output += "PGTM Indication Inheritance Pattern: " + document.getElementById('inheritancePattern').value + "\\n\\n";
-            output += "Genetic Summary:\\n";
-            output += "Gene Being Tested: " + document.getElementById('geneTested').value + "\\n";
-            output += "Carrier: " + document.getElementById('geneCarrier').value + "\\n";
-            
-            document.getElementById('summaryOutput').innerText = output;
+            var output = "<strong>Genetic Counseling Summary</strong><br><br>";
+            output += "<strong>Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
+            output += "<strong>Consultation Date & Time:</strong> " + document.getElementById('consultationTime').value + "<br><br>";
+            output += "<strong>Patient Summary:</strong><br>";
+            output += "Name: " + document.getElementById('patientName').value + "<br>";
+            output += "Age of Egg Source: " + document.getElementById('ageOfEggDonor').value + "<br>";
+            output += "PGTM Indication Inheritance Pattern: " + document.getElementById('inheritancePattern').value + "<br><br>";
+            output += "<strong>Genetic Summary:</strong><br>";
+            output += "Gene Being Tested: " + document.getElementById('geneTested').value + "<br>";
+            output += "Carrier: " + document.getElementById('geneCarrier').value + "<br><br>";
+            output += "<strong>Embryo Viability Assessment:</strong><br>";
+            output += "Based on the genetic testing of your embryos and your age, there is a [Percentage] likelihood that the embryos are suitable for a successful pregnancy. This percentage reflects the potential outcomes given the specific mutation [Mutation Name] carried by [Carrier]. It's important to discuss these results with your genetic counselor to understand all implications and potential next steps.<br><br>";
+            output += "<strong>IVF Process Overview:</strong><br>";
+            output += "Initial Consultation: Review of genetic test results and overall health assessment.<br>";
+            output += "Treatment Planning: Customized IVF treatment plan based on your specific genetic background and health status.<br>";
+            output += "Cycle Monitoring: Regular appointments to monitor the development and viability of embryos.<br>";
+            output += "Embryo Transfer: Transfer of embryos deemed suitable for pregnancy.<br><br>";
+            output += "<strong>Next Steps:</strong><br>";
+            output += "Follow-Up Consultation: To discuss the outcomes of the current cycle and adjust the treatment plan if necessary.<br>";
+            output += "Support Services: Access to emotional and psychological support throughout the IVF process.<br><br>";
+            output += "Note: This summary is intended to provide an overview of your genetic testing and IVF process. Please consult with your genetic counselor and fertility specialist for detailed information tailored to your specific circumstances.<br>";
+
+            document.getElementById('summaryOutput').innerHTML = output;
         }
     </script>
 </body>
 </html>
-
-
