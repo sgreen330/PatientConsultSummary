@@ -38,27 +38,27 @@
 
     <script>
         function submitForm() {
-            var output = "<strong>Genetic Counseling Summary</strong><br><br>";
+            var output = "<h2>Genetic Counseling Summary</h2>";
             output += "<strong>Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
             output += "<strong>Consultation Date & Time:</strong> " + document.getElementById('consultationTime').value + "<br><br>";
-            output += "<strong>Patient Summary:</strong><br>";
+            output += "<h3>Patient Summary:</h3>";
             output += "Name: " + document.getElementById('patientName').value + "<br>";
             output += "Age of Egg Source: " + document.getElementById('ageOfEggDonor').value + "<br>";
             output += "PGTM Indication Inheritance Pattern: " + document.getElementById('inheritancePattern').value + "<br><br>";
-            output += "<strong>Genetic Summary:</strong><br>";
+            output += "<h3>Genetic Summary:</h3>";
             output += "Gene Being Tested: " + document.getElementById('geneTested').value + "<br>";
             output += "Carrier: " + document.getElementById('geneCarrier').value + "<br><br>";
-            output += "<strong>Embryo Viability Assessment:</strong><br>";
-            output += "Based on the genetic testing of your embryos and your age, there is a [Percentage] likelihood that the embryos are suitable for a successful pregnancy. This percentage reflects the potential outcomes given the specific mutation [Mutation Name] carried by [Carrier]. It's important to discuss these results with your genetic counselor to understand all implications and potential next steps.<br><br>";
-            output += "<strong>IVF Process Overview:</strong><br>";
+            output += "<h3>Embryo Viability Assessment:</h3>";
+            output += "Based on the genetic testing of your embryos and your age, there is a [Percentage] likelihood that the embryos are suitable for a successful pregnancy. This percentage reflects the potential outcomes given the specific mutation [Mutation Name] carried by " + document.getElementById('geneCarrier').value + ". It's important to discuss these results with your genetic counselor to understand all implications and potential next steps.<br><br>";
+            output += "<h3>IVF Process Overview:</h3>";
             output += "Initial Consultation: Review of genetic test results and overall health assessment.<br>";
             output += "Treatment Planning: Customized IVF treatment plan based on your specific genetic background and health status.<br>";
             output += "Cycle Monitoring: Regular appointments to monitor the development and viability of embryos.<br>";
             output += "Embryo Transfer: Transfer of embryos deemed suitable for pregnancy.<br><br>";
-            output += "<strong>Next Steps:</strong><br>";
+            output += "<h3>Next Steps:</h3>";
             output += "Follow-Up Consultation: To discuss the outcomes of the current cycle and adjust the treatment plan if necessary.<br>";
             output += "Support Services: Access to emotional and psychological support throughout the IVF process.<br><br>";
-            output += "Note: This summary is intended to provide an overview of your genetic testing and IVF process. Please consult with your genetic counselor and fertility specialist for detailed information tailored to your specific circumstances.<br>";
+            output += "<strong>Note:</strong> This summary is intended to provide an overview of your genetic testing and IVF process. Please consult with your genetic counselor and fertility specialist for detailed information tailored to your specific circumstances.<br>";
 
             document.getElementById('summaryOutput').innerHTML = output;
         }
