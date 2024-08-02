@@ -118,7 +118,7 @@
             max-height: 100vh;
             position: relative;
         }
-        #copyButton, #printButton {
+        #copyButton, #savePDFButton {
             background-color: #4b0082;
             color: white;
             border: none;
@@ -127,7 +127,7 @@
             border-radius: 5px;
             margin-top: 20px;
         }
-        #copyButton:hover, #printButton:hover {
+        #copyButton:hover, #savePDFButton:hover {
             background-color: #3a006b;
         }
         @media print {
@@ -315,13 +315,12 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
-        <!-- The summary output will be displayed here -->
+        <button id="savePDFButton" onclick="printSummary()">Save PDF</button>
         <div class="header">
             <h1>Patient Consult Summary</h1>
         </div>
         <div id="summaryContent"></div>
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
-        <button id="printButton" onclick="printSummary()">Print Summary</button>
     </div>
 
     <script>
