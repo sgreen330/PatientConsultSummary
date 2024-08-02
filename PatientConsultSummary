@@ -1,184 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Consult Summary Form</title>
     <style>
-        .bold { font-weight: bold; }
-        .italic { font-style: italic; }
-        .hidden { display: none; }
-        .container { margin-bottom: 10px; }
-        .form-group { margin-bottom: 10px; }
-        .form-group label { display: inline-block; width: 200px; }
-        .form-group input, .form-group select { width: 300px; }
-        .summary-section p { margin: 0; }
-        .summary-section label { display: inline; width: auto; }
+        .form-group, .output-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .form-group label, .output-section p {
+            margin: 0;
+            margin-right: 10px;
+            width: 200px;
+        }
+        .form-group input, .form-group select {
+            flex: 1;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        h2 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
-    <h1>Patient Consult Summary: Genetic Counseling</h1>
-    <form id="geneticForm">
+    <form id="patientForm">
         <div class="form-group">
-            <label for="counselorName"><span class="bold">Name of Genetic Counselor:</span></label>
+            <label for="consultationTime">Consultation Date & Time:</label>
+            <input type="datetime-local" id="consultationTime" name="consultationTime">
+        </div>
+        <div class="form-group">
+            <label for="counselorName">Name of Genetic Counselor:</label>
             <select id="counselorName" name="counselorName">
                 <option value="Hannah N. Green, MS, CGC">Hannah N. Green, MS, CGC</option>
                 <option value="Andria G. Besser, MS, CGC">Andria G. Besser, MS, CGC</option>
                 <option value="Carissa Huber, MS">Carissa Huber, MS</option>
             </select>
         </div>
-
         <div class="form-group">
-            <label for="doctorName"><span class="bold">Name of Doctor:</span></label>
-            <select id="doctorName" name="doctorName">
-                <option value="Alan S. Berkeley, MD">Alan S. Berkeley, MD</option>
-                <option value="Jennifer K. Blakemore, MD">Jennifer K. Blakemore, MD</option>
-                <option value="Sarah D. Cascante, MD">Sarah D. Cascante, MD</option>
-                <option value="Shannon M. DeVore, MD">Shannon M. DeVore, MD</option>
-                <option value="Elizabeth Fino, MD">Elizabeth Fino, MD</option>
-                <option value="James A. Grifo, MD, PhD">James A. Grifo, MD, PhD</option>
-                <option value="Frederick L. Licciardi, MD">Frederick L. Licciardi, MD</option>
-                <option value="Jacquelyn M. Shaw, MD">Jacquelyn M. Shaw, MD</option>
-                <option value="Brooke H. Wertz, MD, MPH">Brooke H. Wertz, MD, MPH</option>
-            </select>
+            <label for="doctorName">Name of Doctor:</label>
+            <input type="text" id="doctorName" name="doctorName">
         </div>
-
         <div class="form-group">
-            <label for="consultationTime"><span class="bold">Consultation Date & Time:</span></label>
-            <input type="datetime-local" id="consultationTime" name="consultationTime">
-        </div>
-
-        <h2>Patient Information</h2>
-
-        <div class="form-group">
-            <label for="patientName"><span class="bold">Name:</span></label>
+            <label for="patientName">Name:</label>
             <input type="text" id="patientName" name="patientName">
         </div>
-
         <div class="form-group">
-            <label for="patientDOB"><span class="bold">DOB:</span></label>
+            <label for="patientDOB">DOB:</label>
             <input type="date" id="patientDOB" name="patientDOB" onchange="calculateAge()">
         </div>
-
         <div class="form-group">
-            <label for="gameteType"><span class="bold">Gamete Type:</span></label>
-            <select id="gameteType" name="gameteType">
-                <option value="Egg">Egg</option>
-                <option value="Sperm">Sperm</option>
-            </select>
+            <label for="gameteType">Gamete Type:</label>
+            <input type="text" id="gameteType" name="gameteType">
         </div>
-
-        <h2>Partner</h2>
-
         <div class="form-group">
-            <label for="partnerName"><span class="bold">Name:</span></label>
+            <label for="partnerName">Partner Name:</label>
             <input type="text" id="partnerName" name="partnerName">
         </div>
-
         <div class="form-group">
-            <label for="partnerDOB"><span class="bold">DOB:</span></label>
+            <label for="partnerDOB">Partner DOB:</label>
             <input type="date" id="partnerDOB" name="partnerDOB" onchange="calculatePartnerAge()">
         </div>
-
         <div class="form-group">
-            <label for="partnerGameteType"><span class="bold">Gamete Type:</span></label>
-            <select id="partnerGameteType" name="partnerGameteType">
-                <option value="Egg">Egg</option>
-                <option value="Sperm">Sperm</option>
-            </select>
+            <label for="partnerGameteType">Partner Gamete Type:</label>
+            <input type="text" id="partnerGameteType" name="partnerGameteType">
         </div>
-
-        <h2>Gamete Sources</h2>
-
         <div class="form-group">
-            <label for="eggSource"><span class="bold">Egg Source:</span></label>
-            <select id="eggSource" name="eggSource" onchange="toggleFreeText('eggSource')">
-                <option value="Patient">Patient</option>
-                <option value="Partner">Partner</option>
-                <option value="Other">Other</option>
-            </select>
-            <input type="text" id="eggSourceOther" name="eggSourceOther" class="hidden" placeholder="Specify other">
+            <label for="eggSource">Egg Source:</label>
+            <input type="text" id="eggSource" name="eggSource">
         </div>
-
         <div class="form-group">
-            <label for="eggState"><span class="bold">State of Egg:</span></label>
+            <label for="eggState">State of Egg:</label>
             <select id="eggState" name="eggState">
-                <option value="Frozen">Frozen</option>
-                <option value="Fresh">Fresh</option>
+                <option value="fresh">Fresh</option>
+                <option value="frozen">Frozen</option>
             </select>
         </div>
-
         <div class="form-group">
-            <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
-            <input type="number" id="ageOfEgg" name="ageOfEgg" placeholder="Enter age">
+            <label for="ageOfEgg">Age of Egg:</label>
+            <input type="number" id="ageOfEgg" name="ageOfEgg">
         </div>
-
         <div class="form-group">
-            <label for="spermSource"><span class="bold">Sperm Source:</span></label>
-            <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
-                <option value="Patient">Patient</option>
-                <option value="Partner">Partner</option>
-                <option value="Other">Other</option>
-            </select>
-            <input type="text" id="spermSourceOther" name="spermSourceOther" class="hidden" placeholder="Specify other">
+            <label for="spermSource">Sperm Source:</label>
+            <input type="text" id="spermSource" name="spermSource">
         </div>
-
-        <h2>PGT-M Indication</h2>
-
         <div class="form-group">
-            <label for="gene"><span class="bold">Gene:</span></label>
-            <input type="text" id="gene" name="gene" class="italic">
+            <label for="gene">Gene:</label>
+            <input type="text" id="gene" name="gene">
         </div>
-
         <div class="form-group">
-            <label for="variants"><span class="bold">Variant(s):</span></label>
+            <label for="variants">Variant(s):</label>
             <input type="text" id="variants" name="variants">
         </div>
-
         <div class="form-group">
-            <label for="diseaseName"><span class="bold">Disease Name:</span></label>
+            <label for="diseaseName">Disease Name:</label>
             <input type="text" id="diseaseName" name="diseaseName">
         </div>
-
         <div class="form-group">
-            <label for="inheritancePattern"><span class="bold">Inheritance Pattern:</span></label>
+            <label for="inheritancePattern">Inheritance Pattern:</label>
             <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
-                <option value="Autosomal dominant">Autosomal dominant</option>
-                <option value="Autosomal recessive">Autosomal recessive</option>
+                <option value="Autosomal Dominant">Autosomal Dominant</option>
+                <option value="Autosomal Recessive">Autosomal Recessive</option>
                 <option value="X-linked">X-linked</option>
+                <option value="Y-linked">Y-linked</option>
+                <!-- Add other options if necessary -->
             </select>
         </div>
-
         <div class="form-group">
-            <label for="positiveGameteSource"><span class="bold">Positive Gamete Source(s):</span></label>
-            <select id="positiveGameteSource" name="positiveGameteSource">
-                <option value="Egg source">Egg source</option>
-                <option value="Sperm source">Sperm source</option>
-                <option value="Egg and sperm source">Egg and sperm source</option>
-            </select>
+            <label for="positiveGameteSource">Positive Gamete Source(s):</label>
+            <input type="text" id="positiveGameteSource" name="positiveGameteSource">
         </div>
-
-        <div id="knownFemaleCarrierFeaturesContainer" class="hidden">
-            <div class="form-group">
-                <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
-                <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
-            </div>
+        <div class="form-group hidden" id="knownFemaleCarrierFeaturesContainer">
+            <label for="knownFemaleCarrierFeatures">Known Female Carrier Features:</label>
+            <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
         </div>
-
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-    <div id="summaryOutput" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
+    <div id="summaryOutput"></div>
 
     <script>
-        function toggleFreeText(selectId) {
-            var selectElement = document.getElementById(selectId);
-            var freeTextField = document.getElementById(selectId + 'Other');
-            if (selectElement.value === 'Other') {
-                freeTextField.classList.remove('hidden');
-            } else {
-                freeTextField.classList.add('hidden');
-            }
-        }
-
         function toggleXLinkedText() {
             var inheritancePattern = document.getElementById('inheritancePattern').value;
             var container = document.getElementById('knownFemaleCarrierFeaturesContainer');
@@ -211,83 +159,53 @@
             var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value;
 
             var xLinkedText = inheritancePattern === 'X-linked' ? `
-                ${knownFemaleCarrierFeatures ? `
-                <p><span class="bold">Known Female Carrier Features:</span> ${knownFemaleCarrierFeatures}</p>
-                ` : ''}
+                <ul>
+                    <li>For each embryo created with ${eggState} eggs retrieved from a ${ageOfEgg} egg, there is a [chance]% chance that it will be chromosomally normal.</li>
+                    <li>For each embryo created from a <span class="italic">${gene}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${gene}</span>-negative.</li>
+                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${gene}</span>-negative.</li>
+                </ul>
                 <p>In other words, each tested embryo has a:</p>
                 <ul>
                     <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-negative male</li>
                     <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-negative female</li>
-                    <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-positive male: This child is expected to have ${diseaseName}.</li>
+                    <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-positive male: This child is expected to have ${variants}.</li>
                     <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-positive female: Many <span class="italic">${gene}</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.${knownFemaleCarrierFeatures ? ' ' + knownFemaleCarrierFeatures : ''}</li>
                 </ul>
                 <p>On average, we recommend 2-3 embryos for each desired child.</p>
             ` : '';
 
-            var summaryText = `
+            document.getElementById('summaryOutput').innerHTML = `
                 <h2>Patient Consult Summary: Genetic Counseling</h2>
-                <p><span class="bold">Name of Genetic Counselor:</span> ${counselorName}</p>
-                <p><span class="bold">Name of Doctor:</span> ${doctorName}</p>
-                <p><span class="bold">Consultation Date & Time:</span> ${formattedDate}</p>
-                
-                <h2>Patient Information</h2>
-                <p><span class="bold">Name:</span> ${patientName}</p>
-                <p><span class="bold">DOB:</span> ${patientDOB}</p>
-                <p><span class="bold">Gamete Type:</span> ${gameteType}</p>
-
-                <h2>Partner</h2>
-                <p><span class="bold">Name:</span> ${partnerName}</p>
-                <p><span class="bold">DOB:</span> ${partnerDOB}</p>
-                <p><span class="bold">Gamete Type:</span> ${partnerGameteType}</p>
-
-                <h2>Gamete Sources</h2>
-                <p><span class="bold">Egg Source:</span> ${eggSource}</p>
-                <p><span class="bold">State of Egg:</span> ${eggState}</p>
-                <p><span class="bold">Age of Egg:</span> ${ageOfEgg}</p>
-                <p><span class="bold">Sperm Source:</span> ${spermSource}</p>
-
-                <h2>PGT-M Indication</h2>
-                <p><span class="bold">Gene:</span> <span class="italic">${gene}</span></p>
-                <p><span class="bold">Variant(s):</span> ${variants}</p>
-                <p><span class="bold">Disease Name:</span> ${diseaseName}</p>
-                <p><span class="bold">Inheritance Pattern:</span> ${inheritancePattern}</p>
-                <p><span class="bold">Positive Gamete Source(s):</span> ${positiveGameteSource}</p>
-
+                <div class="output-section">
+                    <p><strong>Consultation Date & Time:</strong> ${formattedDate}</p>
+                    <p><strong>Name of Genetic Counselor:</strong> ${counselorName}</p>
+                    <p><strong>Name of Doctor:</strong> ${doctorName}</p>
+                    <p><strong>Name:</strong> ${patientName}</p>
+                    <p><strong>DOB:</strong> ${patientDOB}</p>
+                    <p><strong>Gamete Type:</strong> ${gameteType}</p>
+                    <p><strong>Partner Name:</strong> ${partnerName}</p>
+                    <p><strong>Partner DOB:</strong> ${partnerDOB}</p>
+                    <p><strong>Partner Gamete Type:</strong> ${partnerGameteType}</p>
+                    <p><strong>Egg Source:</strong> ${eggSource}</p>
+                    <p><strong>State of Egg:</strong> ${eggState}</p>
+                    <p><strong>Age of Egg:</strong> ${ageOfEgg}</p>
+                    <p><strong>Sperm Source:</strong> ${spermSource}</p>
+                    <p><strong>Gene:</strong> <span class="italic">${gene}</span></p>
+                    <p><strong>Variant(s):</strong> ${variants}</p>
+                    <p><strong>Disease Name:</strong> ${diseaseName}</p>
+                    <p><strong>Inheritance Pattern:</strong> ${inheritancePattern}</p>
+                    <p><strong>Positive Gamete Source(s):</strong> ${positiveGameteSource}</p>
+                </div>
                 ${xLinkedText}
-
-                <h2>Embryo Genetic Testing Expectations</h2>
-                ${inheritancePattern === 'X-linked' ? `
-                <ul>
-                    <li>For each embryo created with ${eggState} eggs retrieved from a ${ageOfEgg} egg, there is a [chance]% chance that it will be chromosomally normal.</li>
-                    <li>For each embryo created from a <span class="italic">${gene}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${gene}</span>-negative.</li>
-                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${gene}</span>-negative.</li>
-                    <p>In other words, each tested embryo has a:</p>
-                    <ul>
-                        <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-negative male</li>
-                        <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-negative female</li>
-                        <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-positive male: This child is expected to have ${diseaseName}.</li>
-                        <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-positive female: Many <span class="italic">${gene}</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.${knownFemaleCarrierFeatures ? ' ' + knownFemaleCarrierFeatures : ''}</li>
-                    </ul>
-                </ul>
-                ` : `
-                <ul>
-                    <li>For each embryo created with ${eggState} eggs retrieved from a ${ageOfEgg} egg, there is a [chance]% chance that it will be chromosomally normal.</li>
-                    <li>For each embryo created from a <span class="italic">${gene}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${gene}</span>-negative.</li>
-                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${gene}</span>-negative.</li>
-                </ul>
-                `}
-                <p>On average, we recommend 2-3 embryos for each desired child.</p>
             `;
-
-            document.getElementById('summaryOutput').innerHTML = summaryText;
         }
 
         function calculateAge() {
             var dob = new Date(document.getElementById('patientDOB').value);
             var today = new Date();
             var age = today.getFullYear() - dob.getFullYear();
-            var monthDifference = today.getMonth() - dob.getMonth();
-            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+            var m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
                 age--;
             }
             document.getElementById('ageOfEgg').value = age;
@@ -297,11 +215,11 @@
             var dob = new Date(document.getElementById('partnerDOB').value);
             var today = new Date();
             var age = today.getFullYear() - dob.getFullYear();
-            var monthDifference = today.getMonth() - dob.getMonth();
-            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+            var m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
                 age--;
             }
-            document.getElementById('ageOfEgg').value = age;
+            document.getElementById('partnerAge').value = age;
         }
     </script>
 </body>
