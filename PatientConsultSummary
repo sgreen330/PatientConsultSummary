@@ -154,10 +154,6 @@
                 margin: 0;
                 padding: 0;
             }
-            #summaryOutput .header h1 {
-                font-size: 18px;
-                margin: 0 0 10px 0;
-            }
             #summaryOutput h2 {
                 font-size: 24px; /* Make this text bigger */
             }
@@ -175,14 +171,26 @@
                 flex: 0 0 48%; /* Ensure two tables fit on one line */
                 box-sizing: border-box;
             }
-            #savePDFButton, #copyButton, .header {
-                display: none; /* Remove buttons and header in print */
+            #savePDFButton, #copyButton {
+                display: none; /* Remove buttons in print */
             }
             .header h1 {
                 display: none; /* Remove 'Patient Consult Summary' small text */
             }
             .header h1, .header h2 {
                 display: none; /* Remove 'Patient Consult Summary' text */
+            }
+            .form-group strong {
+                font-size: 10px; /* Make 'Name of Genetic Counselor', 'Name of Doctor', and 'Consultation Date & Time' smaller */
+            }
+            .header h1 {
+                display: none; /* Remove 'Patient Consult Summary' small text */
+            }
+            .header {
+                display: none; /* Remove the header with 'Patient Consult Summary' */
+            }
+            .form-container, .form-container * {
+                display: none; /* Remove form elements in print */
             }
         }
     </style>
