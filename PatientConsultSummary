@@ -109,11 +109,14 @@
         </select><br><br>
 
         <label for="inheritancePattern"><span class="bold">Inheritance Pattern:</span></label>
-        <select id="inheritancePattern" name="inheritancePattern">
+        <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
             <option value="Autosomal dominant">Autosomal dominant</option>
             <option value="Autosomal recessive">Autosomal recessive</option>
             <option value="X-linked">X-linked</option>
         </select><br><br>
+
+        <label for="additionalInformation"><span class="bold">Additional Information:</span></label>
+        <input type="text" id="additionalInformation" name="additionalInformation"><br><br>
 
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
@@ -131,22 +134,30 @@
             }
         }
 
-        function calculateAge() {
-            var dob = new Date(document.getElementById('patientDOB').value);
-            var age = new Date().getFullYear() - dob.getFullYear();
-            if (dob > new Date().setFullYear(new Date().getFullYear() - age)) {
-                age--;
+        function toggleXLinkedText() {
+            var pattern = document.getElementById('inheritancePattern').value;
+            var xLinkedText = document.getElementById('xLinkedText');
+            if (pattern === 'X-linked') {
+                if (!xLinkedText) {
+                    var additionalText = document.createElement('div');
+                    additionalText.id = 'xLinkedText';
+                    additionalText.innerHTML = `
+                        <p>We can stratify risk by embryo sex as well. Each chromosomally normal embryo screened for a <span class="italic">${document.getElementById('gene').value}</span> mutation has a:</p>
+                        <ul>
+                            <li>25% chance of being a <span class="italic">${document.getElementById('gene').value}</span>-negative male</li>
+                            <li>25% chance of being a <span class="italic">${document.getElementById('gene').value}</span>-negative female</li>
+                            <li>25% chance of being a <span class="italic">${document.getElementById('gene').value}</span>-positive male: This child is expected to have <span class="italic">${document.getElementById('diseaseName').value}</span>.</li>
+                            <li>25% chance of being a <span class="italic">${document.getElementById('gene').value}</span>-positive female: Many <span class="italic">${document.getElementById('gene').value}</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.</li>
+                        </ul>
+                    `;
+                    document.getElementById('summaryOutput').appendChild(additionalText);
+                }
+            } else {
+                var xLinkedText = document.getElementById('xLinkedText');
+                if (xLinkedText) {
+                    xLinkedText.remove();
+                }
             }
-            // You can store or use age as needed
-        }
-
-        function calculatePartnerAge() {
-            var dob = new Date(document.getElementById('partnerDOB').value);
-            var age = new Date().getFullYear() - dob.getFullYear();
-            if (dob > new Date().setFullYear(new Date().getFullYear() - age)) {
-                age--;
-            }
-            // You can store or use partnerAge as needed
         }
 
         function submitForm() {
@@ -155,18 +166,18 @@
             var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
             var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
             var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
-
+            
             var dob = new Date(document.getElementById('patientDOB').value);
             var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
-
-            var partnerDob = new Date(document.getElementById('partnerDOB').value);
-            var formattedPartnerDOB = (partnerDob.getMonth() + 1) + '/' + partnerDob.getDate() + '/' + partnerDob.getFullYear();
-
-            var gene = document.getElementById('gene').value;
+            
+            var partnerDOB = new Date(document.getElementById('partnerDOB').value);
+            var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
+            
             var eggState = document.getElementById('eggState').value;
             var ageOfEgg = document.getElementById('ageOfEgg').value;
             var carrier = document.getElementById('carrier').value;
-
+            var gene = document.getElementById('gene').value;
+            
             var output = "<h2 class='bold'>Patient Consult Summary</h2>";
             output += "<strong>Name of Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
             output += "<strong>Name of Doctor:</strong> " + document.getElementById('doctorName').value + "<br>";
@@ -197,16 +208,44 @@
             output += "<span class='bold'>Variant:</span> " + document.getElementById('variant').value + "<br>";
             output += "<span class='bold'>Disease Name:</span> " + document.getElementById('diseaseName').value + "<br>";
             output += "<span class='bold'>Carrier:</span> " + document.getElementById('carrier').value + "<br>";
-            output += "<span class='bold'>Inheritance Pattern:</span> " + document.getElementById('inheritancePattern').value + "<br><br>";
+            output += "<span class='bold'>Inheritance Pattern:</span> " + document.getElementById('inheritancePattern').value + "<br>";
+
+            var additionalInfo = document.getElementById('additionalInformation').value;
+            if (additionalInfo.trim()) {
+                output += "<br>" + additionalInfo + "<br>";
+            }
 
             output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
-            output += "<span class='bold'>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + " year old egg, there is a [chance]% chance that it will be chromosomally normal.</span><br>";
-            output += "<span class='bold'>For each embryo created from a " + carrier + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</span><br>";
-            output += "<span class='bold'>Overall, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</span><br><br>";
-
-            output += "<strong>Note:</strong> This summary is intended to provide an overview of your genetic testing and IVF process. Please consult with your genetic counselor and fertility specialist for detailed information tailored to your specific circumstances.<br>";
+            output += "<span>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + " year old egg, there is a [chance]% chance that it will be chromosomally normal.</span><br>";
+            output += "<span>For each embryo created from a " + carrier + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</span><br>";
+            output += "<span>Overall, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</span><br><br>";
 
             document.getElementById('summaryOutput').innerHTML = output;
+
+            // Toggle additional text for X-linked inheritance pattern
+            toggleXLinkedText();
+        }
+
+        function calculateAge() {
+            var dob = new Date(document.getElementById('patientDOB').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('patientAge').value = age;
+        }
+
+        function calculatePartnerAge() {
+            var dob = new Date(document.getElementById('partnerDOB').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('partnerAge').value = age;
         }
     </script>
 </body>
