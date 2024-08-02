@@ -169,10 +169,6 @@
                 border-color: #4b0082;
             }
         }
-        .copy-style th, .copy-style td {
-            padding: 2px; /* Reduced padding */
-            font-size: 10px; /* Reduced font size */
-        }
     </style>
 </head>
 <body>
@@ -413,7 +409,7 @@
             output += `
                 <div class="table-wrapper">
                     <h3>Patient Information</h3>
-                    <table class="copy-style">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Patient Information</th>
@@ -437,7 +433,7 @@
             output += `
                 <div class="table-wrapper">
                     <h3>Partner Information</h3>
-                    <table class="copy-style">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Patient Information</th>
@@ -461,7 +457,7 @@
             output += `
                 <div class="table-wrapper">
                     <h3>Gamete Sources</h3>
-                    <table class="copy-style">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Gamete Source</th>
@@ -491,7 +487,7 @@
             output += `
                 <div class="table-wrapper">
                     <h3>PGT-M Indication</h3>
-                    <table class="copy-style">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Gene</th>
@@ -578,6 +574,10 @@
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
             alert('Summary copied to clipboard');
+        }
+
+        function printSummary() {
+            window.print();
         }
     </script>
 </body>
