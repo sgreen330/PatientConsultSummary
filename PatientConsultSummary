@@ -21,6 +21,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         .form-section {
             display: none;
@@ -37,12 +39,22 @@
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
         .button-container { display: flex; justify-content: space-between; margin-top: 20px; }
+        .header {
+            background-color: #4b0082;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
         .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="form-container">
-        <h1>Patient Consult Summary: Genetic Counseling</h1>
+        <div class="header">
+            <h1>Patient Consult Summary: Genetic Counseling</h1>
+        </div>
         <form id="geneticForm">
             <div class="form-section active">
                 <h2>Genetic Counselor and Doctor Information</h2>
