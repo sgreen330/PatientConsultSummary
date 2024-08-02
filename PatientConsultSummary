@@ -485,7 +485,7 @@
             }
 
             document.getElementById('summaryOutput').innerHTML = output;
-            document.getElementById('summaryOutput').classList.remove('hidden');
+            document.getElementById('summaryOutput').style.display = 'block';
         }
 
         function calculateAge() {
