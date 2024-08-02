@@ -543,9 +543,7 @@
 
             await pdf.html(summaryElement, {
                 callback: function (pdf) {
-                    const blob = pdf.output('blob');
-                    const url = URL.createObjectURL(blob);
-                    window.open(url, '_blank');
+                    pdf.save('summary.pdf');
                 }
             });
         }
