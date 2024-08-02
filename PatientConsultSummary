@@ -118,7 +118,7 @@
             max-height: 100vh;
             position: relative;
         }
-        #copyButton, #downloadPdfButton {
+        #copyButton, #downloadPdfButton, #printButton {
             background-color: #4b0082;
             color: white;
             border: none;
@@ -126,11 +126,26 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        #copyButton:hover, #downloadPdfButton:hover {
+        #copyButton:hover, #downloadPdfButton:hover, #printButton:hover {
             background-color: #3a006b;
         }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #summaryOutput, #summaryOutput * {
+                visibility: visible;
+            }
+            #summaryOutput {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                max-height: none;
+            }
+        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="form-container" id="formContainer">
@@ -274,7 +289,7 @@
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
                 <button type="button" onclick="submitForm()">Submit</button>
-                <button type="button" id="downloadPdfButton" onclick="openPDF()">Open PDF</button>
+                <button type="button" id="printButton" onclick="printSummary()">Print Summary</button>
                 <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
@@ -296,7 +311,7 @@
             document.querySelector('.button-container button[type="button"][onclick="prevSection()"]').style.display = index === 0 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="nextSection()"]').style.display = index === sections.length - 1 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="submitForm()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
-            document.querySelector('.button-container button[type="button"][onclick="openPDF()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
+            document.querySelector('.button-container button[type="button"][onclick="printSummary()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
         }
 
         function nextSection() {
@@ -536,16 +551,8 @@
             alert('Summary copied to clipboard');
         }
 
-        async function openPDF() {
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
-            const summaryElement = document.getElementById('summaryOutput');
-
-            await pdf.html(summaryElement, {
-                callback: function (pdf) {
-                    pdf.save('summary.pdf');
-                }
-            });
+        function printSummary() {
+            window.print();
         }
     </script>
 </body>
