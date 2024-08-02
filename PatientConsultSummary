@@ -10,11 +10,11 @@
             background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            justify-content: center; /* Center the form initially */
+            align-items: center; /* Center the form initially */
         }
         .form-container {
+            flex: 1;
             max-width: 400px;
             background-color: white;
             border: 2px solid #4b0082;
@@ -22,7 +22,8 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-right: 20px;
+            transition: max-width 0.3s; /* Smooth transition for width change */
         }
         .form-section {
             display: none;
@@ -69,14 +70,14 @@
         }
         .header {
             background-color: #4b0082;
-            color: white;
+            color: white; /* Ensure the text color is set to white */
             text-align: center;
             padding: 10px;
             border-radius: 10px 10px 0 0;
             margin: -20px -20px 20px -20px;
         }
         .header * {
-            color: white;
+            color: white; /* Ensures all child elements have white text */
         }
         .hidden { display: none; }
         table {
@@ -94,7 +95,7 @@
         th {
             background-color: #4b0082;
             color: white;
-            border: 1px solid white;
+            border: 1px solid white; /* Thin white border */
         }
         .table-container {
             display: flex;
@@ -107,6 +108,7 @@
             margin-bottom: 20px;
         }
         #summaryOutput {
+            flex: 1;
             border: 2px solid #4b0082;
             padding: 20px;
             background-color: white;
@@ -114,7 +116,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             max-height: 100vh;
-            position: relative;
+            position: relative; /* For positioning the Copy button */
         }
         #copyButton {
             position: absolute;
@@ -130,20 +132,8 @@
         #copyButton:hover {
             background-color: #3a006b;
         }
-        #downloadPdfButton {
-            background-color: #4b0082;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        #downloadPdfButton:hover {
-            background-color: #3a006b;
-        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <div class="form-container" id="formContainer">
@@ -292,11 +282,10 @@
         </form>
     </div>
 
-    <button id="downloadPdfButton" class="hidden" onclick="downloadPDF()">Download PDF</button>
-
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+        <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
     </div>
 
     <script>
@@ -353,9 +342,6 @@
             document.querySelector('.form-container').style.maxWidth = '250px';
             document.body.style.justifyContent = 'flex-start';
             document.body.style.alignItems = 'flex-start';
-
-            // Make the download button visible
-            document.getElementById('downloadPdfButton').classList.remove('hidden');
             
             // Generate the summary output
             var consultationDate = new Date(document.getElementById('consultationTime').value);
@@ -541,7 +527,6 @@
 
         function backToForm() {
             document.getElementById('summaryOutput').classList.add('hidden');
-            document.getElementById('downloadPdfButton').classList.add('hidden');
         }
 
         function copyToClipboard() {
@@ -556,20 +541,8 @@
         }
 
         function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
-
-            // Get the HTML content to convert to PDF
-            const content = document.getElementById('summaryOutput').innerHTML;
-
-            // Add HTML content to PDF
-            pdf.html(content, {
-                callback: function (pdf) {
-                    pdf.save('Patient_Consult_Summary.pdf');
-                },
-                x: 10,
-                y: 10
-            });
+            var element = document.getElementById('summaryOutput');
+            html2pdf(element);
         }
     </script>
 </body>
