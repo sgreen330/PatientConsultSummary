@@ -80,11 +80,15 @@
         <select id="eggState" name="eggState">
             <option value="Frozen">Frozen</option>
             <option value="Fresh">Fresh</option>
-            <option value="Anonymous Donor">Anonymous Donor</option>
         </select><br><br>
 
         <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
-        <input type="number" id="ageOfEgg" name="ageOfEgg"><br><br>
+        <select id="ageOfEgg" name="ageOfEgg" onchange="toggleAgeInput()">
+            <option value="">Select Age</option>
+            <option value="Anonymous Donor">Anonymous Donor</option>
+            <option value="Other">Other</option>
+        </select>
+        <input type="number" id="ageOfEggInput" name="ageOfEggInput" class="hidden" placeholder="Enter age"><br><br>
 
         <label for="spermSource"><span class="bold">Sperm Source:</span></label>
         <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
@@ -140,6 +144,16 @@
             }
         }
 
+        function toggleAgeInput() {
+            var ageSelect = document.getElementById('ageOfEgg');
+            var ageInput = document.getElementById('ageOfEggInput');
+            if (ageSelect.value === 'Other') {
+                ageInput.classList.remove('hidden');
+            } else {
+                ageInput.classList.add('hidden');
+            }
+        }
+
         function toggleXLinkedText() {
             var pattern = document.getElementById('inheritancePattern').value;
             var xLinkedTextContainer = document.getElementById('knownFemaleCarrierFeaturesContainer');
@@ -152,9 +166,9 @@
 
         function submitForm() {
             var consultationDate = new Date(document.getElementById('consultationTime').value);
-            var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
+            var hours = consultationDate.getHours() % 12 || 12;
             var minutes = consultationDate.getMinutes().toString().padStart(2, '0');
-            var amPm = consultationDate.getHours() >= 12 ? 'PM' : 'AM';
+            var amPm = consultationDate.getHours() < 12 ? 'AM' : 'PM';
             var formattedDate = consultationDate.toDateString() + ' ' + hours + ':' + minutes + ' ' + amPm;
             
             var gene = document.getElementById('gene').value;
