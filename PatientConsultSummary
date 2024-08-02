@@ -274,7 +274,7 @@
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
                 <button type="button" onclick="submitForm()">Submit</button>
-                <button type="button" id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
+                <button type="button" id="downloadPdfButton" onclick="openPDF()">Open PDF</button>
                 <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
@@ -296,7 +296,7 @@
             document.querySelector('.button-container button[type="button"][onclick="prevSection()"]').style.display = index === 0 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="nextSection()"]').style.display = index === sections.length - 1 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="submitForm()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
-            document.querySelector('.button-container button[type="button"][onclick="downloadPDF()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
+            document.querySelector('.button-container button[type="button"][onclick="openPDF()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
         }
 
         function nextSection() {
@@ -536,14 +536,16 @@
             alert('Summary copied to clipboard');
         }
 
-        async function downloadPDF() {
+        async function openPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
             const summaryElement = document.getElementById('summaryOutput');
 
             await pdf.html(summaryElement, {
                 callback: function (pdf) {
-                    pdf.save('Patient_Consult_Summary.pdf');
+                    const blob = pdf.output('blob');
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
                 }
             });
         }
