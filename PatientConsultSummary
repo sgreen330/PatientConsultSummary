@@ -10,9 +10,11 @@
             background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
+            justify-content: center; /* Center the form initially */
+            align-items: center; /* Center the form initially */
         }
         .form-container {
-            flex: 1;
+            width: 100%;
             max-width: 400px;
             background-color: white;
             border: 2px solid #4b0082;
@@ -20,7 +22,7 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-            margin-right: 20px;
+            transition: max-width 0.5s, margin-right 0.5s; /* Smooth transition */
         }
         .form-section {
             display: none;
@@ -113,7 +115,8 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-height: 100vh;
-            overflow: hidden; /* Ensure output is not scrollable */
+            overflow-y: auto; /* Ensure output is scrollable */
+            display: none; /* Initially hidden */
         }
     </style>
 </head>
@@ -224,7 +227,7 @@
                 <h2>PGT-M Indication</h2>
                 <div class="form-group">
                     <label for="gene"><span class="bold">Gene:</span></label>
-                    <input type="text" id="gene" name="gene">
+                    <input type="text" id="gene" name="gene" class="italic">
                 </div>
                 <div class="form-group">
                     <label for="variants"><span class="bold">Variant(s):</span></label>
@@ -265,7 +268,7 @@
         </form>
     </div>
 
-    <div id="summaryOutput" class="hidden">
+    <div id="summaryOutput">
         <!-- The summary output will be displayed here -->
     </div>
 
@@ -319,6 +322,12 @@
         }
 
         function submitForm() {
+            // Move the form to the left
+            document.getElementById('formContainer').style.maxWidth = '400px';
+            document.getElementById('formContainer').style.marginRight = '20px';
+            document.body.style.justifyContent = 'flex-start';
+            document.body.style.alignItems = 'flex-start';
+            
             // Generate the summary output
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
@@ -332,7 +341,7 @@
             var partnerDOB = new Date(document.getElementById('partnerDOB').value);
             var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
             
-            var eggState = document.getElementById('eggState').value;
+            var eggState = document.getElementById('eggState').value.toLowerCase();
             var ageOfEgg = document.getElementById('ageOfEgg').value;
             var positiveGameteSource = document.getElementById('positiveGameteSource').value;
             var gene = document.getElementById('gene').value;
@@ -439,7 +448,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>${gene}</td>
+                                <td class="italic">${gene}</td>
                                 <td>${document.getElementById('variants').value}</td>
                                 <td>${document.getElementById('diseaseName').value}</td>
                                 <td>${inheritancePattern}</td>
@@ -455,8 +464,8 @@
             output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
             output += "<ul>";
             output += "<li>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
-            output += "<li>For each embryo created from a " + gene + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</li>";
-            output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</li>";
+            output += "<li>For each embryo created from a <span class='italic'>" + gene + "</span> carrier, there is a [chance]% chance that it will be <span class='italic'>" + gene + "</span>-negative.</li>";
+            output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and <span class='italic'>" + gene + "</span>-negative.</li>";
             output += "</ul>";
 
             if (inheritancePattern === 'X-linked') {
