@@ -4,7 +4,7 @@
     <title>Patient Consult Summary Form</title>
     <style>
         body { font-family: Arial, sans-serif; }
-        .header { background-color: #4b0082; color: white; padding: 20px; text-align: center; }
+        .header { background-color: #4b0082; color: white; padding: 20px; text-align: left; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
         .hidden { display: none; }
@@ -17,7 +17,7 @@
         h1, h2, h3, button { color: #4b0082; } /* Dark purple accent */
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
-        table { width: 100%; border-collapse: collapse; margin: 1% 0; }
+        table { width: auto; border-collapse: collapse; margin: 1% 0; }
         table, th, td { border: 1px solid white; }
         th, td { padding: 10px; text-align: left; }
         th { background-color: #4b0082; color: white; }
@@ -134,6 +134,9 @@
                 <div>
                     <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
                     <input type="number" id="ageOfEgg" name="ageOfEgg">
+                    <select id="ageOfEggSelect" name="ageOfEggSelect">
+                        <option value="Anonymous Donor">Anonymous Donor</option>
+                    </select>
                 </div>
                 <div>
                     <label for="spermSource"><span class="bold">Sperm Source:</span></label>
@@ -172,8 +175,8 @@
                         <option value="X-linked">X-linked</option>
                     </select>
                 </div>
-                <div>
-                    <label for="positiveGameteSource"><span class="bold">Positive Gamete Source(s):</span></label>
+                <div style="flex: 1 100%; max-width: none;">
+                    <label for="positiveGameteSource"><span class="bold" style="white-space: nowrap;">Positive Gamete Source(s):</span></label>
                     <select id="positiveGameteSource" name="positiveGameteSource">
                         <option value="Egg source">Egg source</option>
                         <option value="Sperm source">Sperm source</option>
@@ -275,7 +278,7 @@
             output += "<tr class='value-cell'><td>" + document.getElementById('eggSource').value + 
                 (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "</td>";
             output += "<td>" + eggState + "</td>";
-            output += "<td>" + ageOfEgg + "</td>";
+            output += "<td>" + (ageOfEgg || document.getElementById('ageOfEggSelect').value) + "</td>";
             output += "<td>" + document.getElementById('spermSource').value + 
                 (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "</td></tr></table>";
 
