@@ -3,15 +3,19 @@
 <head>
     <title>Patient Consult Summary Form</title>
     <style>
+        body { font-family: Arial, sans-serif; }
         .underline { text-decoration: underline; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
         .hidden { display: none; }
         .form-section { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
         .form-group { display: flex; flex-wrap: wrap; gap: 20px; }
-        .form-group > div { flex: 1; min-width: 200px; }
+        .form-group > div { flex: 1; min-width: 150px; }
         .form-group label { display: block; margin-bottom: 5px; }
         .form-group input, .form-group select { width: 100%; padding: 8px; box-sizing: border-box; }
+        h1, h2, h3, button { color: #4b0082; } /* Dark purple accent */
+        button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #3a006b; }
     </style>
 </head>
 <body>
@@ -172,7 +176,7 @@
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-    <div id="summaryOutput" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px;"></div>
 
     <script>
         function toggleFreeText(selectId) {
@@ -212,8 +216,8 @@
             var ageOfEgg = document.getElementById('ageOfEgg').value;
             var positiveGameteSource = document.getElementById('positiveGameteSource').value;
             var gene = document.getElementById('gene').value;
-            var carrier = document.getElementById('positiveGameteSource').value.toLowerCase();
             var inheritancePattern = document.getElementById('inheritancePattern').value;
+            var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
             
             var output = "<h2 class='bold'>Patient Consult Summary - Genetic Counseling</h2>";
             output += "<strong>Name of Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
@@ -251,7 +255,6 @@
             output += "<li>For each embryo created from a " + gene + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</li>";
             output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</li>";
             output += "</ul>";
-            output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
 
             if (inheritancePattern === 'X-linked') {
                 output += "<p>In other words, each embryo has a:</p>";
@@ -259,8 +262,14 @@
                 output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative male</li>";
                 output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative female</li>";
                 output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive male: This child is expected to have <span class='italic'>" + document.getElementById('diseaseName').value + "</span>.</li>";
-                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive female: Many <span class='italic'>" + gene + "</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.</li>";
-                output += "</ul>";
+                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive female: Many <span class='italic'>" + gene + "</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.";
+                if (knownFemaleCarrierFeatures) {
+                    output += " Known Female Carrier Features: " + knownFemaleCarrierFeatures + ".";
+                }
+                output += "</li></ul>";
+                output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
+            } else {
+                output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
             }
 
             document.getElementById('summaryOutput').innerHTML = output;
