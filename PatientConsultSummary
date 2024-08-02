@@ -90,7 +90,7 @@
             border: 1px solid #4b0082;
         }
         th, td {
-            padding: 5px; /* Smaller padding */
+            padding: 1px; /* Smaller padding */
             text-align: left;
         }
         th {
