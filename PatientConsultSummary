@@ -13,8 +13,8 @@
             margin: 0;
         }
         .form-container {
-            width: 100%; /* Make the form wider */
-            max-width: 800px; /* Limit max width for better readability */
+            width: 100%;
+            max-width: 800px;
             background-color: white;
             border: 2px solid #4b0082;
             border-radius: 10px;
@@ -37,13 +37,13 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; }
         .form-group input, .form-group select { width: 100%; padding: 8px; box-sizing: border-box; }
-        h1, h2, button { color: #4b0082; } /* Dark purple accent */
+        h1, h2, button { color: #4b0082; }
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
         .button-container { display: flex; justify-content: space-between; margin-top: 20px; }
         .header {
             background-color: #4b0082;
-            color: white; /* Ensure the text is white */
+            color: white;
             text-align: center;
             padding: 10px;
             border-radius: 10px 10px 0 0;
@@ -298,30 +298,101 @@
             output += "<strong>Name of Doctor:</strong> " + document.getElementById('doctorName').value + "<br>";
             output += "<strong>Consultation Date & Time:</strong> " + formattedDate + "<br>";
 
-            output += "<h3 class='underline'>Patient Information</h3>";
-            output += "<span class='bold'>Name:</span> " + document.getElementById('patientName').value + "<br>";
-            output += "<span class='bold'>DOB:</span> " + formattedDOB + "<br>";
-            output += "<span class='bold'>Gamete Type:</span> " + document.getElementById('gameteType').value + "<br>";
+            output += `
+                <h3>Patient Information Table</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Information</th>
+                            <th>Name</th>
+                            <th>DOB</th>
+                            <th>Gamete Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Patient</td>
+                            <td>${document.getElementById('patientName').value}</td>
+                            <td>${formattedDOB}</td>
+                            <td>${document.getElementById('gameteType').value}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
 
-            output += "<h3 class='underline'>Partner</h3>";
-            output += "<span class='bold'>Name:</span> " + document.getElementById('partnerName').value + "<br>";
-            output += "<span class='bold'>DOB:</span> " + formattedPartnerDOB + "<br>";
-            output += "<span class='bold'>Gamete Type:</span> " + document.getElementById('partnerGameteType').value + "<br>";
+            output += `
+                <h3>Partner Information Table</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Information</th>
+                            <th>Name</th>
+                            <th>DOB</th>
+                            <th>Gamete Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Partner</td>
+                            <td>${document.getElementById('partnerName').value}</td>
+                            <td>${formattedPartnerDOB}</td>
+                            <td>${document.getElementById('partnerGameteType').value}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
 
-            output += "<h3 class='underline'>Gamete Sources</h3>";
-            output += "<span class='bold'>Egg Source:</span> " + document.getElementById('eggSource').value + 
-                (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "<br>";
-            output += "<span class='bold'>State of Egg:</span> " + eggState + "<br>";
-            output += "<span class='bold'>Age of Egg:</span> " + ageOfEgg + "<br>";
-            output += "<span class='bold'>Sperm Source:</span> " + document.getElementById('spermSource').value + 
-                (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "<br>";
+            output += `
+                <h3>Gamete Sources Table</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Gamete Source</th>
+                            <th>Type</th>
+                            <th>State</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Egg</td>
+                            <td>${document.getElementById('eggSource').value}</td>
+                            <td>${eggState}</td>
+                            <td>${ageOfEgg}</td>
+                        </tr>
+                        <tr>
+                            <td>Sperm</td>
+                            <td>${document.getElementById('spermSource').value}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
 
-            output += "<h3 class='underline'>PGT-M Indication</h3>";
-            output += "<span class='bold'>Gene:</span> <span class='italic'>" + gene + "</span><br>";
-            output += "<span class='bold'>Variant(s):</span> " + document.getElementById('variants').value + "<br>";
-            output += "<span class='bold'>Disease Name:</span> " + document.getElementById('diseaseName').value + "<br>";
-            output += "<span class='bold'>Inheritance Pattern:</span> " + inheritancePattern + "<br>";
-            output += "<span class='bold'>Positive Gamete Source(s):</span> " + positiveGameteSource + "<br>";
+            output += `
+                <h3>PGT-M Indication Table</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Gene</th>
+                            <th>Variant(s)</th>
+                            <th>Disease Name</th>
+                            <th>Inheritance Pattern</th>
+                            <th>Positive Gamete Source(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${gene}</td>
+                            <td>${document.getElementById('variants').value}</td>
+                            <td>${document.getElementById('diseaseName').value}</td>
+                            <td>${inheritancePattern}</td>
+                            <td>${positiveGameteSource}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
 
             output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
             output += "<ul>";
@@ -345,29 +416,6 @@
             } else {
                 output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
             }
-
-            // Add table for Partner Information
-            output += `
-                <h3>Partner Information Table</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Partner</th>
-                            <th>Name</th>
-                            <th>DOB</th>
-                            <th>Gamete Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Partner</td>
-                            <td>${document.getElementById('partnerName').value}</td>
-                            <td>${formattedPartnerDOB}</td>
-                            <td>${document.getElementById('partnerGameteType').value}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
 
             document.getElementById('summaryOutput').innerHTML = output;
             document.getElementById('summaryOutput').classList.remove('hidden');
