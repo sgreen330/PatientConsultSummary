@@ -62,18 +62,96 @@
             <h1>Patient Consult Summary: Genetic Counseling</h1>
         </div>
         <form id="geneticForm">
-            <!-- Form sections omitted for brevity -->
-            <div class="button-container">
+            <div class="form-section active">
+                <h2>Genetic Counselor Information</h2>
+                <div class="form-group">
+                    <label for="counselorName">Name:</label>
+                    <input type="text" id="counselorName" name="counselorName">
+                </div>
+                <div class="form-group">
+                    <label for="doctorName">Name of Doctor:</label>
+                    <input type="text" id="doctorName" name="doctorName">
+                </div>
+                <div class="form-group">
+                    <label for="consultationTime">Consultation Date & Time:</label>
+                    <input type="datetime-local" id="consultationTime" name="consultationTime">
+                </div>
+                <button type="button" onclick="nextSection()">Next</button>
+            </div>
+
+            <div class="form-section">
+                <h2>Patient Information</h2>
+                <div class="form-group">
+                    <label for="patientName">Name:</label>
+                    <input type="text" id="patientName" name="patientName">
+                </div>
+                <div class="form-group">
+                    <label for="patientDOB">DOB:</label>
+                    <input type="date" id="patientDOB" name="patientDOB">
+                </div>
+                <div class="form-group">
+                    <label for="gameteType">Gamete Type:</label>
+                    <select id="gameteType" name="gameteType">
+                        <option value="Egg">Egg</option>
+                        <option value="Sperm">Sperm</option>
+                    </select>
+                </div>
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
+            </div>
+
+            <div class="form-section">
+                <h2>Partner Information</h2>
+                <div class="form-group">
+                    <label for="partnerName">Name:</label>
+                    <input type="text" id="partnerName" name="partnerName">
+                </div>
+                <div class="form-group">
+                    <label for="partnerDOB">DOB:</label>
+                    <input type="date" id="partnerDOB" name="partnerDOB">
+                </div>
+                <div class="form-group">
+                    <label for="eggState">Egg State:</label>
+                    <input type="text" id="eggState" name="eggState">
+                </div>
+                <div class="form-group">
+                    <label for="ageOfEgg">Age of Egg:</label>
+                    <input type="text" id="ageOfEgg" name="ageOfEgg">
+                </div>
+                <div class="form-group">
+                    <label for="positiveGameteSource">Positive Gamete Source:</label>
+                    <input type="text" id="positiveGameteSource" name="positiveGameteSource">
+                </div>
+                <button type="button" onclick="prevSection()">Previous</button>
+                <button type="button" onclick="nextSection()">Next</button>
+            </div>
+
+            <div class="form-section">
+                <h2>Genetic Information</h2>
+                <div class="form-group">
+                    <label for="gene">Gene:</label>
+                    <input type="text" id="gene" name="gene">
+                </div>
+                <div class="form-group">
+                    <label for="inheritancePattern">Inheritance Pattern:</label>
+                    <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
+                        <option value="Autosomal">Autosomal</option>
+                        <option value="X-linked">X-linked</option>
+                    </select>
+                </div>
+                <div id="knownFemaleCarrierFeaturesContainer" class="hidden form-group">
+                    <label for="knownFemaleCarrierFeatures">Known Female Carrier Features:</label>
+                    <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
+                </div>
+                <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="submitForm()">Submit</button>
-                <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
     </div>
 
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
+        <button type="button" onclick="backToForm()">Back to Form</button>
     </div>
 
     <script>
@@ -103,8 +181,6 @@
             }
         }
 
-        showSection(currentSectionIndex);
-
         function toggleFreeText(selectId) {
             var selectElement = document.getElementById(selectId);
             var freeTextField = document.getElementById(selectId + 'Other');
@@ -127,51 +203,31 @@
 
         function submitForm() {
             document.getElementById('formContainer').classList.add('hidden');
+            let formData = new FormData(document.getElementById('geneticForm'));
+            let output = "<div class='header'><h1>Summary of Consult</h1></div><table>";
 
-            var consultationDate = new Date(document.getElementById('consultationTime').value);
-            var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
-            var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
-            var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
-            var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
-            
-            var dob = new Date(document.getElementById('patientDOB').value);
-            var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
-            
-            var partnerDOB = new Date(document.getElementById('partnerDOB').value);
-            var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
-            
-            var eggState = document.getElementById('eggState').value.toLowerCase();
-            var ageOfEgg = document.getElementById('ageOfEgg').value;
-            var positiveGameteSource = document.getElementById('positiveGameteSource').value;
-            var gene = document.getElementById('gene').value;
-            var inheritancePattern = document.getElementById('inheritancePattern').value;
-            var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
-
-            var output = "<h2 class='bold'>Patient Consult Summary - Genetic Counseling</h2>";
-            output += "<table>";
-            output += "<tr><th>Field</th><th>Value</th></tr>";
-            output += "<tr><td><span class='bold'>Name of Genetic Counselor:</span></td><td>" + document.getElementById('counselorName').value + "</td></tr>";
-            output += "<tr><td><span class='bold'>Name of Doctor:</span></td><td>" + document.getElementById('doctorName').value + "</td></tr>";
-            output += "<tr><td><span class='bold'>Consultation Date & Time:</span></td><td>" + formattedDate + "</td></tr>";
+            output += "<tr><td><span class='bold'>Genetic Counselor:</span></td><td>" + formData.get('counselorName') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Name of Doctor:</span></td><td>" + formData.get('doctorName') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Consultation Date & Time:</span></td><td>" + formData.get('consultationTime') + "</td></tr>";
 
             output += "<tr><td colspan='2'><h3 class='underline'>Patient Information</h3></td></tr>";
-            output += "<tr><td><span class='bold'>Name:</span></td><td>" + document.getElementById('patientName').value + "</td></tr>";
-            output += "<tr><td><span class='bold'>DOB:</span></td><td>" + formattedDOB + "</td></tr>";
-            output += "<tr><td><span class='bold'>Gamete Type:</span></td><td>" + document.getElementById('gameteType').value + "</td></tr>";
+            output += "<tr><td><span class='bold'>Name:</span></td><td>" + formData.get('patientName') + "</td></tr>";
+            output += "<tr><td><span class='bold'>DOB:</span></td><td>" + formData.get('patientDOB') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Gamete Type:</span></td><td>" + formData.get('gameteType') + "</td></tr>";
 
-            output += "<tr><td colspan='2'><h3 class='underline'>Partner</h3></td></tr>";
-            output += "<tr><td><span class='bold'>Name:</span></td><td>" + document.getElementById('partnerName').value + "</td></tr>";
-            output += "<tr><td><span class='bold'>DOB:</span></td><td>" + formattedPartnerDOB + "</td></tr>";
-            output += "<tr><td><span class='bold'>Egg State:</span></td><td>" + eggState + "</td></tr>";
-            output += "<tr><td><span class='bold'>Age of Egg:</span></td><td>" + ageOfEgg + "</td></tr>";
-            output += "<tr><td><span class='bold'>Positive Gamete Source:</span></td><td>" + positiveGameteSource + "</td></tr>";
+            output += "<tr><td colspan='2'><h3 class='underline'>Partner Information</h3></td></tr>";
+            output += "<tr><td><span class='bold'>Name:</span></td><td>" + formData.get('partnerName') + "</td></tr>";
+            output += "<tr><td><span class='bold'>DOB:</span></td><td>" + formData.get('partnerDOB') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Egg State:</span></td><td>" + formData.get('eggState') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Age of Egg:</span></td><td>" + formData.get('ageOfEgg') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Positive Gamete Source:</span></td><td>" + formData.get('positiveGameteSource') + "</td></tr>";
 
             output += "<tr><td colspan='2'><h3 class='underline'>Genetic Information</h3></td></tr>";
-            output += "<tr><td><span class='bold'>Gene:</span></td><td>" + gene + "</td></tr>";
-            output += "<tr><td><span class='bold'>Inheritance Pattern:</span></td><td>" + inheritancePattern + "</td></tr>";
+            output += "<tr><td><span class='bold'>Gene:</span></td><td>" + formData.get('gene') + "</td></tr>";
+            output += "<tr><td><span class='bold'>Inheritance Pattern:</span></td><td>" + formData.get('inheritancePattern') + "</td></tr>";
 
-            if (inheritancePattern === 'X-linked') {
-                output += "<tr><td><span class='bold'>Known Female Carrier Features:</span></td><td>" + knownFemaleCarrierFeatures + "</td></tr>";
+            if (formData.get('inheritancePattern') === 'X-linked') {
+                output += "<tr><td><span class='bold'>Known Female Carrier Features:</span></td><td>" + formData.get('knownFemaleCarrierFeatures') + "</td></tr>";
             }
 
             output += "</table>";
@@ -183,6 +239,8 @@
         function backToForm() {
             document.getElementById('formContainer').classList.remove('hidden');
             document.getElementById('summaryOutput').classList.add('hidden');
+            currentSectionIndex = 0;
+            showSection(currentSectionIndex);
         }
     </script>
 </body>
