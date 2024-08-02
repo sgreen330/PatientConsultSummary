@@ -28,99 +28,118 @@
             margin-top: 20px;
             margin-bottom: 10px;
         }
+        .form-section {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <form id="patientForm">
-        <div class="form-group">
-            <label for="consultationTime">Consultation Date & Time:</label>
-            <input type="datetime-local" id="consultationTime" name="consultationTime">
+        <div class="form-section">
+            <h2>Consultation Details</h2>
+            <div class="form-group">
+                <label for="consultationTime">Consultation Date & Time:</label>
+                <input type="datetime-local" id="consultationTime" name="consultationTime">
+            </div>
+            <div class="form-group">
+                <label for="counselorName">Name of Genetic Counselor:</label>
+                <select id="counselorName" name="counselorName">
+                    <option value="Hannah N. Green, MS, CGC">Hannah N. Green, MS, CGC</option>
+                    <option value="Andria G. Besser, MS, CGC">Andria G. Besser, MS, CGC</option>
+                    <option value="Carissa Huber, MS">Carissa Huber, MS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="doctorName">Name of Doctor:</label>
+                <input type="text" id="doctorName" name="doctorName">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="counselorName">Name of Genetic Counselor:</label>
-            <select id="counselorName" name="counselorName">
-                <option value="Hannah N. Green, MS, CGC">Hannah N. Green, MS, CGC</option>
-                <option value="Andria G. Besser, MS, CGC">Andria G. Besser, MS, CGC</option>
-                <option value="Carissa Huber, MS">Carissa Huber, MS</option>
-            </select>
+
+        <div class="form-section">
+            <h2>Patient</h2>
+            <div class="form-group">
+                <label for="patientName">Name:</label>
+                <input type="text" id="patientName" name="patientName">
+            </div>
+            <div class="form-group">
+                <label for="patientDOB">DOB:</label>
+                <input type="date" id="patientDOB" name="patientDOB" onchange="calculateAge()">
+            </div>
+            <div class="form-group">
+                <label for="gameteType">Gamete Type:</label>
+                <input type="text" id="gameteType" name="gameteType">
+            </div>
+            <div class="form-group">
+                <label for="eggSource">Egg Source:</label>
+                <input type="text" id="eggSource" name="eggSource">
+            </div>
+            <div class="form-group">
+                <label for="eggState">State of Egg:</label>
+                <select id="eggState" name="eggState">
+                    <option value="fresh">Fresh</option>
+                    <option value="frozen">Frozen</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ageOfEgg">Age of Egg:</label>
+                <input type="number" id="ageOfEgg" name="ageOfEgg">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="doctorName">Name of Doctor:</label>
-            <input type="text" id="doctorName" name="doctorName">
+
+        <div class="form-section">
+            <h2>Partner</h2>
+            <div class="form-group">
+                <label for="partnerName">Partner Name:</label>
+                <input type="text" id="partnerName" name="partnerName">
+            </div>
+            <div class="form-group">
+                <label for="partnerDOB">Partner DOB:</label>
+                <input type="date" id="partnerDOB" name="partnerDOB" onchange="calculatePartnerAge()">
+            </div>
+            <div class="form-group">
+                <label for="partnerGameteType">Partner Gamete Type:</label>
+                <input type="text" id="partnerGameteType" name="partnerGameteType">
+            </div>
+            <div class="form-group">
+                <label for="spermSource">Sperm Source:</label>
+                <input type="text" id="spermSource" name="spermSource">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="patientName">Name:</label>
-            <input type="text" id="patientName" name="patientName">
+
+        <div class="form-section">
+            <h2>PGT-M Indication</h2>
+            <div class="form-group">
+                <label for="gene">Gene:</label>
+                <input type="text" id="gene" name="gene">
+            </div>
+            <div class="form-group">
+                <label for="variants">Variant(s):</label>
+                <input type="text" id="variants" name="variants">
+            </div>
+            <div class="form-group">
+                <label for="diseaseName">Disease Name:</label>
+                <input type="text" id="diseaseName" name="diseaseName">
+            </div>
+            <div class="form-group">
+                <label for="inheritancePattern">Inheritance Pattern:</label>
+                <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
+                    <option value="Autosomal Dominant">Autosomal Dominant</option>
+                    <option value="Autosomal Recessive">Autosomal Recessive</option>
+                    <option value="X-linked">X-linked</option>
+                    <option value="Y-linked">Y-linked</option>
+                    <!-- Add other options if necessary -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="positiveGameteSource">Positive Gamete Source(s):</label>
+                <input type="text" id="positiveGameteSource" name="positiveGameteSource">
+            </div>
+            <div class="form-group hidden" id="knownFemaleCarrierFeaturesContainer">
+                <label for="knownFemaleCarrierFeatures">Known Female Carrier Features:</label>
+                <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="patientDOB">DOB:</label>
-            <input type="date" id="patientDOB" name="patientDOB" onchange="calculateAge()">
-        </div>
-        <div class="form-group">
-            <label for="gameteType">Gamete Type:</label>
-            <input type="text" id="gameteType" name="gameteType">
-        </div>
-        <div class="form-group">
-            <label for="partnerName">Partner Name:</label>
-            <input type="text" id="partnerName" name="partnerName">
-        </div>
-        <div class="form-group">
-            <label for="partnerDOB">Partner DOB:</label>
-            <input type="date" id="partnerDOB" name="partnerDOB" onchange="calculatePartnerAge()">
-        </div>
-        <div class="form-group">
-            <label for="partnerGameteType">Partner Gamete Type:</label>
-            <input type="text" id="partnerGameteType" name="partnerGameteType">
-        </div>
-        <div class="form-group">
-            <label for="eggSource">Egg Source:</label>
-            <input type="text" id="eggSource" name="eggSource">
-        </div>
-        <div class="form-group">
-            <label for="eggState">State of Egg:</label>
-            <select id="eggState" name="eggState">
-                <option value="fresh">Fresh</option>
-                <option value="frozen">Frozen</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="ageOfEgg">Age of Egg:</label>
-            <input type="number" id="ageOfEgg" name="ageOfEgg">
-        </div>
-        <div class="form-group">
-            <label for="spermSource">Sperm Source:</label>
-            <input type="text" id="spermSource" name="spermSource">
-        </div>
-        <div class="form-group">
-            <label for="gene">Gene:</label>
-            <input type="text" id="gene" name="gene">
-        </div>
-        <div class="form-group">
-            <label for="variants">Variant(s):</label>
-            <input type="text" id="variants" name="variants">
-        </div>
-        <div class="form-group">
-            <label for="diseaseName">Disease Name:</label>
-            <input type="text" id="diseaseName" name="diseaseName">
-        </div>
-        <div class="form-group">
-            <label for="inheritancePattern">Inheritance Pattern:</label>
-            <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
-                <option value="Autosomal Dominant">Autosomal Dominant</option>
-                <option value="Autosomal Recessive">Autosomal Recessive</option>
-                <option value="X-linked">X-linked</option>
-                <option value="Y-linked">Y-linked</option>
-                <!-- Add other options if necessary -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="positiveGameteSource">Positive Gamete Source(s):</label>
-            <input type="text" id="positiveGameteSource" name="positiveGameteSource">
-        </div>
-        <div class="form-group hidden" id="knownFemaleCarrierFeaturesContainer">
-            <label for="knownFemaleCarrierFeatures">Known Female Carrier Features:</label>
-            <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
-        </div>
+
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
@@ -159,11 +178,6 @@
             var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value;
 
             var xLinkedText = inheritancePattern === 'X-linked' ? `
-                <ul>
-                    <li>For each embryo created with ${eggState} eggs retrieved from a ${ageOfEgg} egg, there is a [chance]% chance that it will be chromosomally normal.</li>
-                    <li>For each embryo created from a <span class="italic">${gene}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${gene}</span>-negative.</li>
-                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${gene}</span>-negative.</li>
-                </ul>
                 <p>In other words, each tested embryo has a:</p>
                 <ul>
                     <li>25% chance of being a chromosomally normal/<span class="italic">${gene}</span>-negative male</li>
