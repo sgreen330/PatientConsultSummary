@@ -2,9 +2,178 @@
 <html>
 <head>
     <title>Patient Consult Summary</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.0.0-beta.5/docx.min.js"></script>
     <style>
-        /* Your existing styles */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            flex: 1;
+            max-width: 400px;
+            background-color: white;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            margin-right: 20px;
+            transition: max-width 0.3s;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .bold { 
+            font-weight: bold; 
+        }
+        .italic { 
+            font-style: italic; 
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+        }
+        .form-group input, .form-group select { 
+            width: 100%; 
+            padding: 8px; 
+            box-sizing: border-box; 
+        }
+        h1, h2, button { 
+            color: #4b0082; 
+        }
+        button { 
+            background-color: #4b0082; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+        }
+        button:hover { 
+            background-color: #3a006b; 
+        }
+        .button-container { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 20px; 
+        }
+        .header {
+            background-color: #4b0082;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .header * {
+            color: white;
+        }
+        .hidden { display: none; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        table, th, td {
+            border: 1px solid #4b0082;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+        th {
+            background-color: #4b0082;
+            color: white;
+            border: 1px solid white;
+        }
+        .table-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .table-wrapper {
+            flex: 0 0 48%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        #summaryOutput {
+            flex: 1;
+            border: 2px solid #4b0082;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 100vh;
+            position: relative;
+        }
+        #copyButton {
+            background-color: #4b0082;
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        #copyButton:hover {
+            background-color: #3a006b;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #summaryOutput, #summaryOutput * {
+                visibility: visible;
+            }
+            #summaryOutput {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                max-height: none;
+                border: none;
+                box-shadow: none;
+            }
+            #summaryOutput .header {
+                background-color: white;
+                color: black;
+                text-align: left;
+                margin: 0;
+                padding: 0;
+            }
+            #summaryOutput .header h1 {
+                font-size: 24px;
+                margin: 0 0 10px 0;
+            }
+            #summaryOutput h2, #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
+                font-size: 12px;
+            }
+            #summaryOutput table, #summaryOutput th, #summaryOutput td {
+                border-color: #4b0082;
+                background-color: #4b0082;
+                color: white;
+            }
+            #summaryOutput .table-wrapper {
+                flex: 0 0 48%;
+            }
+            #summaryOutput h1, #summaryOutput #copyButton, #summaryOutput #savePDFButton, #summaryOutput .header h1 {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -50,7 +219,7 @@
                 </div>
                 <div class="form-group">
                     <label for="patientDOB"><span class="bold">DOB:</span></label>
-                    <input type="date" id="patientDOB" name="patientDOB">
+                    <input type="date" id="patientDOB" name="patientDOB" onchange="calculateAge()">
                 </div>
                 <div class="form-group">
                     <label for="gameteType"><span class="bold">Gamete Type:</span></label>
@@ -68,7 +237,7 @@
                 </div>
                 <div class="form-group">
                     <label for="partnerDOB"><span class="bold">DOB:</span></label>
-                    <input type="date" id="partnerDOB" name="partnerDOB">
+                    <input type="date" id="partnerDOB" name="partnerDOB" onchange="calculatePartnerAge()">
                 </div>
                 <div class="form-group">
                     <label for="partnerGameteType"><span class="bold">Gamete Type:</span></label>
@@ -82,11 +251,12 @@
                 <h2>Gamete Sources</h2>
                 <div class="form-group">
                     <label for="eggSource"><span class="bold">Egg Source:</span></label>
-                    <select id="eggSource" name="eggSource">
+                    <select id="eggSource" name="eggSource" onchange="toggleFreeText('eggSource')">
                         <option value="Patient">Patient</option>
                         <option value="Partner">Partner</option>
                         <option value="Other">Other</option>
                     </select>
+                    <input type="text" id="eggSourceOther" name="eggSourceOther" class="hidden" placeholder="Specify other">
                 </div>
                 <div class="form-group">
                     <label for="eggState"><span class="bold">State of Egg:</span></label>
@@ -101,11 +271,12 @@
                 </div>
                 <div class="form-group">
                     <label for="spermSource"><span class="bold">Sperm Source:</span></label>
-                    <select id="spermSource" name="spermSource">
+                    <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
                         <option value="Patient">Patient</option>
                         <option value="Partner">Partner</option>
                         <option value="Other">Other</option>
                     </select>
+                    <input type="text" id="spermSourceOther" name="spermSourceOther" class="hidden" placeholder="Specify other">
                 </div>
             </div>
             <div class="form-section">
@@ -124,7 +295,7 @@
                 </div>
                 <div class="form-group">
                     <label for="inheritancePattern"><span class="bold">Inheritance Pattern:</span></label>
-                    <select id="inheritancePattern" name="inheritancePattern">
+                    <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
                         <option value="Autosomal dominant">Autosomal dominant</option>
                         <option value="Autosomal recessive">Autosomal recessive</option>
                         <option value="X-linked">X-linked</option>
@@ -138,7 +309,7 @@
                         <option value="Egg and sperm source">Egg and sperm source</option>
                     </select>
                 </div>
-                <div class="form-group" id="knownFemaleCarrierFeaturesContainer">
+                <div class="form-group hidden" id="knownFemaleCarrierFeaturesContainer">
                     <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
                     <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
                 </div>
@@ -153,7 +324,7 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
-        <button id="saveWordButton" onclick="generateWord()">Save Word Document</button>
+        <button id="copyButton" onclick="copyToClipboard()">Copy</button>
         <div class="header">
             <h1>Patient Consult Summary: Genetic Counseling</h1>
         </div>
@@ -189,30 +360,50 @@
 
         showSection(currentSectionIndex);
 
+        function toggleFreeText(selectId) {
+            var selectElement = document.getElementById(selectId);
+            var freeTextField = document.getElementById(selectId + 'Other');
+            if (selectElement.value === 'Other') {
+                freeTextField.classList.remove('hidden');
+            } else {
+                freeTextField.classList.add('hidden');
+            }
+        }
+
+        function toggleXLinkedText() {
+            var pattern = document.getElementById('inheritancePattern').value;
+            var xLinkedTextContainer = document.getElementById('knownFemaleCarrierFeaturesContainer');
+            if (pattern === 'X-linked') {
+                xLinkedTextContainer.classList.remove('hidden');
+            } else {
+                xLinkedTextContainer.classList.add('hidden');
+            }
+        }
+
         function submitForm() {
             document.querySelector('.form-container').style.maxWidth = '250px';
             document.body.style.justifyContent = 'flex-start';
             document.body.style.alignItems = 'flex-start';
-
+            
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
             var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
             var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
             var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
-
+            
             var dob = new Date(document.getElementById('patientDOB').value);
             var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
-
+            
             var partnerDOB = new Date(document.getElementById('partnerDOB').value);
             var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
-
+            
             var eggState = document.getElementById('eggState').value;
             var ageOfEgg = document.getElementById('ageOfEgg').value;
             var positiveGameteSource = document.getElementById('positiveGameteSource').value;
             var gene = document.getElementById('gene').value;
             var inheritancePattern = document.getElementById('inheritancePattern').value;
             var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
-
+            
             var output = "<h2 class='bold'>Patient Consult Summary: Genetic Counseling</h2>";
             output += "<strong>Name of Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
             output += "<strong>Name of Doctor:</strong> " + document.getElementById('doctorName').value + "<br>";
@@ -353,68 +544,41 @@
             document.getElementById('summaryOutput').classList.remove('hidden');
         }
 
-        function generateWord() {
-            const doc = new docx.Document();
+        function calculateAge() {
+            var dob = new Date(document.getElementById('patientDOB').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('patientAge').value = age;
+        }
 
-            const counselorName = document.getElementById('counselorName').value;
-            const doctorName = document.getElementById('doctorName').value;
-            const consultationTime = document.getElementById('consultationTime').value;
-            const patientName = document.getElementById('patientName').value;
-            const patientDOB = document.getElementById('patientDOB').value;
-            const gameteType = document.getElementById('gameteType').value;
-            const partnerName = document.getElementById('partnerName').value;
-            const partnerDOB = document.getElementById('partnerDOB').value;
-            const partnerGameteType = document.getElementById('partnerGameteType').value;
-            const eggSource = document.getElementById('eggSource').value;
-            const eggState = document.getElementById('eggState').value;
-            const ageOfEgg = document.getElementById('ageOfEgg').value;
-            const spermSource = document.getElementById('spermSource').value;
-            const gene = document.getElementById('gene').value;
-            const variants = document.getElementById('variants').value;
-            const diseaseName = document.getElementById('diseaseName').value;
-            const inheritancePattern = document.getElementById('inheritancePattern').value;
-            const positiveGameteSource = document.getElementById('positiveGameteSource').value;
-            const knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value;
+        function calculatePartnerAge() {
+            var dob = new Date(document.getElementById('partnerDOB').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('partnerAge').value = age;
+        }
 
-            doc.addSection({
-                properties: {},
-                children: [
-                    new docx.Paragraph({
-                        text: "Patient Consult Summary: Genetic Counseling",
-                        heading: docx.HeadingLevel.HEADING_1
-                    }),
-                    new docx.Paragraph(`Name of Genetic Counselor: ${counselorName}`),
-                    new docx.Paragraph(`Name of Doctor: ${doctorName}`),
-                    new docx.Paragraph(`Consultation Date & Time: ${consultationTime}`),
-                    new docx.Paragraph(`Patient Name: ${patientName}`),
-                    new docx.Paragraph(`Patient DOB: ${patientDOB}`),
-                    new docx.Paragraph(`Patient Gamete Type: ${gameteType}`),
-                    new docx.Paragraph(`Partner Name: ${partnerName}`),
-                    new docx.Paragraph(`Partner DOB: ${partnerDOB}`),
-                    new docx.Paragraph(`Partner Gamete Type: ${partnerGameteType}`),
-                    new docx.Paragraph(`Egg Source: ${eggSource}`),
-                    new docx.Paragraph(`Egg State: ${eggState}`),
-                    new docx.Paragraph(`Age of Egg: ${ageOfEgg}`),
-                    new docx.Paragraph(`Sperm Source: ${spermSource}`),
-                    new docx.Paragraph(`Gene: ${gene}`),
-                    new docx.Paragraph(`Variant(s): ${variants}`),
-                    new docx.Paragraph(`Disease Name: ${diseaseName}`),
-                    new docx.Paragraph(`Inheritance Pattern: ${inheritancePattern}`),
-                    new docx.Paragraph(`Positive Gamete Source(s): ${positiveGameteSource}`),
-                    new docx.Paragraph(`Known Female Carrier Features: ${knownFemaleCarrierFeatures}`)
-                ]
-            });
+        function backToForm() {
+            document.getElementById('summaryOutput').classList.add('hidden');
+        }
 
-            docx.Packer.toBlob(doc).then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = 'Genetic_Counseling_Summary.docx';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            });
+        function copyToClipboard() {
+            const summaryContent = document.getElementById('summaryContent').innerHTML;
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = summaryContent;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            alert('Summary content copied to clipboard.');
         }
     </script>
 </body>
