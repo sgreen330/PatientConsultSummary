@@ -118,7 +118,7 @@
             max-height: 100vh;
             position: relative;
         }
-        #copyButton, #savePDFButton {
+        #savePDFButton {
             background-color: #4b0082;
             color: white;
             border: none;
@@ -127,7 +127,7 @@
             border-radius: 5px;
             margin-top: 20px;
         }
-        #copyButton:hover, #savePDFButton:hover {
+        #savePDFButton:hover {
             background-color: #3a006b;
         }
         @media print {
@@ -154,47 +154,26 @@
                 margin: 0;
                 padding: 0;
             }
-            #summaryOutput h2 {
-                font-size: 24px; /* Make this text bigger */
+            #summaryOutput .header h1 {
+                font-size: 24px;
+                margin: 0 0 10px 0;
             }
-            #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
+            #summaryOutput h2, #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
                 font-size: 12px;
             }
             #summaryOutput table, #summaryOutput th, #summaryOutput td {
                 border-color: #4b0082;
-            }
-            #summaryOutput th {
-                background-color: #4b0082; /* Dark purple background for table headers */
-                color: white; /* White text for table headers */
+                background-color: #4b0082;
+                color: white;
             }
             #summaryOutput .table-wrapper {
-                flex: 0 0 48%; /* Ensure two tables fit on one line */
-                box-sizing: border-box;
+                flex: 0 0 48%;
             }
-            #savePDFButton, #copyButton {
-                display: none; /* Remove buttons in print */
-            }
-            .header h1 {
-                display: none; /* Remove 'Patient Consult Summary' small text */
-            }
-            .header h1, .header h2 {
-                display: none; /* Remove 'Patient Consult Summary' text */
-            }
-            .form-group strong {
-                font-size: 10px; /* Make 'Name of Genetic Counselor', 'Name of Doctor', and 'Consultation Date & Time' smaller */
-            }
-            .header h1 {
-                display: none; /* Remove 'Patient Consult Summary' small text */
-            }
-            .header {
-                display: none; /* Remove the header with 'Patient Consult Summary' */
-            }
-            .form-container, .form-container * {
-                display: none; /* Remove form elements in print */
+            #summaryOutput h1, #summaryOutput #copyButton, #summaryOutput #savePDFButton, #summaryOutput .header h1 {
+                display: none;
             }
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="form-container" id="formContainer">
@@ -344,12 +323,11 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
-        <button id="savePDFButton" onclick="saveAsPDF()">Save PDF</button>
+        <button id="savePDFButton" onclick="printSummary()">Save PDF</button>
         <div class="header">
-            <h1>Patient Consult Summary</h1>
+            <h1>Patient Consult Summary: Genetic Counseling</h1>
         </div>
         <div id="summaryContent"></div>
-        <button id="copyButton" onclick="copyToClipboard()">Copy</button>
     </div>
 
     <script>
@@ -462,7 +440,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Patient Information</th>
+                                <th>Partner Information</th>
                                 <th>Name</th>
                                 <th>DOB</th>
                                 <th>Gamete Type</th>
@@ -591,29 +569,8 @@
             document.getElementById('summaryOutput').classList.add('hidden');
         }
 
-        function copyToClipboard() {
-            const summaryOutput = document.getElementById('summaryContent');
-            const range = document.createRange();
-            range.selectNode(summaryOutput);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand('copy');
-            window.getSelection().removeAllRanges();
-            alert('Summary copied to clipboard');
-        }
-
-        async function saveAsPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            const summaryContent = document.getElementById('summaryContent');
-            await doc.html(summaryContent, {
-                callback: function (doc) {
-                    doc.save('summary.pdf');
-                },
-                x: 10,
-                y: 10
-            });
+        function printSummary() {
+            window.print();
         }
     </script>
 </body>
