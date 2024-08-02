@@ -158,11 +158,31 @@
                 font-size: 18px;
                 margin: 0 0 10px 0;
             }
-            #summaryOutput h2, #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
+            #summaryOutput h2 {
+                font-size: 24px; /* Make this text bigger */
+            }
+            #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
                 font-size: 12px;
             }
             #summaryOutput table, #summaryOutput th, #summaryOutput td {
                 border-color: #4b0082;
+            }
+            #summaryOutput th {
+                background-color: #4b0082; /* Dark purple background for table headers */
+                color: white; /* White text for table headers */
+            }
+            #summaryOutput .table-wrapper {
+                flex: 0 0 48%; /* Ensure two tables fit on one line */
+                box-sizing: border-box;
+            }
+            #savePDFButton, #copyButton, .header {
+                display: none; /* Remove buttons and header in print */
+            }
+            .header h1 {
+                display: none; /* Remove 'Patient Consult Summary' small text */
+            }
+            .header h1, .header h2 {
+                display: none; /* Remove 'Patient Consult Summary' text */
             }
         }
     </style>
