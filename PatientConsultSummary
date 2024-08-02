@@ -166,6 +166,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="form-container" id="formContainer">
@@ -315,7 +316,7 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
-        <button id="savePDFButton" onclick="printSummary()">Save PDF</button>
+        <button id="savePDFButton" onclick="saveAsPDF()">Save PDF</button>
         <div class="header">
             <h1>Patient Consult Summary</h1>
         </div>
@@ -573,8 +574,18 @@
             alert('Summary copied to clipboard');
         }
 
-        function printSummary() {
-            window.print();
+        async function saveAsPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const summaryContent = document.getElementById('summaryContent');
+            await doc.html(summaryContent, {
+                callback: function (doc) {
+                    doc.save('summary.pdf');
+                },
+                x: 10,
+                y: 10
+            });
         }
     </script>
 </body>
