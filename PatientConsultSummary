@@ -146,17 +146,6 @@
                 border: none;
                 box-shadow: none;
             }
-            #summaryOutput .header {
-                background-color: white;
-                color: black;
-                text-align: left;
-                margin: 0;
-                padding: 0;
-            }
-            #summaryOutput .header h1 {
-                font-size: 24px;
-                margin: 0 0 10px 0;
-            }
         }
     </style>
 </head>
@@ -313,6 +302,7 @@
         <div class="header">
             <h1>Patient Consult Summary</h1>
         </div>
+        <div id="summaryContent"></div>
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
     </div>
 
@@ -526,7 +516,7 @@
                 output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
             }
 
-            document.getElementById('summaryOutput').innerHTML = output;
+            document.getElementById('summaryContent').innerHTML = output;
             document.getElementById('summaryOutput').classList.remove('hidden');
         }
 
@@ -557,7 +547,7 @@
         }
 
         function copyToClipboard() {
-            const summaryOutput = document.getElementById('summaryOutput');
+            const summaryOutput = document.getElementById('summaryContent');
             const range = document.createRange();
             range.selectNode(summaryOutput);
             window.getSelection().removeAllRanges();
