@@ -133,6 +133,7 @@
             background-color: #3a006b;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="form-container" id="formContainer">
@@ -284,6 +285,7 @@
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+        <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
     </div>
 
     <script>
@@ -536,6 +538,22 @@
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
             alert('Summary copied to clipboard');
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            // Get the HTML content to convert to PDF
+            const content = document.getElementById('summaryOutput').innerHTML;
+
+            // Convert the HTML content to PDF format
+            pdf.fromHTML(content, 10, 10, {
+                'width': 180
+            });
+
+            // Save the PDF
+            pdf.save('Patient_Consult_Summary.pdf');
         }
     </script>
 </body>
