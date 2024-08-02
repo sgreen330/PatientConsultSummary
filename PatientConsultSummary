@@ -274,7 +274,7 @@
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
                 <button type="button" onclick="submitForm()">Submit</button>
-                <button type="button" onclick="downloadPDF()">Download PDF</button>
+                <button type="button" id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
                 <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
