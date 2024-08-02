@@ -1,118 +1,386 @@
-async function submitForm() {
-    var consultationDate = new Date(document.getElementById('consultationTime').value);
-    if (!isNaN(consultationDate.getTime())) {
-        var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
-        var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
-        var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
-        var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
-    } else {
-        var formattedDate = '';
-    }
-    
-    var dob = new Date(document.getElementById('patientDOB').value);
-    if (!isNaN(dob.getTime())) {
-        var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
-    } else {
-        var formattedDOB = '';
-    }
-    
-    var partnerDOB = new Date(document.getElementById('partnerDOB').value);
-    if (!isNaN(partnerDOB.getTime())) {
-        var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
-    } else {
-        var formattedPartnerDOB = '';
-    }
-    
-    var eggState = document.getElementById('eggState').value;
-    var ageOfEgg = document.getElementById('ageOfEgg').value;
-    var positiveGameteSource = document.getElementById('positiveGameteSource').value;
-    var gene = document.getElementById('gene').value;
-    var inheritancePattern = document.getElementById('inheritancePattern').value;
-    var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
-    
-    var output = "<h2 class='bold'>Patient Consult Summary: Genetic Counseling</h2>";
-    output += "<table>";
-
-    // Genetic Counselor and Doctor Information
-    output += "<tr><th colspan='2'>Genetic Counselor and Doctor Information</th></tr>";
-    output += "<tr><td><ul>";
-    output += "<li><span>Genetic Counselor:</span> " + document.getElementById('counselorName').value + "</li>";
-    output += "<li><span>Doctor:</span> " + document.getElementById('doctorName').value + "</li>";
-    output += "<li><span>Consultation Date & Time:</span> " + formattedDate + "</li>";
-    output += "</ul></td></tr>";
-
-    // Patient Information
-    output += "<tr><th colspan='2'>Patient Information</th></tr>";
-    output += "<tr><td><ul>";
-    output += "<li><span>Patient Name:</span> " + document.getElementById('patientName').value + "</li>";
-    output += "<li><span>Patient DOB:</span> " + formattedDOB + "</li>";
-    output += "<li><span>Patient Gamete Type:</span> " + document.getElementById('gameteType').value + "</li>";
-    output += "</ul></td></tr>";
-
-    // Partner Information
-    output += "<tr><th colspan='2'>Partner Information</th></tr>";
-    output += "<tr><td><ul>";
-    output += "<li><span>Partner Name:</span> " + document.getElementById('partnerName').value + "</li>";
-    output += "<li><span>Partner DOB:</span> " + formattedPartnerDOB + "</li>";
-    output += "<li><span>Partner Gamete Type:</span> " + document.getElementById('partnerGameteType').value + "</li>";
-    output += "</ul></td></tr>";
-
-    // Gamete Sources
-    output += "<tr><th colspan='2'>Gamete Sources</th></tr>";
-    output += "<tr><td><ul>";
-    output += "<li><span>Egg Source:</span> " + document.getElementById('eggSource').value + 
-        (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "</li>";
-    output += "<li><span>State of Egg:</span> " + eggState + "</li>";
-    output += "<li><span>Age of Egg:</span> " + ageOfEgg + "</li>";
-    output += "<li><span>Sperm Source:</span> " + document.getElementById('spermSource').value + 
-        (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "</li>";
-    output += "</ul></td></tr>";
-
-    // PGT-M Indication
-    output += "<tr><th colspan='2'>PGT-M Indication</th></tr>";
-    output += "<tr><td><ul>";
-    output += "<li><span>Gene:</span> " + document.getElementById('gene').value + "</li>";
-    output += "<li><span>Variant(s):</span> " + document.getElementById('variants').value + "</li>";
-    output += "<li><span>Disease Name:</span> " + document.getElementById('diseaseName').value + "</li>";
-    output += "<li><span>Inheritance Pattern:</span> " + inheritancePattern + "</li>";
-    output += "<li><span>Gamete Source(s):</span> " + positiveGameteSource + "</li>";
-    output += "</ul></td></tr>";
-
-    // Embryo Genetic Testing Expectations
-    output += "<tr><th colspan='2'>Embryo Genetic Testing Expectations</th></tr>";
-    output += "<tr><td><ul>";
-    output += "<li>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
-    output += "<li>For each embryo created from a " + gene + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</li>";
-    output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</li>";
-    output += "</ul>";
-
-    if (inheritancePattern === 'X-linked') {
-        output += "<p>In other words, each embryo has a:</p>";
-        output += "<ul>";
-        output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative male</li>";
-        output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative female</li>";
-        output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive male: This child is expected to have <span class='italic'>" + document.getElementById('diseaseName').value + "</span>.</li>";
-        output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive female: Many <span class='italic'>" + gene + "</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.";
-        if (knownFemaleCarrierFeatures) {
-            output += " " + knownFemaleCarrierFeatures + ".";
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Consult Summary Form</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background-color: #f0f0f0; 
+            margin: 0; 
         }
-        output += "</li></ul>";
-        output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
-    } else {
-        output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
-    }
+        .form-container {
+            width: 400px;
+            background-color: white;
+            border: 2px solid #4b0082;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .bold { font-weight: bold; }
+        .italic { font-style: italic; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input, .form-group select { width: 100%; padding: 5px; box-sizing: border-box; }
+        .form-group input[type="datetime-local"] { width: calc(100% + 10px); } /* Adjust length of datetime field */
+        h1, h2, button { color: #4b0082; } /* Dark purple accent */
+        button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        button:hover { background-color: #3a006b; }
+        .button-container { display: flex; justify-content: space-between; margin-top: 20px; }
+        .header { background-color: #4b0082; color: white; padding: 10px 0; text-align: center; border-radius: 10px 10px 0 0; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <h1>Patient Consult Summary: Genetic Counseling</h1>
+        </div>
+        <form id="geneticForm">
+            <div class="form-section active">
+                <h2>Genetic Counselor and Doctor Information</h2>
+                <div class="form-group">
+                    <label for="counselorName"><span class="bold">Genetic Counselor:</span></label>
+                    <select id="counselorName" name="counselorName">
+                        <option value="Hannah N. Green, MS, CGC">Hannah N. Green, MS, CGC</option>
+                        <option value="Andria G. Besser, MS, CGC">Andria G. Besser, MS, CGC</option>
+                        <option value="Carissa Huber, MS">Carissa Huber, MS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="doctorName"><span class="bold">Doctor:</span></label>
+                    <select id="doctorName" name="doctorName">
+                        <option value="Alan S. Berkeley, MD">Alan S. Berkeley, MD</option>
+                        <option value="Jennifer K. Blakemore, MD">Jennifer K. Blakemore, MD</option>
+                        <option value="Sarah D. Cascante, MD">Sarah D. Cascante, MD</option>
+                        <option value="Shannon M. DeVore, MD">Shannon M. DeVore, MD</option>
+                        <option value="Elizabeth Fino, MD">Elizabeth Fino, MD</option>
+                        <option value="James A. Grifo, MD, PhD">James A. Grifo, MD, PhD</option>
+                        <option value="Frederick L. Licciardi, MD">Frederick L. Licciardi, MD</option>
+                        <option value="Jacquelyn M. Shaw, MD">Jacquelyn M. Shaw, MD</option>
+                        <option value="Brooke H. Wertz, MD, MPH">Brooke H. Wertz, MD, MPH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="consultationTime"><span class="bold">Consultation Date & Time:</span></label>
+                    <input type="datetime-local" id="consultationTime" name="consultationTime">
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Patient Information</h2>
+                <div class="form-group">
+                    <label for="patientName"><span class="bold">Name:</span></label>
+                    <input type="text" id="patientName" name="patientName">
+                </div>
+                <div class="form-group">
+                    <label for="patientDOB"><span class="bold">DOB:</span></label>
+                    <input type="date" id="patientDOB" name="patientDOB" onchange="calculateAge()">
+                </div>
+                <div class="form-group">
+                    <label for="gameteType"><span class="bold">Gamete Type:</span></label>
+                    <select id="gameteType" name="gameteType">
+                        <option value="Egg">Egg</option>
+                        <option value="Sperm">Sperm</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Partner Information</h2>
+                <div class="form-group">
+                    <label for="partnerName"><span class="bold">Name:</span></label>
+                    <input type="text" id="partnerName" name="partnerName">
+                </div>
+                <div class="form-group">
+                    <label for="partnerDOB"><span class="bold">DOB:</span></label>
+                    <input type="date" id="partnerDOB" name="partnerDOB" onchange="calculatePartnerAge()">
+                </div>
+                <div class="form-group">
+                    <label for="partnerGameteType"><span class="bold">Gamete Type:</span></label>
+                    <select id="partnerGameteType" name="partnerGameteType">
+                        <option value="Egg">Egg</option>
+                        <option value="Sperm">Sperm</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Gamete Sources</h2>
+                <div class="form-group">
+                    <label for="eggSource"><span class="bold">Egg Source:</span></label>
+                    <select id="eggSource" name="eggSource" onchange="toggleFreeText('eggSource')">
+                        <option value="Patient">Patient</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="eggSourceOther" name="eggSourceOther" class="hidden" placeholder="Specify other">
+                </div>
+                <div class="form-group">
+                    <label for="eggState"><span class="bold">State of Egg:</span></label>
+                    <select id="eggState" name="eggState">
+                        <option value="Frozen">Frozen</option>
+                        <option value="Fresh">Fresh</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
+                    <input type="text" id="ageOfEgg" name="ageOfEgg">
+                </div>
+                <div class="form-group">
+                    <label for="spermSource"><span class="bold">Sperm Source:</span></label>
+                    <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
+                        <option value="Patient">Patient</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="spermSourceOther" name="spermSourceOther" class="hidden" placeholder="Specify other">
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>PGT-M Indication</h2>
+                <div class="form-group">
+                    <label for="gene"><span class="bold">Gene:</span></label>
+                    <input type="text" id="gene" name="gene">
+                </div>
+                <div class="form-group">
+                    <label for="variants"><span class="bold">Variant(s):</span></label>
+                    <input type="text" id="variants" name="variants">
+                </div>
+                <div class="form-group">
+                    <label for="diseaseName"><span class="bold">Disease Name:</span></label>
+                    <input type="text" id="diseaseName" name="diseaseName">
+                </div>
+                <div class="form-group">
+                    <label for="inheritancePattern"><span class="bold">Inheritance Pattern:</span></label>
+                    <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
+                        <option value="Autosomal dominant">Autosomal dominant</option>
+                        <option value="Autosomal recessive">Autosomal recessive</option>
+                        <option value="X-linked">X-linked</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="positiveGameteSource"><span class="bold">Gamete Source(s):</span></label>
+                    <select id="positiveGameteSource" name="positiveGameteSource">
+                        <option value="Egg source">Egg source</option>
+                        <option value="Sperm source">Sperm source</option>
+                        <option value="Egg and sperm source">Egg and sperm source</option>
+                    </select>
+                </div>
+                <div class="form-group" id="knownFemaleCarrierFeaturesContainer">
+                    <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
+                    <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
+                </div>
+            </div>
 
-    output += "</td></tr>";
-    output += "</table>";
+            <div class="button-container">
+                <button type="button" onclick="prevSection()">Previous</button>
+                <button type="button" onclick="nextSection()">Next</button>
+                <button type="button" onclick="submitForm()">Submit</button>
+                <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
+            </div>
+        </form>
+    </div>
 
-    document.getElementById('geneticForm').classList.add('hidden');
-    document.getElementById('summaryOutput').classList.remove('hidden');
-    document.getElementById('summaryOutput').innerHTML = output;
-    document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif; display: none;"></div>
 
-    // Generate PDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.fromHTML(output, 15, 15);
-    doc.save('Patient_Consult_Summary.pdf');
-}
+    <script>
+        const sections = document.querySelectorAll('.form-section');
+        let currentSectionIndex = 0;
+
+        function showSection(index) {
+            sections.forEach((section, i) => {
+                section.classList.toggle('active', i === index);
+            });
+            document.querySelector('.button-container button[type="button"][onclick="prevSection()"]').style.display = index === 0 ? 'none' : 'inline-block';
+            document.querySelector('.button-container button[type="button"][onclick="nextSection()"]').style.display = index === sections.length - 1 ? 'none' : 'inline-block';
+            document.querySelector('.button-container button[type="button"][onclick="submitForm()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
+        }
+
+        function nextSection() {
+            if (currentSectionIndex < sections.length - 1) {
+                currentSectionIndex++;
+                showSection(currentSectionIndex);
+            }
+        }
+
+        function prevSection() {
+            if (currentSectionIndex > 0) {
+                currentSectionIndex--;
+                showSection(currentSectionIndex);
+            }
+        }
+
+        function toggleFreeText(selectId) {
+            var selectElement = document.getElementById(selectId);
+            var freeTextField = document.getElementById(selectId + 'Other');
+            if (selectElement.value === 'Other') {
+                freeTextField.classList.remove('hidden');
+            } else {
+                freeTextField.classList.add('hidden');
+            }
+        }
+
+        function toggleXLinkedText() {
+            var pattern = document.getElementById('inheritancePattern').value;
+            var xLinkedTextContainer = document.getElementById('knownFemaleCarrierFeaturesContainer');
+            if (pattern === 'X-linked') {
+                xLinkedTextContainer.classList.remove('hidden');
+            } else {
+                xLinkedTextContainer.classList.add('hidden');
+            }
+        }
+
+        function submitForm() {
+            var consultationDate = new Date(document.getElementById('consultationTime').value);
+            if (!isNaN(consultationDate.getTime())) {
+                var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
+                var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
+                var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
+                var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
+            } else {
+                var formattedDate = '';
+            }
+            
+            var dob = new Date(document.getElementById('patientDOB').value);
+            if (!isNaN(dob.getTime())) {
+                var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
+            } else {
+                var formattedDOB = '';
+            }
+            
+            var partnerDOB = new Date(document.getElementById('partnerDOB').value);
+            if (!isNaN(partnerDOB.getTime())) {
+                var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
+            } else {
+                var formattedPartnerDOB = '';
+            }
+            
+            var eggState = document.getElementById('eggState').value;
+            var ageOfEgg = document.getElementById('ageOfEgg').value;
+            var positiveGameteSource = document.getElementById('positiveGameteSource').value;
+            var gene = document.getElementById('gene').value;
+            var inheritancePattern = document.getElementById('inheritancePattern').value;
+            var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
+            
+            var output = "<h2 class='bold'>Patient Consult Summary: Genetic Counseling</h2>";
+            output += "<table>";
+
+            // Genetic Counselor and Doctor Information
+            output += "<tr><th colspan='2'>Genetic Counselor and Doctor Information</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Genetic Counselor:</span> " + document.getElementById('counselorName').value + "</li>";
+            output += "<li><span>Doctor:</span> " + document.getElementById('doctorName').value + "</li>";
+            output += "<li><span>Consultation Date & Time:</span> " + formattedDate + "</li>";
+            output += "</ul></td></tr>";
+
+            // Patient Information
+            output += "<tr><th colspan='2'>Patient Information</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Patient Name:</span> " + document.getElementById('patientName').value + "</li>";
+            output += "<li><span>Patient DOB:</span> " + formattedDOB + "</li>";
+            output += "<li><span>Patient Gamete Type:</span> " + document.getElementById('gameteType').value + "</li>";
+            output += "</ul></td></tr>";
+
+            // Partner Information
+            output += "<tr><th colspan='2'>Partner Information</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Partner Name:</span> " + document.getElementById('partnerName').value + "</li>";
+            output += "<li><span>Partner DOB:</span> " + formattedPartnerDOB + "</li>";
+            output += "<li><span>Partner Gamete Type:</span> " + document.getElementById('partnerGameteType').value + "</li>";
+            output += "</ul></td></tr>";
+
+            // Gamete Sources
+            output += "<tr><th colspan='2'>Gamete Sources</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Egg Source:</span> " + document.getElementById('eggSource').value + 
+                (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "</li>";
+            output += "<li><span>State of Egg:</span> " + eggState + "</li>";
+            output += "<li><span>Age of Egg:</span> " + ageOfEgg + "</li>";
+            output += "<li><span>Sperm Source:</span> " + document.getElementById('spermSource').value + 
+                (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "</li>";
+            output += "</ul></td></tr>";
+
+            // PGT-M Indication
+            output += "<tr><th colspan='2'>PGT-M Indication</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Gene:</span> " + document.getElementById('gene').value + "</li>";
+            output += "<li><span>Variant(s):</span> " + document.getElementById('variants').value + "</li>";
+            output += "<li><span>Disease Name:</span> " + document.getElementById('diseaseName').value + "</li>";
+            output += "<li><span>Inheritance Pattern:</span> " + inheritancePattern + "</li>";
+            output += "<li><span>Gamete Source(s):</span> " + positiveGameteSource + "</li>";
+            output += "</ul></td></tr>";
+
+            // Embryo Genetic Testing Expectations
+            output += "<tr><th colspan='2'>Embryo Genetic Testing Expectations</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
+            output += "<li>For each embryo created from a " + gene + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</li>";
+            output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</li>";
+            output += "</ul>";
+
+            if (inheritancePattern === 'X-linked') {
+                output += "<p>In other words, each embryo has a:</p>";
+                output += "<ul>";
+                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative male</li>";
+                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative female</li>";
+                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive male: This child is expected to have <span class='italic'>" + document.getElementById('diseaseName').value + "</span>.</li>";
+                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive female: Many <span class='italic'>" + gene + "</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.";
+                if (knownFemaleCarrierFeatures) {
+                    output += " " + knownFemaleCarrierFeatures + ".";
+                }
+                output += "</li></ul>";
+                output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
+            } else {
+                output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
+            }
+
+            output += "</td></tr>";
+            output += "</table>";
+
+            document.getElementById('geneticForm').classList.add('hidden');
+            document.getElementById('summaryOutput').classList.remove('hidden');
+            document.getElementById('summaryOutput').innerHTML = output;
+            document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
+        }
+
+        function backToForm() {
+            document.getElementById('geneticForm').classList.remove('hidden');
+            document.getElementById('summaryOutput').classList.add('hidden');
+            document.querySelector('.button-container button[onclick="backToForm()"]').classList.add('hidden');
+            currentSectionIndex = 0;
+            showSection(currentSectionIndex);
+        }
+
+        function calculateAge() {
+            var dob = new Date(document.getElementById('patientDOB').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('patientAge').value = age;
+        }
+
+        function calculatePartnerAge() {
+            var dob = new Date(document.getElementById('partnerDOB').value);
+            var today = new Date();
+            var age = today.getFullYear() - dob.getFullYear();
+            var monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            document.getElementById('partnerAge').value = age;
+        }
+    </script>
+</body>
+</html>
