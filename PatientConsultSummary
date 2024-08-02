@@ -6,6 +6,7 @@
         .underline { text-decoration: underline; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -17,7 +18,7 @@
         <label for="doctorName"><span class="bold">Name of Doctor:</span></label>
         <input type="text" id="doctorName" name="doctorName"><br><br>
 
-        <label for="consultationTime"><span class="bold">Date/Time that They Spoke:</span></label>
+        <label for="consultationTime"><span class="bold">Consultation Date & Time:</span></label>
         <input type="datetime-local" id="consultationTime" name="consultationTime"><br><br>
         
         <h2 class="underline">Patient Information</h2>
@@ -65,11 +66,12 @@
         <h2 class="underline">Gamete Sources</h2>
 
         <label for="eggSource"><span class="bold">Egg Source:</span></label>
-        <select id="eggSource" name="eggSource">
+        <select id="eggSource" name="eggSource" onchange="toggleFreeText('eggSource')">
             <option value="Patient">Patient</option>
             <option value="Partner">Partner</option>
-            <option value="Other">Other - <input type="text" id="eggSourceOther" name="eggSourceOther"></option>
-        </select><br><br>
+            <option value="Other">Other</option>
+        </select>
+        <input type="text" id="eggSourceOther" name="eggSourceOther" class="hidden" placeholder="Specify other"><br><br>
 
         <label for="eggState"><span class="bold">State of Egg:</span></label>
         <select id="eggState" name="eggState">
@@ -81,11 +83,12 @@
         <input type="number" id="ageOfEgg" name="ageOfEgg"><br><br>
 
         <label for="spermSource"><span class="bold">Sperm Source:</span></label>
-        <select id="spermSource" name="spermSource">
+        <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
             <option value="Patient">Patient</option>
             <option value="Partner">Partner</option>
-            <option value="Other">Other - <input type="text" id="spermSourceOther" name="spermSourceOther"></option>
-        </select><br><br>
+            <option value="Other">Other</option>
+        </select>
+        <input type="text" id="spermSourceOther" name="spermSourceOther" class="hidden" placeholder="Specify other"><br><br>
 
         <h2 class="underline">PGTM Indication</h2>
 
@@ -112,26 +115,40 @@
             <option value="X-linked">X-linked</option>
         </select><br><br>
 
-        <h2 class="underline">Embryo Genetic Testing Expectations</h2>
-
-        <label for="normalcyChance"><span class="bold">Chance of Chromosomal Normalcy:</span></label>
-        <input type="text" id="normalcyChance" name="normalcyChance" readonly><br><br>
-
-        <label for="carrierNegativeChance"><span class="bold">Chance of Being Carrier Negative:</span></label>
-        <input type="text" id="carrierNegativeChance" name="carrierNegativeChance" readonly><br><br>
-
-        <label for="overallChance"><span class="bold">Overall Chance:</span></label>
-        <input type="text" id="overallChance" name="overallChance" readonly><br><br>
-
-        <label for="recommendedEmbryos"><span class="bold">Recommended Embryos:</span></label>
-        <input type="text" id="recommendedEmbryos" name="recommendedEmbryos" readonly><br><br>
-
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
     <div id="summaryOutput" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
 
     <script>
+        function toggleFreeText(selectId) {
+            var selectElement = document.getElementById(selectId);
+            var freeTextField = document.getElementById(selectId + 'Other');
+            if (selectElement.value === 'Other') {
+                freeTextField.classList.remove('hidden');
+            } else {
+                freeTextField.classList.add('hidden');
+            }
+        }
+
+        function calculateAge() {
+            var dob = new Date(document.getElementById('patientDOB').value);
+            var age = new Date().getFullYear() - dob.getFullYear();
+            if (dob > new Date().setFullYear(new Date().getFullYear() - age)) {
+                age--;
+            }
+            // You can store or use age as needed
+        }
+
+        function calculatePartnerAge() {
+            var dob = new Date(document.getElementById('partnerDOB').value);
+            var age = new Date().getFullYear() - dob.getFullYear();
+            if (dob > new Date().setFullYear(new Date().getFullYear() - age)) {
+                age--;
+            }
+            // You can store or use partnerAge as needed
+        }
+
         function submitForm() {
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
@@ -141,29 +158,16 @@
 
             var dob = new Date(document.getElementById('patientDOB').value);
             var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
-            var age = new Date().getFullYear() - dob.getFullYear();
-            
-            var partnerDob = new Date(document.getElementById('partnerDOB').value);
-            var partnerAge = new Date().getFullYear() - partnerDob.getFullYear();
 
             var gene = document.getElementById('gene').value;
             var eggState = document.getElementById('eggState').value;
             var ageOfEgg = document.getElementById('ageOfEgg').value;
             var carrier = document.getElementById('carrier').value;
 
-            var normalcyChance = /* calculate chance based on eggState and ageOfEgg */;
-            var carrierNegativeChance = /* calculate chance based on carrier and gene */;
-            var overallChance = /* calculate overall chance based on normalcyChance and carrierNegativeChance */;
-
-            document.getElementById('normalcyChance').value = normalcyChance + '%';
-            document.getElementById('carrierNegativeChance').value = carrierNegativeChance + '%';
-            document.getElementById('overallChance').value = overallChance + '%';
-            document.getElementById('recommendedEmbryos').value = '2-3';
-
             var output = "<h2 class='bold'>Patient Consult Summary</h2>";
             output += "<strong>Name of Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
             output += "<strong>Name of Doctor:</strong> " + document.getElementById('doctorName').value + "<br>";
-            output += "<strong>Date/Time that They Spoke:</strong> " + formattedDate + "<br><br>";
+            output += "<strong>Consultation Date & Time:</strong> " + formattedDate + "<br><br>";
 
             output += "<h3 class='underline'>Patient Information</h3>";
             output += "<span class='bold'>Name:</span> " + document.getElementById('patientName').value + "<br>";
@@ -191,27 +195,13 @@
             output += "<span class='bold'>Inheritance Pattern:</span> " + document.getElementById('inheritancePattern').value + "<br><br>";
 
             output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
-            output += "<span class='bold'>Chance of Chromosomal Normalcy:</span> " + document.getElementById('normalcyChance').value + "<br>";
-            output += "<span class='bold'>Chance of Being Carrier Negative:</span> " + document.getElementById('carrierNegativeChance').value + "<br>";
-            output += "<span class='bold'>Overall Chance:</span> " + document.getElementById('overallChance').value + "<br><br>";
-
-            output += "<span class='bold'>Recommended Embryos:</span> " + document.getElementById('recommendedEmbryos').value + "<br><br>";
+            output += "<span class='bold'>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + " year old egg, there is a [chance]% chance that it will be chromosomally normal.</span><br>";
+            output += "<span class='bold'>For each embryo created from a " + carrier + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</span><br>";
+            output += "<span class='bold'>Overall, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</span><br><br>";
 
             output += "<strong>Note:</strong> This summary is intended to provide an overview of your genetic testing and IVF process. Please consult with your genetic counselor and fertility specialist for detailed information tailored to your specific circumstances.<br>";
 
             document.getElementById('summaryOutput').innerHTML = output;
-        }
-
-        function calculateAge() {
-            var dob = new Date(document.getElementById('patientDOB').value);
-            var age = new Date().getFullYear() - dob.getFullYear();
-            document.getElementById('patientAge').value = age;
-        }
-
-        function calculatePartnerAge() {
-            var partnerDob = new Date(document.getElementById('partnerDOB').value);
-            var partnerAge = new Date().getFullYear() - partnerDob.getFullYear();
-            document.getElementById('partnerAge').value = partnerAge;
         }
     </script>
 </body>
