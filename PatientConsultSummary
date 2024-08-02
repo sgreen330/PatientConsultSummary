@@ -3,49 +3,39 @@
 <head>
     <title>Patient Consult Summary Form</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            background-color: #f0f0f0; 
-            margin: 0; 
-        }
-        .form-container {
-            width: 400px;
-            background-color: white;
-            border: 2px solid #4b0082;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
-        .form-section {
-            display: none;
-        }
-        .form-section.active {
-            display: block;
-        }
+        body { font-family: Arial, sans-serif; }
+        .header { width: 100%; color: black; padding: 10px 0; text-align: center; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
-        .form-group { margin-bottom: 15px; }
+        .hidden { display: none; }
+        .form-section { margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .form-group { display: flex; flex-wrap: wrap; gap: 10px; }
+        .form-group > div { flex: 1; min-width: 150px; max-width: 200px; }
         .form-group label { display: block; margin-bottom: 5px; }
-        .form-group input, .form-group select { width: 100%; padding: 8px; box-sizing: border-box; }
-        h1, h2, button { color: #4b0082; } /* Dark purple accent */
+        .form-group input, .form-group select { width: 100%; padding: 5px; box-sizing: border-box; }
+        .form-group input[type="datetime-local"] { width: calc(100% + 10px); } /* Adjust length of datetime field */
+        h1, h2, h3, button { color: #4b0082; } /* Dark purple accent */
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
-        .button-container { display: flex; justify-content: space-between; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; }
+        th { background-color: #4b0082; color: white; }
+        .purple-line { border-bottom: 2px solid #4b0082; margin: 10px 0; }
+        ul { list-style-type: none; padding: 0; }
+        ul li { margin-bottom: 5px; }
+        ul li span { color: #4b0082; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="form-container">
+    <div class="header">
         <h1>Patient Consult Summary: Genetic Counseling</h1>
-        <form id="geneticForm">
-            <div class="form-section active">
-                <h2>Genetic Counselor and Doctor Information</h2>
-                <div class="form-group">
+    </div>
+
+    <form id="geneticForm">
+        <div class="form-section">
+            <h2>Genetic Counselor and Doctor Information</h2>
+            <div class="form-group">
+                <div>
                     <label for="counselorName"><span class="bold">Genetic Counselor:</span></label>
                     <select id="counselorName" name="counselorName">
                         <option value="Hannah N. Green, MS, CGC">Hannah N. Green, MS, CGC</option>
@@ -53,7 +43,7 @@
                         <option value="Carissa Huber, MS">Carissa Huber, MS</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="doctorName"><span class="bold">Doctor:</span></label>
                     <select id="doctorName" name="doctorName">
                         <option value="Alan S. Berkeley, MD">Alan S. Berkeley, MD</option>
@@ -67,22 +57,27 @@
                         <option value="Brooke H. Wertz, MD, MPH">Brooke H. Wertz, MD, MPH</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="consultationTime"><span class="bold">Consultation Date & Time:</span></label>
                     <input type="datetime-local" id="consultationTime" name="consultationTime">
                 </div>
             </div>
-            <div class="form-section">
-                <h2>Patient Information</h2>
-                <div class="form-group">
+        </div>
+
+        <div class="purple-line"></div>
+
+        <div class="form-section">
+            <h2>Patient Information</h2>
+            <div class="form-group">
+                <div>
                     <label for="patientName"><span class="bold">Name:</span></label>
                     <input type="text" id="patientName" name="patientName">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="patientDOB"><span class="bold">DOB:</span></label>
                     <input type="date" id="patientDOB" name="patientDOB" onchange="calculateAge()">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="gameteType"><span class="bold">Gamete Type:</span></label>
                     <select id="gameteType" name="gameteType">
                         <option value="Egg">Egg</option>
@@ -90,17 +85,22 @@
                     </select>
                 </div>
             </div>
-            <div class="form-section">
-                <h2>Partner Information</h2>
-                <div class="form-group">
+        </div>
+
+        <div class="purple-line"></div>
+
+        <div class="form-section">
+            <h2>Partner Information</h2>
+            <div class="form-group">
+                <div>
                     <label for="partnerName"><span class="bold">Name:</span></label>
                     <input type="text" id="partnerName" name="partnerName">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="partnerDOB"><span class="bold">DOB:</span></label>
                     <input type="date" id="partnerDOB" name="partnerDOB" onchange="calculatePartnerAge()">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="partnerGameteType"><span class="bold">Gamete Type:</span></label>
                     <select id="partnerGameteType" name="partnerGameteType">
                         <option value="Egg">Egg</option>
@@ -108,9 +108,14 @@
                     </select>
                 </div>
             </div>
-            <div class="form-section">
-                <h2>Gamete Sources</h2>
-                <div class="form-group">
+        </div>
+
+        <div class="purple-line"></div>
+
+        <div class="form-section">
+            <h2>Gamete Sources</h2>
+            <div class="form-group">
+                <div>
                     <label for="eggSource"><span class="bold">Egg Source:</span></label>
                     <select id="eggSource" name="eggSource" onchange="toggleFreeText('eggSource')">
                         <option value="Patient">Patient</option>
@@ -119,18 +124,18 @@
                     </select>
                     <input type="text" id="eggSourceOther" name="eggSourceOther" class="hidden" placeholder="Specify other">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="eggState"><span class="bold">State of Egg:</span></label>
                     <select id="eggState" name="eggState">
                         <option value="Frozen">Frozen</option>
                         <option value="Fresh">Fresh</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
                     <input type="text" id="ageOfEgg" name="ageOfEgg">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="spermSource"><span class="bold">Sperm Source:</span></label>
                     <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
                         <option value="Patient">Patient</option>
@@ -140,21 +145,26 @@
                     <input type="text" id="spermSourceOther" name="spermSourceOther" class="hidden" placeholder="Specify other">
                 </div>
             </div>
-            <div class="form-section">
-                <h2>PGT-M Indication</h2>
-                <div class="form-group">
+        </div>
+
+        <div class="purple-line"></div>
+
+        <div class="form-section">
+            <h2>PGT-M Indication</h2>
+            <div class="form-group">
+                <div>
                     <label for="gene"><span class="bold">Gene:</span></label>
                     <input type="text" id="gene" name="gene">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="variants"><span class="bold">Variant(s):</span></label>
                     <input type="text" id="variants" name="variants">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="diseaseName"><span class="bold">Disease Name:</span></label>
                     <input type="text" id="diseaseName" name="diseaseName">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="inheritancePattern"><span class="bold">Inheritance Pattern:</span></label>
                     <select id="inheritancePattern" name="inheritancePattern" onchange="toggleXLinkedText()">
                         <option value="Autosomal dominant">Autosomal dominant</option>
@@ -162,7 +172,7 @@
                         <option value="X-linked">X-linked</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="positiveGameteSource"><span class="bold">Gamete Source(s):</span></label>
                     <select id="positiveGameteSource" name="positiveGameteSource">
                         <option value="Egg source">Egg source</option>
@@ -171,51 +181,19 @@
                     </select>
                 </div>
             </div>
+        </div>
 
-            <div id="knownFemaleCarrierFeaturesContainer" class="form-section hidden">
-                <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
-                <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
-            </div>
+        <div id="knownFemaleCarrierFeaturesContainer" class="form-section hidden">
+            <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
+            <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
+        </div>
 
-            <div class="button-container">
-                <button type="button" onclick="prevSection()">Previous</button>
-                <button type="button" onclick="nextSection()">Next</button>
-                <button type="button" onclick="submitForm()">Submit</button>
-            </div>
-        </form>
-    </div>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
 
     <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif;"></div>
 
     <script>
-        const sections = document.querySelectorAll('.form-section');
-        let currentSectionIndex = 0;
-
-        function showSection(index) {
-            sections.forEach((section, i) => {
-                section.classList.toggle('active', i === index);
-            });
-            document.querySelector('.button-container button[type="button"][onclick="prevSection()"]').style.display = index === 0 ? 'none' : 'inline-block';
-            document.querySelector('.button-container button[type="button"][onclick="nextSection()"]').style.display = index === sections.length - 1 ? 'none' : 'inline-block';
-            document.querySelector('.button-container button[type="button"][onclick="submitForm()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
-        }
-
-        function nextSection() {
-            if (currentSectionIndex < sections.length - 1) {
-                currentSectionIndex++;
-                showSection(currentSectionIndex);
-            }
-        }
-
-        function prevSection() {
-            if (currentSectionIndex > 0) {
-                currentSectionIndex--;
-                showSection(currentSectionIndex);
-            }
-        }
-
-        showSection(currentSectionIndex);
-
         function toggleFreeText(selectId) {
             var selectElement = document.getElementById(selectId);
             var freeTextField = document.getElementById(selectId + 'Other');
