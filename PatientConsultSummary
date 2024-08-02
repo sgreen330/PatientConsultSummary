@@ -159,6 +159,9 @@
             var dob = new Date(document.getElementById('patientDOB').value);
             var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
 
+            var partnerDob = new Date(document.getElementById('partnerDOB').value);
+            var formattedPartnerDOB = (partnerDob.getMonth() + 1) + '/' + partnerDob.getDate() + '/' + partnerDob.getFullYear();
+
             var gene = document.getElementById('gene').value;
             var eggState = document.getElementById('eggState').value;
             var ageOfEgg = document.getElementById('ageOfEgg').value;
@@ -177,15 +180,17 @@
 
             output += "<h3 class='underline'>Partner</h3>";
             output += "<span class='bold'>Name:</span> " + document.getElementById('partnerName').value + "<br>";
-            output += "<span class='bold'>DOB:</span> " + (new Date(document.getElementById('partnerDOB').value)).toLocaleDateString() + "<br>";
+            output += "<span class='bold'>DOB:</span> " + formattedPartnerDOB + "<br>";
             output += "<span class='bold'>Biological Sex:</span> " + document.getElementById('partnerSex').value + "<br>";
             output += "<span class='bold'>Gender Identity:</span> " + document.getElementById('partnerGenderIdentity').value + "<br><br>";
 
             output += "<h3 class='underline'>Gamete Sources</h3>";
-            output += "<span class='bold'>Egg Source:</span> " + document.getElementById('eggSource').value + (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "<br>";
+            output += "<span class='bold'>Egg Source:</span> " + document.getElementById('eggSource').value + 
+                (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "<br>";
             output += "<span class='bold'>State of Egg:</span> " + document.getElementById('eggState').value + "<br>";
             output += "<span class='bold'>Age of Egg:</span> " + document.getElementById('ageOfEgg').value + "<br>";
-            output += "<span class='bold'>Sperm Source:</span> " + document.getElementById('spermSource').value + (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "<br><br>";
+            output += "<span class='bold'>Sperm Source:</span> " + document.getElementById('spermSource').value + 
+                (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "<br><br>";
 
             output += "<h3 class='underline'>PGTM Indication</h3>";
             output += "<span class='bold'>Gene:</span> <span class='italic'>" + gene + "</span><br>";
