@@ -41,7 +41,7 @@
         .button-container { display: flex; justify-content: space-between; margin-top: 20px; }
         .header {
             background-color: #4b0082;
-            color: white;
+            color: white; /* Ensure the text is white */
             text-align: center;
             padding: 10px;
             border-radius: 10px 10px 0 0;
@@ -178,8 +178,8 @@
                 <div class="form-group">
                     <label for="positiveGameteSource"><span class="bold">Gamete Source(s):</span></label>
                     <select id="positiveGameteSource" name="positiveGameteSource">
-                        <option value="Egg source">Egg source</option>
-                        <option value="Sperm source">Sperm source</option>
+                        <option value="Egg source">Egg source</</option>
+                        <option value="Sperm source">Sperm source</</option>
                         <option value="Egg and sperm source">Egg and sperm source</option>
                     </select>
                 </div>
