@@ -85,13 +85,15 @@
             border-collapse: collapse;
             margin-top: 20px;
             font-size: 12px; /* Smaller text */
+            line-height: 1.2; /* Line height to fit text */
         }
         table, th, td {
             border: 1px solid #4b0082;
         }
         th, td {
-            padding: 1px; /* Smaller padding */
+            padding: 0; /* Remove padding */
             text-align: left;
+            height: 1.2em; /* Height to fit text */
         }
         th {
             background-color: #4b0082;
