@@ -17,14 +17,14 @@
         h1, h2, h3, button { color: #4b0082; } /* Dark purple accent */
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
-        table { width: auto; border-collapse: collapse; margin: 1% 0; }
-        table, th, td { border: 1px solid white; }
+        table { width: 100%; border-collapse: collapse; margin: 1% 0; }
         th, td { padding: 10px; text-align: left; }
         th { background-color: #4b0082; color: white; }
         .header-text { color: #4b0082; font-weight: bold; margin-top: 20px; }
-        .field-cell { background-color: #4b0082; color: white; }
-        .value-cell { background-color: #f2f2f2; }
         .purple-line { border-bottom: 2px solid #4b0082; margin: 20px 0; }
+        ul { list-style-type: none; padding: 0; }
+        ul li { margin-bottom: 5px; }
+        ul li span { color: #4b0082; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -243,56 +243,63 @@
             }
             
             var eggState = document.getElementById('eggState').value;
-            var ageOfEgg = document.getElementById('ageOfEgg').value;
+            var ageOfEgg = document.getElementById('ageOfEgg').value || document.getElementById('ageOfEggSelect').value;
             var positiveGameteSource = document.getElementById('positiveGameteSource').value;
             var gene = document.getElementById('gene').value;
             var inheritancePattern = document.getElementById('inheritancePattern').value;
             var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
             
             var output = "<h2 class='bold'>Patient Consult Summary: Genetic Counseling</h2>";
-
-            output += "<div class='header-text'>Genetic Counselor and Doctor Information</div>";
             output += "<table>";
-            output += "<tr class='field-cell'><td>Genetic Counselor</td><td>Doctor</td><td>Consultation Date & Time</td></tr>";
-            output += "<tr class='value-cell'><td>" + document.getElementById('counselorName').value + "</td>";
-            output += "<td>" + document.getElementById('doctorName').value + "</td>";
-            output += "<td>" + formattedDate + "</td></tr></table>";
 
-            output += "<div class='header-text'>Patient Information</div>";
-            output += "<table>";
-            output += "<tr class='field-cell'><td>Patient Name</td><td>Patient DOB</td><td>Patient Gamete Type</td></tr>";
-            output += "<tr class='value-cell'><td>" + document.getElementById('patientName').value + "</td>";
-            output += "<td>" + formattedDOB + "</td>";
-            output += "<td>" + document.getElementById('gameteType').value + "</td></tr></table>";
+            // Genetic Counselor and Doctor Information
+            output += "<tr><th colspan='2'>Genetic Counselor and Doctor Information</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Genetic Counselor:</span> " + document.getElementById('counselorName').value + "</li>";
+            output += "<li><span>Doctor:</span> " + document.getElementById('doctorName').value + "</li>";
+            output += "<li><span>Consultation Date & Time:</span> " + formattedDate + "</li>";
+            output += "</ul></td></tr>";
 
-            output += "<div class='header-text'>Partner Information</div>";
-            output += "<table>";
-            output += "<tr class='field-cell'><td>Partner Name</td><td>Partner DOB</td><td>Partner Gamete Type</td></tr>";
-            output += "<tr class='value-cell'><td>" + document.getElementById('partnerName').value + "</td>";
-            output += "<td>" + formattedPartnerDOB + "</td>";
-            output += "<td>" + document.getElementById('partnerGameteType').value + "</td></tr></table>";
+            // Patient Information
+            output += "<tr><th colspan='2'>Patient Information</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Patient Name:</span> " + document.getElementById('patientName').value + "</li>";
+            output += "<li><span>Patient DOB:</span> " + formattedDOB + "</li>";
+            output += "<li><span>Patient Gamete Type:</span> " + document.getElementById('gameteType').value + "</li>";
+            output += "</ul></td></tr>";
 
-            output += "<div class='header-text'>Gamete Sources</div>";
-            output += "<table>";
-            output += "<tr class='field-cell'><td>Egg Source</td><td>State of Egg</td><td>Age of Egg</td><td>Sperm Source</td></tr>";
-            output += "<tr class='value-cell'><td>" + document.getElementById('eggSource').value + 
-                (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "</td>";
-            output += "<td>" + eggState + "</td>";
-            output += "<td>" + (ageOfEgg || document.getElementById('ageOfEggSelect').value) + "</td>";
-            output += "<td>" + document.getElementById('spermSource').value + 
-                (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "</td></tr></table>";
+            // Partner Information
+            output += "<tr><th colspan='2'>Partner Information</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Partner Name:</span> " + document.getElementById('partnerName').value + "</li>";
+            output += "<li><span>Partner DOB:</span> " + formattedPartnerDOB + "</li>";
+            output += "<li><span>Partner Gamete Type:</span> " + document.getElementById('partnerGameteType').value + "</li>";
+            output += "</ul></td></tr>";
 
-            output += "<div class='header-text'>PGT-M Indication</div>";
-            output += "<table>";
-            output += "<tr class='field-cell'><td>Gene</td><td>Variant(s)</td><td>Disease Name</td><td>Inheritance Pattern</td><td>Positive Gamete Source(s)</td></tr>";
-            output += "<tr class='value-cell'><td>" + document.getElementById('gene').value + "</td>";
-            output += "<td>" + document.getElementById('variants').value + "</td>";
-            output += "<td>" + document.getElementById('diseaseName').value + "</td>";
-            output += "<td>" + inheritancePattern + "</td>";
-            output += "<td>" + positiveGameteSource + "</td></tr></table>";
+            // Gamete Sources
+            output += "<tr><th colspan='2'>Gamete Sources</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Egg Source:</span> " + document.getElementById('eggSource').value + 
+                (document.getElementById('eggSource').value === 'Other' ? " - " + document.getElementById('eggSourceOther').value : "") + "</li>";
+            output += "<li><span>State of Egg:</span> " + eggState + "</li>";
+            output += "<li><span>Age of Egg:</span> " + ageOfEgg + "</li>";
+            output += "<li><span>Sperm Source:</span> " + document.getElementById('spermSource').value + 
+                (document.getElementById('spermSource').value === 'Other' ? " - " + document.getElementById('spermSourceOther').value : "") + "</li>";
+            output += "</ul></td></tr>";
 
-            output += "<h3>Embryo Genetic Testing Expectations</h3>";
-            output += "<ul>";
+            // PGT-M Indication
+            output += "<tr><th colspan='2'>PGT-M Indication</th></tr>";
+            output += "<tr><td><ul>";
+            output += "<li><span>Gene:</span> " + document.getElementById('gene').value + "</li>";
+            output += "<li><span>Variant(s):</span> " + document.getElementById('variants').value + "</li>";
+            output += "<li><span>Disease Name:</span> " + document.getElementById('diseaseName').value + "</li>";
+            output += "<li><span>Inheritance Pattern:</span> " + inheritancePattern + "</li>";
+            output += "<li><span>Positive Gamete Source(s):</span> " + positiveGameteSource + "</li>";
+            output += "</ul></td></tr>";
+
+            // Embryo Genetic Testing Expectations
+            output += "<tr><th colspan='2'>Embryo Genetic Testing Expectations</th></tr>";
+            output += "<tr><td><ul>";
             output += "<li>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
             output += "<li>For each embryo created from a " + gene + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</li>";
             output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and " + gene + "-negative.</li>";
@@ -313,6 +320,9 @@
             } else {
                 output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
             }
+
+            output += "</td></tr>";
+            output += "</table>";
 
             document.getElementById('summaryOutput').innerHTML = output;
         }
