@@ -403,7 +403,7 @@
 
             output += "<div class='table-container'>";
 
-            output += 
+            output += `
                 <div class="table-wrapper">
                     <h3>Patient Information</h3>
                     <table>
@@ -425,9 +425,9 @@
                         </tbody>
                     </table>
                 </div>
-            ;
+            `;
 
-            output += 
+            output += `
                 <div class="table-wrapper">
                     <h3>Partner Information</h3>
                     <table>
@@ -449,9 +449,9 @@
                         </tbody>
                     </table>
                 </div>
-            ;
+            `;
 
-            output += 
+            output += `
                 <div class="table-wrapper">
                     <h3>Gamete Sources</h3>
                     <table>
@@ -479,9 +479,9 @@
                         </tbody>
                     </table>
                 </div>
-            ;
+            `;
 
-            output += 
+            output += `
                 <div class="table-wrapper">
                     <h3>PGT-M Indication</h3>
                     <table>
@@ -505,26 +505,26 @@
                         </tbody>
                     </table>
                 </div>
-            ;
+            `;
 
             output += "</div>";
 
             output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
             output += "<ul>";
-            output += "<li>For each embryo created with " + eggState.toLowerCase() + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
-            output += "<li>For each embryo created from a <span class='italic'>" + gene + "</span> carrier, there is a [chance]% chance that it will be <span class='italic'>" + gene + "</span>-negative.</li>";
+            output += `<li>For each embryo created with ${eggState.toLowerCase()} eggs from a ${ageOfEgg}-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>`;
+            output += `<li>For each embryo created from a <span class='italic'>${gene}</span> carrier, there is a [chance]% chance that it will be <span class='italic'>${gene}</span>-negative.</li>`;
             output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and <span class='italic'>" + gene + "</span>-negative.</li>";
             output += "</ul>";
 
             if (inheritancePattern === 'X-linked') {
                 output += "<p>In other words, each embryo has a:</p>";
                 output += "<ul>";
-                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative male</li>";
-                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-negative female</li>";
-                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive male: This child is expected to have <span class='italic'>" + document.getElementById('diseaseName').value + "</span>.</li>";
-                output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive female: Many <span class='italic'>" + gene + "</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.";
+                output += `<li>25% chance of being a chromosomally normal/<span class='italic'>${gene}</span>-negative male</li>`;
+                output += `<li>25% chance of being a chromosomally normal/<span class='italic'>${gene}</span>-negative female</li>`;
+                output += `<li>25% chance of being a chromosomally normal/<span class='italic'>${gene}</span>-positive male: This child is expected to have <span class='italic'>${document.getElementById('diseaseName').value}</span>.</li>`;
+                output += `<li>25% chance of being a chromosomally normal/<span class='italic'>${gene}</span>-positive female: Many <span class='italic'>${gene}</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.`;
                 if (knownFemaleCarrierFeatures) {
-                    output += " " + knownFemaleCarrierFeatures;
+                    output += ` ${knownFemaleCarrierFeatures}`;
                 }
                 output += "</li></ul>";
                 output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
