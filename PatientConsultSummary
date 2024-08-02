@@ -37,6 +37,7 @@
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
         .button-container { display: flex; justify-content: space-between; margin-top: 20px; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -170,22 +171,22 @@
                         <option value="Egg and sperm source">Egg and sperm source</option>
                     </select>
                 </div>
-            </div>
-
-            <div id="knownFemaleCarrierFeaturesContainer" class="form-section hidden">
-                <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
-                <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
+                <div class="form-group" id="knownFemaleCarrierFeaturesContainer">
+                    <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
+                    <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
+                </div>
             </div>
 
             <div class="button-container">
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
                 <button type="button" onclick="submitForm()">Submit</button>
+                <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
     </div>
 
-    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif;"></div>
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif; display: none;"></div>
 
     <script>
         const sections = document.querySelectorAll('.form-section');
@@ -343,7 +344,18 @@
             output += "</td></tr>";
             output += "</table>";
 
+            document.getElementById('geneticForm').classList.add('hidden');
+            document.getElementById('summaryOutput').classList.remove('hidden');
             document.getElementById('summaryOutput').innerHTML = output;
+            document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
+        }
+
+        function backToForm() {
+            document.getElementById('geneticForm').classList.remove('hidden');
+            document.getElementById('summaryOutput').classList.add('hidden');
+            document.querySelector('.button-container button[onclick="backToForm()"]').classList.add('hidden');
+            currentSectionIndex = 0;
+            showSection(currentSectionIndex);
         }
 
         function calculateAge() {
