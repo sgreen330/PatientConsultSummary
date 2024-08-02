@@ -4,7 +4,7 @@
     <title>Patient Consult Summary Form</title>
     <style>
         body { font-family: Arial, sans-serif; }
-        .header { background-color: #4b0082; color: white; padding: 20px; text-align: left; }
+        .header { width: 100%; background-color: #4b0082; color: white; padding: 20px; text-align: left; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
         .hidden { display: none; }
@@ -17,10 +17,9 @@
         h1, h2, h3, button { color: #4b0082; } /* Dark purple accent */
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
-        table { width: 100%; border-collapse: collapse; margin: 1% 0; }
+        table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px; text-align: left; }
         th { background-color: #4b0082; color: white; }
-        .header-text { color: #4b0082; font-weight: bold; margin-top: 20px; }
         .purple-line { border-bottom: 2px solid #4b0082; margin: 20px 0; }
         ul { list-style-type: none; padding: 0; }
         ul li { margin-bottom: 5px; }
@@ -28,9 +27,12 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Patient Consult Summary: Genetic Counseling</h1>
-    </div>
+    <table class="header">
+        <tr>
+            <td><h1>Patient Consult Summary: Genetic Counseling</h1></td>
+        </tr>
+    </table>
+
     <form id="geneticForm">
         <div class="form-section">
             <h2>Genetic Counselor and Doctor Information</h2>
@@ -134,7 +136,8 @@
                 <div>
                     <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
                     <input type="number" id="ageOfEgg" name="ageOfEgg">
-                    <select id="ageOfEggSelect" name="ageOfEggSelect">
+                    <select id="ageOfEggSelect" name="ageOfEggSelect" onchange="toggleAgeField()">
+                        <option value="">Select</option>
                         <option value="Anonymous Donor">Anonymous Donor</option>
                     </select>
                 </div>
@@ -163,6 +166,14 @@
                     <label for="variants"><span class="bold">Variant(s):</span></label>
                     <input type="text" id="variants" name="variants">
                 </div>
+                <div style="flex: 1 100%; max-width: none;">
+                    <label for="positiveGameteSource"><span class="bold" style="white-space: nowrap;">Positive Gamete Source(s):</span></label>
+                    <select id="positiveGameteSource" name="positiveGameteSource">
+                        <option value="Egg source">Egg source</option>
+                        <option value="Sperm source">Sperm source</option>
+                        <option value="Egg and sperm source">Egg and sperm source</option>
+                    </select>
+                </div>
                 <div>
                     <label for="diseaseName"><span class="bold">Disease Name:</span></label>
                     <input type="text" id="diseaseName" name="diseaseName">
@@ -173,14 +184,6 @@
                         <option value="Autosomal dominant">Autosomal dominant</option>
                         <option value="Autosomal recessive">Autosomal recessive</option>
                         <option value="X-linked">X-linked</option>
-                    </select>
-                </div>
-                <div style="flex: 1 100%; max-width: none;">
-                    <label for="positiveGameteSource"><span class="bold" style="white-space: nowrap;">Positive Gamete Source(s):</span></label>
-                    <select id="positiveGameteSource" name="positiveGameteSource">
-                        <option value="Egg source">Egg source</option>
-                        <option value="Sperm source">Sperm source</option>
-                        <option value="Egg and sperm source">Egg and sperm source</option>
                     </select>
                 </div>
             </div>
@@ -214,6 +217,17 @@
                 xLinkedTextContainer.classList.remove('hidden');
             } else {
                 xLinkedTextContainer.classList.add('hidden');
+            }
+        }
+
+        function toggleAgeField() {
+            var ageField = document.getElementById('ageOfEgg');
+            var ageSelect = document.getElementById('ageOfEggSelect');
+            if (ageSelect.value === 'Anonymous Donor') {
+                ageField.value = '';
+                ageField.disabled = true;
+            } else {
+                ageField.disabled = false;
             }
         }
 
