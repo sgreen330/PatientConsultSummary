@@ -119,9 +119,6 @@
             position: relative;
         }
         #copyButton, #downloadPdfButton {
-            position: absolute;
-            top: 10px;
-            right: 10px;
             background-color: #4b0082;
             color: white;
             border: none;
@@ -131,9 +128,6 @@
         }
         #copyButton:hover, #downloadPdfButton:hover {
             background-color: #3a006b;
-        }
-        #copyButton {
-            right: 150px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
@@ -546,16 +540,58 @@
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
 
-            // Get the summary output HTML content
-            const content = document.getElementById('summaryOutput').innerHTML;
+            // Gather form data
+            var counselorName = document.getElementById('counselorName').value;
+            var doctorName = document.getElementById('doctorName').value;
+            var consultationDate = new Date(document.getElementById('consultationTime').value);
+            var consultationDateStr = consultationDate.toLocaleString();
+            var patientName = document.getElementById('patientName').value;
+            var patientDOB = new Date(document.getElementById('patientDOB').value).toLocaleDateString();
+            var gameteType = document.getElementById('gameteType').value;
+            var partnerName = document.getElementById('partnerName').value;
+            var partnerDOB = new Date(document.getElementById('partnerDOB').value).toLocaleDateString();
+            var partnerGameteType = document.getElementById('partnerGameteType').value;
+            var eggSource = document.getElementById('eggSource').value;
+            var eggState = document.getElementById('eggState').value;
+            var ageOfEgg = document.getElementById('ageOfEgg').value;
+            var spermSource = document.getElementById('spermSource').value;
+            var gene = document.getElementById('gene').value;
+            var variants = document.getElementById('variants').value;
+            var diseaseName = document.getElementById('diseaseName').value;
+            var inheritancePattern = document.getElementById('inheritancePattern').value;
+            var positiveGameteSource = document.getElementById('positiveGameteSource').value;
 
-            // Add the content to the PDF
-            pdf.html(content, {
-                callback: function (pdf) {
-                    // Save the generated PDF
-                    pdf.save('Patient_Consult_Summary.pdf');
-                }
-            });
+            // Build the PDF content
+            pdf.text("Patient Consult Summary: Genetic Counseling", 10, 10);
+            pdf.text(`Genetic Counselor: ${counselorName}`, 10, 20);
+            pdf.text(`Doctor: ${doctorName}`, 10, 30);
+            pdf.text(`Consultation Date & Time: ${consultationDateStr}`, 10, 40);
+
+            pdf.text("Patient Information", 10, 50);
+            pdf.text(`Name: ${patientName}`, 10, 60);
+            pdf.text(`DOB: ${patientDOB}`, 10, 70);
+            pdf.text(`Gamete Type: ${gameteType}`, 10, 80);
+
+            pdf.text("Partner Information", 10, 90);
+            pdf.text(`Name: ${partnerName}`, 10, 100);
+            pdf.text(`DOB: ${partnerDOB}`, 10, 110);
+            pdf.text(`Gamete Type: ${partnerGameteType}`, 10, 120);
+
+            pdf.text("Gamete Sources", 10, 130);
+            pdf.text(`Egg Source: ${eggSource}`, 10, 140);
+            pdf.text(`State of Egg: ${eggState}`, 10, 150);
+            pdf.text(`Age of Egg: ${ageOfEgg}`, 10, 160);
+            pdf.text(`Sperm Source: ${spermSource}`, 10, 170);
+
+            pdf.text("PGT-M Indication", 10, 180);
+            pdf.text(`Gene: ${gene}`, 10, 190);
+            pdf.text(`Variant(s): ${variants}`, 10, 200);
+            pdf.text(`Disease Name: ${diseaseName}`, 10, 210);
+            pdf.text(`Inheritance Pattern: ${inheritancePattern}`, 10, 220);
+            pdf.text(`Positive Gamete Source(s): ${positiveGameteSource}`, 10, 230);
+
+            // Save the PDF
+            pdf.save('Patient_Consult_Summary.pdf');
         }
     </script>
 </body>
