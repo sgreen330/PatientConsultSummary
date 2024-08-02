@@ -13,14 +13,26 @@
         <label for="counselorName">Genetic Counselor Name:</label>
         <input type="text" id="counselorName" name="counselorName"><br><br>
         
+        <label for="doctorName">Doctor's Name:</label>
+        <input type="text" id="doctorName" name="doctorName"><br><br>
+
         <label for="consultationTime">Consultation Date & Time:</label>
         <input type="datetime-local" id="consultationTime" name="consultationTime"><br><br>
         
         <label for="patientName">Patient's Name:</label>
         <input type="text" id="patientName" name="patientName"><br><br>
+        
+        <label for="patientDOB">Patient Date of Birth:</label>
+        <input type="date" id="patientDOB" name="patientDOB"><br><br>
 
         <label for="ageOfEggDonor">Age of Egg Source:</label>
         <input type="number" id="ageOfEggDonor" name="ageOfEggDonor"><br><br>
+
+        <label for="eggState">Egg State:</label>
+        <select id="eggState" name="eggState">
+            <option value="Frozen">Frozen</option>
+            <option value="Fresh">Fresh</option>
+        </select><br><br>
         
         <label for="inheritancePattern">PGTM Indication Inheritance Pattern:</label>
         <select id="inheritancePattern" name="inheritancePattern">
@@ -52,12 +64,18 @@
             var amPm = consultationDate.getHours() >= 12 ? 'pm' : 'am';
             var formattedDate = (consultationDate.getMonth() + 1) + '/' + consultationDate.getDate() + '/' + consultationDate.getFullYear() + ' ' + hours + ':' + minutes + amPm;
             
+            var dob = new Date(document.getElementById('patientDOB').value);
+            var formattedDOB = (dob.getMonth() + 1) + '/' + dob.getDate() + '/' + dob.getFullYear();
+            
             var output = "<h2 class='bold'>Patient Consult Summary</h2>";
             output += "<strong>Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
+            output += "<strong>Doctor's Name:</strong> " + document.getElementById('doctorName').value + "<br>";
             output += "<strong>Consultation Date & Time:</strong> " + formattedDate + "<br><br>";
             output += "<h3 class='underline'>Patient Summary</h3>";
             output += "<span class='bold'>Name:</span> " + document.getElementById('patientName').value + "<br>";
+            output += "<span class='bold'>Date of Birth:</span> " + formattedDOB + "<br>";
             output += "<span class='bold'>Age of Egg Source:</span> " + document.getElementById('ageOfEggDonor').value + "<br>";
+            output += "<span class='bold'>Egg State:</span> " + document.getElementById('eggState').value + "<br>";
             output += "<span class='bold'>PGTM Indication Inheritance Pattern:</span> " + document.getElementById('inheritancePattern').value + "<br><br>";
             output += "<h3 class='underline'>Genetic Summary</h3>";
             output += "<span class='bold'>Gene Being Tested:</span> " + document.getElementById('geneTested').value + "<br>";
