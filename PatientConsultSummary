@@ -133,15 +133,13 @@
             background-color: #3a006b;
         }
         #downloadPdfButton {
-            position: absolute;
-            top: 50px;
-            right: 10px;
             background-color: #4b0082;
             color: white;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
+            margin-top: 20px;
         }
         #downloadPdfButton:hover {
             background-color: #3a006b;
@@ -299,8 +297,9 @@
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
-        <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
     </div>
+
+    <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
 
     <script>
         const sections = document.querySelectorAll('.form-section');
