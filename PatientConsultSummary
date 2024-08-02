@@ -566,9 +566,9 @@
         }
 
         function copyToClipboard() {
-            var plainText = convertToPlainText();
+            var formattedText = convertToFormattedText();
             const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = plainText;
+            tempTextArea.value = formattedText;
             document.body.appendChild(tempTextArea);
             tempTextArea.select();
             document.execCommand('copy');
@@ -576,7 +576,7 @@
             alert('Summary copied to clipboard');
         }
 
-        function convertToPlainText() {
+        function convertToFormattedText() {
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
             var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
@@ -596,55 +596,55 @@
             var inheritancePattern = document.getElementById('inheritancePattern').value;
             var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
             
-            var plainText = `Patient Consult Summary: Genetic Counseling\n\n`;
-            plainText += `Name of Genetic Counselor: ${document.getElementById('counselorName').value}\n`;
-            plainText += `Name of Doctor: ${document.getElementById('doctorName').value}\n`;
-            plainText += `Consultation Date & Time: ${formattedDate}\n\n`;
+            var formattedText = `Patient Consult Summary: Genetic Counseling\n\n`;
+            formattedText += `Name of Genetic Counselor: ${document.getElementById('counselorName').value}\n`;
+            formattedText += `Name of Doctor: ${document.getElementById('doctorName').value}\n`;
+            formattedText += `Consultation Date & Time: ${formattedDate}\n\n`;
 
-            plainText += `Patient Information\n`;
-            plainText += `- Name: ${document.getElementById('patientName').value}\n`;
-            plainText += `- DOB: ${formattedDOB}\n`;
-            plainText += `- Gamete Type: ${document.getElementById('gameteType').value}\n\n`;
+            formattedText += `Patient Information\n`;
+            formattedText += `- Name: ${document.getElementById('patientName').value}\n`;
+            formattedText += `- DOB: ${formattedDOB}\n`;
+            formattedText += `- Gamete Type: ${document.getElementById('gameteType').value}\n\n`;
 
-            plainText += `Partner Information\n`;
-            plainText += `- Name: ${document.getElementById('partnerName').value}\n`;
-            plainText += `- DOB: ${formattedPartnerDOB}\n`;
-            plainText += `- Gamete Type: ${document.getElementById('partnerGameteType').value}\n\n`;
+            formattedText += `Partner Information\n`;
+            formattedText += `- Name: ${document.getElementById('partnerName').value}\n`;
+            formattedText += `- DOB: ${formattedPartnerDOB}\n`;
+            formattedText += `- Gamete Type: ${document.getElementById('partnerGameteType').value}\n\n`;
 
-            plainText += `Gamete Sources\n`;
-            plainText += `- Egg Source: ${document.getElementById('eggSource').value}\n`;
-            plainText += `- State of Egg: ${eggState}\n`;
-            plainText += `- Age of Egg: ${ageOfEgg}\n`;
-            plainText += `- Sperm Source: ${document.getElementById('spermSource').value}\n\n`;
+            formattedText += `Gamete Sources\n`;
+            formattedText += `- Egg Source: ${document.getElementById('eggSource').value}\n`;
+            formattedText += `- State of Egg: ${eggState}\n`;
+            formattedText += `- Age of Egg: ${ageOfEgg}\n`;
+            formattedText += `- Sperm Source: ${document.getElementById('spermSource').value}\n\n`;
 
-            plainText += `PGT-M Indication\n`;
-            plainText += `- Gene: ${gene}\n`;
-            plainText += `- Variant(s): ${document.getElementById('variants').value}\n`;
-            plainText += `- Disease Name: ${document.getElementById('diseaseName').value}\n`;
-            plainText += `- Inheritance Pattern: ${inheritancePattern}\n`;
-            plainText += `- Positive Gamete Source(s): ${positiveGameteSource}\n`;
+            formattedText += `PGT-M Indication\n`;
+            formattedText += `- Gene: ${gene}\n`;
+            formattedText += `- Variant(s): ${document.getElementById('variants').value}\n`;
+            formattedText += `- Disease Name: ${document.getElementById('diseaseName').value}\n`;
+            formattedText += `- Inheritance Pattern: ${inheritancePattern}\n`;
+            formattedText += `- Positive Gamete Source(s): ${positiveGameteSource}\n`;
 
             if (inheritancePattern === 'X-linked') {
-                plainText += `- Known Female Carrier Features: ${knownFemaleCarrierFeatures}\n\n`;
+                formattedText += `- Known Female Carrier Features: ${knownFemaleCarrierFeatures}\n\n`;
             }
 
-            plainText += `Embryo Genetic Testing Expectations\n`;
-            plainText += `- For each embryo created with ${eggState.toLowerCase()} eggs from a ${ageOfEgg}-year-old, there is a [chance]% chance that it will be chromosomally normal.\n`;
-            plainText += `- For each embryo created from a ${gene} carrier, there is a [chance]% chance that it will be ${gene}-negative.\n`;
-            plainText += `- Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and ${gene}-negative.\n`;
+            formattedText += `Embryo Genetic Testing Expectations\n`;
+            formattedText += `- For each embryo created with ${eggState.toLowerCase()} eggs from a ${ageOfEgg}-year-old, there is a [chance]% chance that it will be chromosomally normal.\n`;
+            formattedText += `- For each embryo created from a ${gene} carrier, there is a [chance]% chance that it will be ${gene}-negative.\n`;
+            formattedText += `- Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and ${gene}-negative.\n`;
 
             if (inheritancePattern === 'X-linked') {
-                plainText += `\nIn other words, each embryo has a:\n`;
-                plainText += `- 25% chance of being a chromosomally normal/${gene}-negative male\n`;
-                plainText += `- 25% chance of being a chromosomally normal/${gene}-negative female\n`;
-                plainText += `- 25% chance of being a chromosomally normal/${gene}-positive male: This child is expected to have ${document.getElementById('diseaseName').value}.\n`;
-                plainText += `- 25% chance of being a chromosomally normal/${gene}-positive female: Many ${gene}-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic. ${knownFemaleCarrierFeatures}\n`;
-                plainText += `\nOn average, we recommend 2-3 embryos for each desired child.\n`;
+                formattedText += `\nIn other words, each embryo has a:\n`;
+                formattedText += `- 25% chance of being a chromosomally normal/${gene}-negative male\n`;
+                formattedText += `- 25% chance of being a chromosomally normal/${gene}-negative female\n`;
+                formattedText += `- 25% chance of being a chromosomally normal/${gene}-positive male: This child is expected to have ${document.getElementById('diseaseName').value}.\n`;
+                formattedText += `- 25% chance of being a chromosomally normal/${gene}-positive female: Many ${gene}-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic. ${knownFemaleCarrierFeatures}\n`;
+                formattedText += `\nOn average, we recommend 2-3 embryos for each desired child.\n`;
             } else {
-                plainText += `\nOn average, we recommend 2-3 embryos for each desired child.\n`;
+                formattedText += `\nOn average, we recommend 2-3 embryos for each desired child.\n`;
             }
 
-            return plainText;
+            return formattedText;
         }
     </script>
 </body>
