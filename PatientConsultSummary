@@ -116,12 +116,9 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             max-height: 100vh;
-            position: relative; /* For positioning the Copy button */
+            position: relative; /* For positioning the buttons */
         }
         #copyButton, #downloadPdfButton {
-            position: absolute;
-            top: 10px;
-            right: 80px; /* Adjusted position for visibility */
             background-color: #4b0082;
             color: white;
             border: none;
@@ -129,9 +126,10 @@
             cursor: pointer;
             border-radius: 5px;
             margin-right: 10px;
+            margin-top: 10px;
         }
         #downloadPdfButton {
-            right: 10px; /* Positioned to the right of the copy button */
+            margin-right: 0;
         }
         #copyButton:hover, #downloadPdfButton:hover {
             background-color: #3a006b;
@@ -287,9 +285,9 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
-        <!-- The summary output will be displayed here -->
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
         <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
+        <!-- The summary output will be displayed here -->
     </div>
 
     <script>
