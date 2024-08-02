@@ -10,8 +10,6 @@
             background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
-            justify-content: center; /* Center the form initially */
-            align-items: center; /* Center the form initially */
         }
         .form-container {
             flex: 1;
@@ -23,7 +21,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             margin-right: 20px;
-            transition: max-width 0.3s; /* Smooth transition for width change */
         }
         .form-section {
             display: none;
@@ -76,6 +73,7 @@
             border-radius: 10px 10px 0 0;
             margin: -20px -20px 20px -20px;
         }
+
         .header * {
             color: white; /* Ensures all child elements have white text */
         }
@@ -95,6 +93,7 @@
         th {
             background-color: #4b0082;
             color: white;
+            border: 1px solid white;
         }
         .table-container {
             display: flex;
@@ -256,6 +255,7 @@
                     <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
                 </div>
             </div>
+
             <div class="button-container">
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
@@ -319,11 +319,6 @@
         }
 
         function submitForm() {
-            // Move form to the left and make it thinner
-            document.querySelector('.form-container').style.maxWidth = '250px';
-            document.body.style.justifyContent = 'flex-start';
-            document.body.style.alignItems = 'flex-start';
-            
             // Generate the summary output
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
@@ -344,7 +339,7 @@
             var inheritancePattern = document.getElementById('inheritancePattern').value;
             var knownFemaleCarrierFeatures = document.getElementById('knownFemaleCarrierFeatures').value.trim();
             
-            var output = "<h2 class='bold'>Patient Consult Summary - Genetic Counseling</h2>";
+            var output = "<h2 class='bold'>Patient Consult Summary: Genetic Counseling</h2>";
             output += "<strong>Name of Genetic Counselor:</strong> " + document.getElementById('counselorName').value + "<br>";
             output += "<strong>Name of Doctor:</strong> " + document.getElementById('doctorName').value + "<br>";
             output += "<strong>Consultation Date & Time:</strong> " + formattedDate + "<br>";
