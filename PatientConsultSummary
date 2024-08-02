@@ -83,12 +83,7 @@
         </select><br><br>
 
         <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
-        <select id="ageOfEgg" name="ageOfEgg" onchange="toggleAgeInput()">
-            <option value="">Select Age</option>
-            <option value="Anonymous Donor">Anonymous Donor</option>
-            <option value="Other">Other</option>
-        </select>
-        <input type="number" id="ageOfEggInput" name="ageOfEggInput" class="hidden" placeholder="Enter age"><br><br>
+        <input type="number" id="ageOfEgg" name="ageOfEgg" placeholder="Enter age"><br><br>
 
         <label for="spermSource"><span class="bold">Sperm Source:</span></label>
         <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
@@ -144,16 +139,6 @@
             }
         }
 
-        function toggleAgeInput() {
-            var ageSelect = document.getElementById('ageOfEgg');
-            var ageInput = document.getElementById('ageOfEggInput');
-            if (ageSelect.value === 'Other') {
-                ageInput.classList.remove('hidden');
-            } else {
-                ageInput.classList.add('hidden');
-            }
-        }
-
         function toggleXLinkedText() {
             var pattern = document.getElementById('inheritancePattern').value;
             var xLinkedTextContainer = document.getElementById('knownFemaleCarrierFeaturesContainer');
@@ -187,7 +172,7 @@
                     <li>25% chance of being a chromosomally normal/${gene}-negative male</li>
                     <li>25% chance of being a chromosomally normal/${gene}-negative female</li>
                     <li>25% chance of being a chromosomally normal/${gene}-positive male: This child is expected to have ${diseaseName}.</li>
-                    <li>25% chance of being a chromosomally normal/${gene}-positive female: Many ${gene}-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.</li>
+                    <li>25% chance of being a chromosomally normal/${gene}-positive female: Many ${gene}-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.${document.getElementById('knownFemaleCarrierFeatures').value ? ' ' + document.getElementById('knownFemaleCarrierFeatures').value : ''}</li>
                 </ul>
                 <p>On average, we recommend 2-3 embryos for each desired child.</p>
             ` : '';
@@ -224,11 +209,26 @@
                 ${xLinkedText}
 
                 <h2 class="underline">Embryo Genetic Testing Expectations</h2>
+                ${inheritancePattern === 'X-linked' ? `
                 <ul>
-                    <li>For each embryo created with ${document.getElementById('eggState').value.toLowerCase()} eggs retrieved from a ${ageOfEgg}, there is a [chance]% chance that it will be chromosomally normal.</li>
-                    <li>For each embryo created from a <span class="italic">${document.getElementById('gene').value}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${document.getElementById('gene').value}</span>-negative.</li>
-                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${document.getElementById('gene').value}</span>-negative.</li>
+                    <li>For each embryo created with ${eggState} eggs retrieved from a ${ageOfEgg} egg, there is a [chance]% chance that it will be chromosomally normal.</li>
+                    <li>For each embryo created from a <span class="italic">${gene}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${gene}</span>-negative.</li>
+                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${gene}</span>-negative.</li>
+                    <li>In other words, each tested embryo has a:</li>
+                    <ul>
+                        <li>25% chance of being a chromosomally normal/${gene}-negative male</li>
+                        <li>25% chance of being a chromosomally normal/${gene}-negative female</li>
+                        <li>25% chance of being a chromosomally normal/${gene}-positive male: This child is expected to have ${diseaseName}.</li>
+                        <li>25% chance of being a chromosomally normal/${gene}-positive female: Many ${gene}-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.${document.getElementById('knownFemaleCarrierFeatures').value ? ' ' + document.getElementById('knownFemaleCarrierFeatures').value : ''}</li>
+                    </ul>
                 </ul>
+                ` : `
+                <ul>
+                    <li>For each embryo created with ${eggState} eggs retrieved from a ${ageOfEgg} egg, there is a [chance]% chance that it will be chromosomally normal.</li>
+                    <li>For each embryo created from a <span class="italic">${gene}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${gene}</span>-negative.</li>
+                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${gene}</span>-negative.</li>
+                </ul>
+                `}
                 <p>On average, we recommend 2-3 embryos for each desired child.</p>
             `;
 
