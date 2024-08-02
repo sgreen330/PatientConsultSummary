@@ -4,7 +4,7 @@
     <title>Patient Consult Summary Form</title>
     <style>
         body { font-family: Arial, sans-serif; }
-        .header { width: 100%; background-color: #4b0082; color: white; padding: 20px; text-align: left; }
+        .header { width: 100%; background-color: #4b0082; color: white; padding: 20px; text-align: center; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
         .hidden { display: none; }
@@ -141,15 +141,6 @@
                         <option value="Anonymous Donor">Anonymous Donor</option>
                     </select>
                 </div>
-                <div>
-                    <label for="spermSource"><span class="bold">Sperm Source:</span></label>
-                    <select id="spermSource" name="spermSource" onchange="toggleFreeText('spermSource')">
-                        <option value="Patient">Patient</option>
-                        <option value="Partner">Partner</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <input type="text" id="spermSourceOther" name="spermSourceOther" class="hidden" placeholder="Specify other">
-                </div>
             </div>
         </div>
 
@@ -166,14 +157,6 @@
                     <label for="variants"><span class="bold">Variant(s):</span></label>
                     <input type="text" id="variants" name="variants">
                 </div>
-                <div style="flex: 1 100%; max-width: none;">
-                    <label for="positiveGameteSource"><span class="bold" style="white-space: nowrap;">Positive Gamete Source(s):</span></label>
-                    <select id="positiveGameteSource" name="positiveGameteSource">
-                        <option value="Egg source">Egg source</option>
-                        <option value="Sperm source">Sperm source</option>
-                        <option value="Egg and sperm source">Egg and sperm source</option>
-                    </select>
-                </div>
                 <div>
                     <label for="diseaseName"><span class="bold">Disease Name:</span></label>
                     <input type="text" id="diseaseName" name="diseaseName">
@@ -184,6 +167,14 @@
                         <option value="Autosomal dominant">Autosomal dominant</option>
                         <option value="Autosomal recessive">Autosomal recessive</option>
                         <option value="X-linked">X-linked</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="positiveGameteSource"><span class="bold">Positive Gamete Source(s):</span></label>
+                    <select id="positiveGameteSource" name="positiveGameteSource">
+                        <option value="Egg source">Egg source</option>
+                        <option value="Sperm source">Sperm source</option>
+                        <option value="Egg and sperm source">Egg and sperm source</option>
                     </select>
                 </div>
             </div>
