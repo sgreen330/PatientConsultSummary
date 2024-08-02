@@ -536,17 +536,15 @@
             alert('Summary copied to clipboard');
         }
 
-        function downloadPDF() {
+        async function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
             const summaryElement = document.getElementById('summaryOutput');
-            
-            pdf.html(summaryElement, {
+
+            await pdf.html(summaryElement, {
                 callback: function (pdf) {
                     pdf.save('Patient_Consult_Summary.pdf');
-                },
-                x: 10,
-                y: 10
+                }
             });
         }
     </script>
