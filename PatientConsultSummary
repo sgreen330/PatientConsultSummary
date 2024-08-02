@@ -6,8 +6,8 @@
         body { 
             font-family: Arial, sans-serif; 
             display: flex; 
-            justify-content: center; 
-            align-items: center; 
+            flex-direction: column;
+            align-items: center;
             height: 100vh; 
             background-color: #f0f0f0; 
             margin: 0; 
@@ -23,6 +23,7 @@
             position: relative;
             max-height: 80vh;
             overflow-y: auto;
+            margin-bottom: 20px;
         }
         .form-section {
             display: none;
@@ -198,7 +199,7 @@
         </form>
     </div>
 
-    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif; display: none;">
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; font-family: 'Helvetica', sans-serif;">
         <!-- The summary output will be displayed here -->
     </div>
 
@@ -324,18 +325,7 @@
                 output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
             }
 
-            document.getElementById('formContainer').classList.add('hidden');
-            document.getElementById('summaryOutput').classList.remove('hidden');
             document.getElementById('summaryOutput').innerHTML = output;
-            document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
-        }
-
-        function backToForm() {
-            document.getElementById('formContainer').classList.remove('hidden');
-            document.getElementById('summaryOutput').classList.add('hidden');
-            document.querySelector('.button-container button[onclick="backToForm()"]').classList.add('hidden');
-            currentSectionIndex = 0;
-            showSection(currentSectionIndex);
         }
 
         function calculateAge() {
