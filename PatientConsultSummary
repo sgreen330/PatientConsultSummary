@@ -7,10 +7,9 @@
         .italic { font-style: italic; }
         .hidden { display: none; }
         .container { margin-bottom: 10px; }
-        .form-group { margin-bottom: 10px; display: flex; align-items: center; }
+        .form-group { margin-bottom: 10px; }
         .form-group label { display: inline-block; width: 200px; }
         .form-group input, .form-group select { width: 300px; }
-        .form-group input[type="number"] { width: 100px; }
         .summary-section p { margin: 0; }
         .summary-section label { display: inline; width: auto; }
     </style>
@@ -48,6 +47,7 @@
         </div>
 
         <h2>Patient Information</h2>
+
         <div class="form-group">
             <label for="patientName"><span class="bold">Name:</span></label>
             <input type="text" id="patientName" name="patientName">
@@ -67,6 +67,7 @@
         </div>
 
         <h2>Partner</h2>
+
         <div class="form-group">
             <label for="partnerName"><span class="bold">Name:</span></label>
             <input type="text" id="partnerName" name="partnerName">
@@ -86,6 +87,7 @@
         </div>
 
         <h2>Gamete Sources</h2>
+
         <div class="form-group">
             <label for="eggSource"><span class="bold">Egg Source:</span></label>
             <select id="eggSource" name="eggSource" onchange="toggleFreeText('eggSource')">
@@ -120,6 +122,7 @@
         </div>
 
         <h2>PGT-M Indication</h2>
+
         <div class="form-group">
             <label for="gene"><span class="bold">Gene:</span></label>
             <input type="text" id="gene" name="gene" class="italic">
@@ -178,50 +181,46 @@
 
         function toggleXLinkedText() {
             var inheritancePattern = document.getElementById('inheritancePattern').value;
-            var knownFemaleCarrierFeaturesContainer = document.getElementById('knownFemaleCarrierFeaturesContainer');
+            var container = document.getElementById('knownFemaleCarrierFeaturesContainer');
             if (inheritancePattern === 'X-linked') {
-                knownFemaleCarrierFeaturesContainer.classList.remove('hidden');
+                container.classList.remove('hidden');
             } else {
-                knownFemaleCarrierFeaturesContainer.classList.add('hidden');
+                container.classList.add('hidden');
             }
         }
 
         function calculateAge() {
-            var dob = document.getElementById('patientDOB').value;
-            var dobDate = new Date(dob);
+            var dob = new Date(document.getElementById('patientDOB').value);
             var today = new Date();
-            var age = today.getFullYear() - dobDate.getFullYear();
-            var monthDifference = today.getMonth() - dobDate.getMonth();
-            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
+            var age = today.getFullYear() - dob.getFullYear();
+            var m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
                 age--;
             }
-            document.getElementById('age').value = age;
+            // Display or use the age as needed
         }
 
         function calculatePartnerAge() {
-            var dob = document.getElementById('partnerDOB').value;
-            var dobDate = new Date(dob);
+            var dob = new Date(document.getElementById('partnerDOB').value);
             var today = new Date();
-            var age = today.getFullYear() - dobDate.getFullYear();
-            var monthDifference = today.getMonth() - dobDate.getMonth();
-            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
+            var age = today.getFullYear() - dob.getFullYear();
+            var m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
                 age--;
             }
-            document.getElementById('partnerAge').value = age;
+            // Display or use the age as needed
         }
 
         function submitForm() {
-            var form = document.getElementById('geneticForm');
-            var formData = new FormData(form);
-            var output = '';
+            var formData = new FormData(document.getElementById('geneticForm'));
+            var output = '<h2>Consult Summary</h2><div class="summary-section">';
             formData.forEach((value, key) => {
-                if (value !== '') {
-                    output += `<p><span class="bold">${key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:</span> ${value}</p>`;
+                if (value) {
+                    output += `<p><span class="bold">${key.replace(/([A-Z])/g, ' $1').toUpperCase()}:</span> ${value}</p>`;
                 }
             });
-
-            var summaryOutput = document.getElementById('summaryOutput');
-            summaryOutput.innerHTML = output;
+            output += '</div>';
+            document.getElementById('summaryOutput').innerHTML = output;
         }
     </script>
 </body>
