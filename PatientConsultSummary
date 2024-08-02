@@ -10,8 +10,8 @@
             background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
-            justify-content: center; /* Center the form initially */
-            align-items: center; /* Center the form initially */
+            justify-content: center;
+            align-items: center;
         }
         .form-container {
             flex: 1;
@@ -23,7 +23,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             margin-right: 20px;
-            transition: max-width 0.3s; /* Smooth transition for width change */
+            transition: max-width 0.3s;
         }
         .form-section {
             display: none;
@@ -70,14 +70,14 @@
         }
         .header {
             background-color: #4b0082;
-            color: white; /* Ensure the text color is set to white */
+            color: white;
             text-align: center;
             padding: 10px;
             border-radius: 10px 10px 0 0;
             margin: -20px -20px 20px -20px;
         }
         .header * {
-            color: white; /* Ensures all child elements have white text */
+            color: white;
         }
         .hidden { display: none; }
         table {
@@ -95,7 +95,7 @@
         th {
             background-color: #4b0082;
             color: white;
-            border: 1px solid white; /* Thin white border */
+            border: 1px solid white;
         }
         .table-container {
             display: flex;
@@ -116,26 +116,27 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             max-height: 100vh;
-            position: relative; /* For positioning the buttons */
+            position: relative;
         }
         #copyButton, #downloadPdfButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background-color: #4b0082;
             color: white;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
-            margin-right: 10px;
-            margin-top: 10px;
-        }
-        #downloadPdfButton {
-            margin-right: 0;
         }
         #copyButton:hover, #downloadPdfButton:hover {
             background-color: #3a006b;
         }
+        #copyButton {
+            right: 150px;
+        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="form-container" id="formContainer">
@@ -285,9 +286,9 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
+        <!-- The summary output will be displayed here -->
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
         <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
-        <!-- The summary output will be displayed here -->
     </div>
 
     <script>
@@ -340,12 +341,10 @@
         }
 
         function submitForm() {
-            // Move form to the left and make it thinner
             document.querySelector('.form-container').style.maxWidth = '250px';
             document.body.style.justifyContent = 'flex-start';
             document.body.style.alignItems = 'flex-start';
             
-            // Generate the summary output
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
             var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
@@ -543,8 +542,15 @@
         }
 
         function downloadPDF() {
-            var element = document.getElementById('summaryOutput');
-            html2pdf(element);
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            const content = document.getElementById('summaryOutput').innerHTML;
+            pdf.fromHTML(content, 10, 10, {
+                'width': 180
+            });
+
+            pdf.save('Patient_Consult_Summary.pdf');
         }
     </script>
 </body>
