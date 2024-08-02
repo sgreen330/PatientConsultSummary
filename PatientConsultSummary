@@ -5,7 +5,6 @@
     <style>
         body { font-family: Arial, sans-serif; }
         .header { background-color: #4b0082; color: white; padding: 20px; text-align: center; }
-        .underline { text-decoration: underline; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
         .hidden { display: none; }
@@ -18,9 +17,9 @@
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
         table { width: 48%; border-collapse: collapse; margin: 1%; float: left; }
-        table, th, td { border: 1px solid #4b0082; }
+        table, th, td { border: 1px solid white; }
         th, td { padding: 10px; text-align: left; }
-        th { background-color: #4b0082; color: white; }
+        th { background-color: #4b0082; color: white; width: 1%; white-space: nowrap; }
         .purple-line { border-bottom: 2px solid #4b0082; margin: 20px 0; }
     </style>
 </head>
@@ -30,7 +29,7 @@
     </div>
     <form id="geneticForm">
         <div class="form-section">
-            <h2 class="underline">Genetic Counselor and Doctor Info</h2>
+            <h2>Genetic Counselor and Doctor Information</h2>
             <div class="form-group">
                 <div>
                     <label for="counselorName"><span class="bold">Genetic Counselor:</span></label>
@@ -64,7 +63,7 @@
         <div class="purple-line"></div>
 
         <div class="form-section">
-            <h2 class="underline">Patient Information</h2>
+            <h2>Patient Information</h2>
             <div class="form-group">
                 <div>
                     <label for="patientName"><span class="bold">Name:</span></label>
@@ -87,7 +86,7 @@
         <div class="purple-line"></div>
 
         <div class="form-section">
-            <h2 class="underline">Partner</h2>
+            <h2>Partner</h2>
             <div class="form-group">
                 <div>
                     <label for="partnerName"><span class="bold">Name:</span></label>
@@ -110,7 +109,7 @@
         <div class="purple-line"></div>
 
         <div class="form-section">
-            <h2 class="underline">Gamete Sources</h2>
+            <h2>Gamete Sources</h2>
             <div class="form-group">
                 <div>
                     <label for="eggSource"><span class="bold">Egg Source:</span></label>
@@ -147,7 +146,7 @@
         <div class="purple-line"></div>
 
         <div class="form-section">
-            <h2 class="underline">PGT-M Indication</h2>
+            <h2>PGT-M Indication</h2>
             <div class="form-group">
                 <div>
                     <label for="gene"><span class="bold">Gene:</span></label>
@@ -169,8 +168,6 @@
                         <option value="X-linked">X-linked</option>
                     </select>
                 </div>
-            </div>
-            <div class="form-group">
                 <div>
                     <label for="positiveGameteSource"><span class="bold">Positive Gamete Source(s):</span></label>
                     <select id="positiveGameteSource" name="positiveGameteSource">
@@ -190,7 +187,7 @@
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
-    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px;"></div>
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif;"></div>
 
     <script>
         function toggleFreeText(selectId) {
@@ -247,7 +244,7 @@
             
             var output = "<h2 class='bold'>Patient Consult Summary: Genetic Counseling</h2>";
 
-            output += "<table><tr><th colspan='2'>Genetic Counselor and Doctor Info</th></tr>";
+            output += "<table><tr><th colspan='2'>Genetic Counselor and Doctor Information</th></tr>";
             output += "<tr><th>Genetic Counselor</th><td>" + document.getElementById('counselorName').value + "</td></tr>";
             output += "<tr><th>Doctor</th><td>" + document.getElementById('doctorName').value + "</td></tr>";
             output += "<tr><th>Consultation Date & Time</th><td>" + formattedDate + "</td></tr></table>";
@@ -277,7 +274,7 @@
             output += "<tr><th>Inheritance Pattern</th><td>" + inheritancePattern + "</td></tr>";
             output += "<tr><th>Positive Gamete Source(s)</th><td>" + positiveGameteSource + "</td></tr></table>";
 
-            output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
+            output += "<h3>Embryo Genetic Testing Expectations</h3>";
             output += "<ul>";
             output += "<li>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
             output += "<li>For each embryo created from a " + gene + " carrier, there is a [chance]% chance that it will be " + gene + "-negative.</li>";
