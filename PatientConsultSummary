@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patient Consult Summary Form</title>
+    <title>Patient Consult Summary</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -118,7 +118,7 @@
             max-height: 100vh;
             position: relative;
         }
-        #copyButton, #downloadPdfButton, #printButton {
+        #copyButton, #printButton {
             background-color: #4b0082;
             color: white;
             border: none;
@@ -126,7 +126,7 @@
             cursor: pointer;
             border-radius: 5px;
         }
-        #copyButton:hover, #downloadPdfButton:hover, #printButton:hover {
+        #copyButton:hover, #printButton:hover {
             background-color: #3a006b;
         }
         @media print {
@@ -143,6 +143,19 @@
                 width: 100%;
                 height: auto;
                 max-height: none;
+                border: none;
+                box-shadow: none;
+            }
+            #summaryOutput .header {
+                background-color: white;
+                color: black;
+                text-align: left;
+                margin: 0;
+                padding: 0;
+            }
+            #summaryOutput .header h1 {
+                font-size: 24px;
+                margin: 0 0 10px 0;
             }
         }
     </style>
@@ -297,6 +310,9 @@
 
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
+        <div class="header">
+            <h1>Patient Consult Summary</h1>
+        </div>
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
     </div>
 
