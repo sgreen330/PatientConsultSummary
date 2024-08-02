@@ -4,24 +4,23 @@
     <title>Patient Consult Summary Form</title>
     <style>
         body { font-family: Arial, sans-serif; }
-        .header { background-color: #4b0082; color: white; padding: 20px; text-align: left; }
+        .header { width: 100%; color: black; padding: 10px 0; text-align: center; }
         .bold { font-weight: bold; }
         .italic { font-style: italic; }
         .hidden { display: none; }
-        .form-section { margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .form-group { display: flex; flex-wrap: wrap; gap: 20px; }
+        .form-section { margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .form-group { display: flex; flex-wrap: wrap; gap: 10px; }
         .form-group > div { flex: 1; min-width: 150px; max-width: 200px; }
         .form-group label { display: block; margin-bottom: 5px; }
-        .form-group input, .form-group select { width: 100%; padding: 8px; box-sizing: border-box; }
-        .form-group input[type="datetime-local"] { width: calc(100% + 20px); } /* Adjust length of datetime field */
+        .form-group input, .form-group select { width: 100%; padding: 5px; box-sizing: border-box; }
+        .form-group input[type="datetime-local"] { width: calc(100% + 10px); } /* Adjust length of datetime field */
         h1, h2, h3, button { color: #4b0082; } /* Dark purple accent */
         button { background-color: #4b0082; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
         button:hover { background-color: #3a006b; }
-        table { width: 100%; border-collapse: collapse; margin: 1% 0; }
+        table { width: 100%; border-collapse: collapse; }
         th, td { padding: 10px; text-align: left; }
         th { background-color: #4b0082; color: white; }
-        .header-text { color: #4b0082; font-weight: bold; margin-top: 20px; }
-        .purple-line { border-bottom: 2px solid #4b0082; margin: 20px 0; }
+        .purple-line { border-bottom: 2px solid #4b0082; margin: 10px 0; }
         ul { list-style-type: none; padding: 0; }
         ul li { margin-bottom: 5px; }
         ul li span { color: #4b0082; font-weight: bold; }
@@ -31,6 +30,7 @@
     <div class="header">
         <h1>Patient Consult Summary: Genetic Counseling</h1>
     </div>
+
     <form id="geneticForm">
         <div class="form-section">
             <h2>Genetic Counselor and Doctor Information</h2>
@@ -133,10 +133,7 @@
                 </div>
                 <div>
                     <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
-                    <input type="number" id="ageOfEgg" name="ageOfEgg">
-                    <select id="ageOfEggSelect" name="ageOfEggSelect">
-                        <option value="Anonymous Donor">Anonymous Donor</option>
-                    </select>
+                    <input type="text" id="ageOfEgg" name="ageOfEgg">
                 </div>
                 <div>
                     <label for="spermSource"><span class="bold">Sperm Source:</span></label>
@@ -175,8 +172,8 @@
                         <option value="X-linked">X-linked</option>
                     </select>
                 </div>
-                <div style="flex: 1 100%; max-width: none;">
-                    <label for="positiveGameteSource"><span class="bold" style="white-space: nowrap;">Positive Gamete Source(s):</span></label>
+                <div>
+                    <label for="positiveGameteSource"><span class="bold">Gamete Source(s):</span></label>
                     <select id="positiveGameteSource" name="positiveGameteSource">
                         <option value="Egg source">Egg source</option>
                         <option value="Sperm source">Sperm source</option>
@@ -243,7 +240,7 @@
             }
             
             var eggState = document.getElementById('eggState').value;
-            var ageOfEgg = document.getElementById('ageOfEgg').value || document.getElementById('ageOfEggSelect').value;
+            var ageOfEgg = document.getElementById('ageOfEgg').value;
             var positiveGameteSource = document.getElementById('positiveGameteSource').value;
             var gene = document.getElementById('gene').value;
             var inheritancePattern = document.getElementById('inheritancePattern').value;
@@ -294,7 +291,7 @@
             output += "<li><span>Variant(s):</span> " + document.getElementById('variants').value + "</li>";
             output += "<li><span>Disease Name:</span> " + document.getElementById('diseaseName').value + "</li>";
             output += "<li><span>Inheritance Pattern:</span> " + inheritancePattern + "</li>";
-            output += "<li><span>Positive Gamete Source(s):</span> " + positiveGameteSource + "</li>";
+            output += "<li><span>Gamete Source(s):</span> " + positiveGameteSource + "</li>";
             output += "</ul></td></tr>";
 
             // Embryo Genetic Testing Expectations
