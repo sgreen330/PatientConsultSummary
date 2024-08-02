@@ -95,6 +95,7 @@
         th {
             background-color: #4b0082;
             color: white;
+            border: 1px solid white; /* Thin white border */
         }
         .table-container {
             display: flex;
@@ -115,6 +116,21 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             max-height: 100vh;
+            position: relative; /* For positioning the Copy button */
+        }
+        #copyButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4b0082;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #copyButton:hover {
+            background-color: #3a006b;
         }
     </style>
 </head>
@@ -267,6 +283,7 @@
 
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
+        <button id="copyButton" onclick="copyToClipboard()">Copy</button>
     </div>
 
     <script>
@@ -337,7 +354,7 @@
             var partnerDOB = new Date(document.getElementById('partnerDOB').value);
             var formattedPartnerDOB = (partnerDOB.getMonth() + 1) + '/' + partnerDOB.getDate() + '/' + partnerDOB.getFullYear();
             
-            var eggState = document.getElementById('eggState').value.toLowerCase();
+            var eggState = document.getElementById('eggState').value;
             var ageOfEgg = document.getElementById('ageOfEgg').value;
             var positiveGameteSource = document.getElementById('positiveGameteSource').value;
             var gene = document.getElementById('gene').value;
@@ -353,7 +370,7 @@
 
             output += `
                 <div class="table-wrapper">
-                    <h3>Patient Information Table</h3>
+                    <h3>Patient Information</h3>
                     <table>
                         <thead>
                             <tr>
@@ -377,7 +394,7 @@
 
             output += `
                 <div class="table-wrapper">
-                    <h3>Partner Information Table</h3>
+                    <h3>Partner Information</h3>
                     <table>
                         <thead>
                             <tr>
@@ -401,7 +418,7 @@
 
             output += `
                 <div class="table-wrapper">
-                    <h3>Gamete Sources Table</h3>
+                    <h3>Gamete Sources</h3>
                     <table>
                         <thead>
                             <tr>
@@ -431,7 +448,7 @@
 
             output += `
                 <div class="table-wrapper">
-                    <h3>PGT-M Indication Table</h3>
+                    <h3>PGT-M Indication</h3>
                     <table>
                         <thead>
                             <tr>
@@ -459,7 +476,7 @@
 
             output += "<h3 class='underline'>Embryo Genetic Testing Expectations</h3>";
             output += "<ul>";
-            output += "<li>For each embryo created with " + eggState + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
+            output += "<li>For each embryo created with " + eggState.toLowerCase() + " eggs from a " + ageOfEgg + "-year-old, there is a [chance]% chance that it will be chromosomally normal.</li>";
             output += "<li>For each embryo created from a <span class='italic'>" + gene + "</span> carrier, there is a [chance]% chance that it will be <span class='italic'>" + gene + "</span>-negative.</li>";
             output += "<li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and <span class='italic'>" + gene + "</span>-negative.</li>";
             output += "</ul>";
@@ -508,6 +525,17 @@
 
         function backToForm() {
             document.getElementById('summaryOutput').classList.add('hidden');
+        }
+
+        function copyToClipboard() {
+            const summaryOutput = document.getElementById('summaryOutput');
+            const range = document.createRange();
+            range.selectNode(summaryOutput);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            alert('Summary copied to clipboard');
         }
     </script>
 </body>
