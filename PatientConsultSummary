@@ -10,8 +10,8 @@
             background-color: #f0f0f0;
             margin: 0;
             padding: 20px;
-            justify-content: center; /* Center the form initially */
-            align-items: center; /* Center the form initially */
+            justify-content: center;
+            align-items: center;
         }
         .form-container {
             flex: 1;
@@ -23,7 +23,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             margin-right: 20px;
-            transition: max-width 0.3s; /* Smooth transition for width change */
+            transition: max-width 0.3s;
         }
         .form-section {
             display: none;
@@ -70,14 +70,14 @@
         }
         .header {
             background-color: #4b0082;
-            color: white; /* Ensure the text color is set to white */
+            color: white;
             text-align: center;
             padding: 10px;
             border-radius: 10px 10px 0 0;
             margin: -20px -20px 20px -20px;
         }
         .header * {
-            color: white; /* Ensures all child elements have white text */
+            color: white;
         }
         .hidden { display: none; }
         table {
@@ -95,7 +95,7 @@
         th {
             background-color: #4b0082;
             color: white;
-            border: 1px solid white; /* Thin white border */
+            border: 1px solid white;
         }
         .table-container {
             display: flex;
@@ -116,7 +116,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
             max-height: 100vh;
-            position: relative; /* For positioning the Copy button */
+            position: relative;
         }
         #copyButton {
             position: absolute;
@@ -130,6 +130,20 @@
             border-radius: 5px;
         }
         #copyButton:hover {
+            background-color: #3a006b;
+        }
+        #downloadPdfButton {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background-color: #4b0082;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #downloadPdfButton:hover {
             background-color: #3a006b;
         }
     </style>
