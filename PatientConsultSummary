@@ -280,6 +280,7 @@
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
                 <button type="button" onclick="submitForm()">Submit</button>
+                <button type="button" onclick="downloadPDF()">Download PDF</button>
                 <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
@@ -288,7 +289,6 @@
     <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
-        <button id="downloadPdfButton" onclick="downloadPDF()">Download PDF</button>
     </div>
 
     <script>
@@ -302,6 +302,7 @@
             document.querySelector('.button-container button[type="button"][onclick="prevSection()"]').style.display = index === 0 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="nextSection()"]').style.display = index === sections.length - 1 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="submitForm()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
+            document.querySelector('.button-container button[type="button"][onclick="downloadPDF()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
         }
 
         function nextSection() {
@@ -545,12 +546,16 @@
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF();
 
+            // Get the summary output HTML content
             const content = document.getElementById('summaryOutput').innerHTML;
-            pdf.fromHTML(content, 10, 10, {
-                'width': 180
-            });
 
-            pdf.save('Patient_Consult_Summary.pdf');
+            // Add the content to the PDF
+            pdf.html(content, {
+                callback: function (pdf) {
+                    // Save the generated PDF
+                    pdf.save('Patient_Consult_Summary.pdf');
+                }
+            });
         }
     </script>
 </body>
