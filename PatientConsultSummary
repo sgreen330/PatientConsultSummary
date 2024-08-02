@@ -14,7 +14,7 @@
             align-items: center; /* Center the form initially */
         }
         .form-container {
-            width: 100%;
+            flex: 1;
             max-width: 400px;
             background-color: white;
             border: 2px solid #4b0082;
@@ -22,7 +22,8 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-            transition: max-width 0.5s, margin-right 0.5s; /* Smooth transition */
+            margin-right: 20px;
+            transition: max-width 0.3s; /* Smooth transition for width change */
         }
         .form-section {
             display: none;
@@ -75,7 +76,6 @@
             border-radius: 10px 10px 0 0;
             margin: -20px -20px 20px -20px;
         }
-
         .header * {
             color: white; /* Ensures all child elements have white text */
         }
@@ -95,7 +95,6 @@
         th {
             background-color: #4b0082;
             color: white;
-            border: 1px solid white; /* Thin white border */
         }
         .table-container {
             display: flex;
@@ -114,9 +113,8 @@
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
             max-height: 100vh;
-            overflow-y: auto; /* Ensure output is scrollable */
-            display: none; /* Initially hidden */
         }
     </style>
 </head>
@@ -258,7 +256,6 @@
                     <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
                 </div>
             </div>
-
             <div class="button-container">
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
@@ -268,7 +265,7 @@
         </form>
     </div>
 
-    <div id="summaryOutput">
+    <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
     </div>
 
@@ -322,9 +319,8 @@
         }
 
         function submitForm() {
-            // Move the form to the left
-            document.getElementById('formContainer').style.maxWidth = '400px';
-            document.getElementById('formContainer').style.marginRight = '20px';
+            // Move form to the left and make it thinner
+            document.querySelector('.form-container').style.maxWidth = '250px';
             document.body.style.justifyContent = 'flex-start';
             document.body.style.alignItems = 'flex-start';
             
@@ -485,7 +481,7 @@
             }
 
             document.getElementById('summaryOutput').innerHTML = output;
-            document.getElementById('summaryOutput').style.display = 'block';
+            document.getElementById('summaryOutput').classList.remove('hidden');
         }
 
         function calculateAge() {
