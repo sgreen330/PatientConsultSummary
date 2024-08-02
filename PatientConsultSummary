@@ -51,7 +51,7 @@
     </style>
 </head>
 <body>
-    <div class="form-container">
+    <div class="form-container" id="formContainer">
         <div class="header">
             <h1>Patient Consult Summary: Genetic Counseling</h1>
         </div>
@@ -198,7 +198,9 @@
         </form>
     </div>
 
-    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif; display: none;"></div>
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; margin-top: 20px; font-family: 'Helvetica', sans-serif; display: none;">
+        <!-- The summary output will be displayed here -->
+    </div>
 
     <script>
         const sections = document.querySelectorAll('.form-section');
@@ -356,14 +358,14 @@
             output += "</td></tr>";
             output += "</table>";
 
-            document.getElementById('geneticForm').classList.add('hidden');
+            document.getElementById('formContainer').classList.add('hidden');
             document.getElementById('summaryOutput').classList.remove('hidden');
             document.getElementById('summaryOutput').innerHTML = output;
             document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
         }
 
         function backToForm() {
-            document.getElementById('geneticForm').classList.remove('hidden');
+            document.getElementById('formContainer').classList.remove('hidden');
             document.getElementById('summaryOutput').classList.add('hidden');
             document.querySelector('.button-container button[onclick="backToForm()"]').classList.add('hidden');
             currentSectionIndex = 0;
