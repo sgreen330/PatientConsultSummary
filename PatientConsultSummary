@@ -84,13 +84,13 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 12px;
+            font-size: 12px; /* Smaller text */
         }
         table, th, td {
             border: 1px solid #4b0082;
         }
         th, td {
-            padding: 5px;
+            padding: 5px; /* Smaller padding */
             text-align: left;
         }
         th {
@@ -122,7 +122,7 @@
         #copyButton {
             background-color: #4b0082;
             color: white;
-            border: 2px solid white;
+            border: none;
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
@@ -156,7 +156,7 @@
                 padding: 0;
             }
             #summaryOutput .header h1 {
-                font-size: 24px;
+                font-size: 18px;
                 margin: 0 0 10px 0;
             }
             #summaryOutput h2, #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
@@ -164,14 +164,6 @@
             }
             #summaryOutput table, #summaryOutput th, #summaryOutput td {
                 border-color: #4b0082;
-                background-color: #4b0082;
-                color: white;
-            }
-            #summaryOutput .table-wrapper {
-                flex: 0 0 48%;
-            }
-            #summaryOutput h1, #summaryOutput #copyButton, #summaryOutput #savePDFButton, #summaryOutput .header h1 {
-                display: none;
             }
         }
     </style>
@@ -324,11 +316,11 @@
     </div>
 
     <div id="summaryOutput" class="hidden">
-        <button id="copyButton" onclick="copyToClipboard()">Copy</button>
         <div class="header">
-            <h1>Patient Consult Summary: Genetic Counseling</h1>
+            <h1>Patient Consult Summary</h1>
         </div>
         <div id="summaryContent"></div>
+        <button id="copyButton" onclick="copyToClipboard()">Copy</button>
     </div>
 
     <script>
@@ -411,7 +403,7 @@
 
             output += "<div class='table-container'>";
 
-            output += `
+            output += 
                 <div class="table-wrapper">
                     <h3>Patient Information</h3>
                     <table>
@@ -433,15 +425,15 @@
                         </tbody>
                     </table>
                 </div>
-            `;
+            ;
 
-            output += `
+            output += 
                 <div class="table-wrapper">
                     <h3>Partner Information</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Partner Information</th>
+                                <th>Patient Information</th>
                                 <th>Name</th>
                                 <th>DOB</th>
                                 <th>Gamete Type</th>
@@ -457,9 +449,9 @@
                         </tbody>
                     </table>
                 </div>
-            `;
+            ;
 
-            output += `
+            output += 
                 <div class="table-wrapper">
                     <h3>Gamete Sources</h3>
                     <table>
@@ -487,9 +479,9 @@
                         </tbody>
                     </table>
                 </div>
-            `;
+            ;
 
-            output += `
+            output += 
                 <div class="table-wrapper">
                     <h3>PGT-M Indication</h3>
                     <table>
@@ -513,7 +505,7 @@
                         </tbody>
                     </table>
                 </div>
-            `;
+            ;
 
             output += "</div>";
 
@@ -571,14 +563,18 @@
         }
 
         function copyToClipboard() {
-            const summaryContent = document.getElementById('summaryContent').innerHTML;
-            const tempTextarea = document.createElement('textarea');
-            tempTextarea.value = summaryContent;
-            document.body.appendChild(tempTextarea);
-            tempTextarea.select();
+            const summaryOutput = document.getElementById('summaryContent');
+            const range = document.createRange();
+            range.selectNode(summaryOutput);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
             document.execCommand('copy');
-            document.body.removeChild(tempTextarea);
-            alert('Summary content copied to clipboard.');
+            window.getSelection().removeAllRanges();
+            alert('Summary copied to clipboard');
+        }
+
+        function printSummary() {
+            window.print();
         }
     </script>
 </body>
