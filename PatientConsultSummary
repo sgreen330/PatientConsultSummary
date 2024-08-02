@@ -125,6 +125,7 @@
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 5px;
+            margin-top: 20px;
         }
         #copyButton:hover, #printButton:hover {
             background-color: #3a006b;
@@ -145,6 +146,23 @@
                 max-height: none;
                 border: none;
                 box-shadow: none;
+            }
+            #summaryOutput .header {
+                background-color: white;
+                color: black;
+                text-align: left;
+                margin: 0;
+                padding: 0;
+            }
+            #summaryOutput .header h1 {
+                font-size: 18px;
+                margin: 0 0 10px 0;
+            }
+            #summaryOutput h2, #summaryOutput h3, #summaryOutput p, #summaryOutput ul, #summaryOutput th, #summaryOutput td {
+                font-size: 12px;
+            }
+            #summaryOutput table, #summaryOutput th, #summaryOutput td {
+                border-color: #4b0082;
             }
         }
     </style>
@@ -291,7 +309,6 @@
                 <button type="button" onclick="prevSection()">Previous</button>
                 <button type="button" onclick="nextSection()">Next</button>
                 <button type="button" onclick="submitForm()">Submit</button>
-                <button type="button" id="printButton" onclick="printSummary()">Print Summary</button>
                 <button type="button" class="hidden" onclick="backToForm()">Back to Form</button>
             </div>
         </form>
@@ -304,6 +321,7 @@
         </div>
         <div id="summaryContent"></div>
         <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+        <button id="printButton" onclick="printSummary()">Print Summary</button>
     </div>
 
     <script>
@@ -317,7 +335,6 @@
             document.querySelector('.button-container button[type="button"][onclick="prevSection()"]').style.display = index === 0 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="nextSection()"]').style.display = index === sections.length - 1 ? 'none' : 'inline-block';
             document.querySelector('.button-container button[type="button"][onclick="submitForm()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
-            document.querySelector('.button-container button[type="button"][onclick="printSummary()"]').style.display = index === sections.length - 1 ? 'inline-block' : 'none';
         }
 
         function nextSection() {
