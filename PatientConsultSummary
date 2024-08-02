@@ -9,6 +9,7 @@
         .hidden { display: none; }
         .container { margin-bottom: 10px; }
         ul { margin: 0; padding: 0; list-style-type: disc; }
+        li { margin-left: 20px; } /* Indentation for bullet points */
     </style>
 </head>
 <body>
@@ -79,6 +80,7 @@
         <select id="eggState" name="eggState">
             <option value="Frozen">Frozen</option>
             <option value="Fresh">Fresh</option>
+            <option value="Anonymous Donor">Anonymous Donor</option>
         </select><br><br>
 
         <label for="ageOfEgg"><span class="bold">Age of Egg:</span></label>
@@ -95,7 +97,10 @@
         <h2 class="underline">PGT-M Indication</h2>
 
         <label for="gene"><span class="bold">Gene:</span></label>
-        <input type="text" id="gene" name="gene"><br><br>
+        <input type="text" id="gene" name="gene" class="italic"><br><br>
+
+        <label for="variants"><span class="bold">Variant(s):</span></label>
+        <input type="text" id="variants" name="variants"><br><br>
 
         <label for="diseaseName"><span class="bold">Disease Name:</span></label>
         <input type="text" id="diseaseName" name="diseaseName"><br><br>
@@ -106,9 +111,6 @@
             <option value="Autosomal recessive">Autosomal recessive</option>
             <option value="X-linked">X-linked</option>
         </select><br><br>
-
-        <label for="variants"><span class="bold">Variant(s):</span></label>
-        <input type="text" id="variants" name="variants"><br><br>
 
         <label for="positiveGameteSource"><span class="bold">Positive Gamete Source(s):</span></label>
         <select id="positiveGameteSource" name="positiveGameteSource">
@@ -159,15 +161,22 @@
             var diseaseName = document.getElementById('diseaseName').value;
             var inheritancePattern = document.getElementById('inheritancePattern').value;
             var eggState = document.getElementById('eggState').value.toLowerCase();
+            var ageOfEgg = document.getElementById('ageOfEgg').value || 'Anonymous Donor';
             var chance = 75; // Placeholder for actual chance calculation
             
             var xLinkedText = inheritancePattern === 'X-linked' ? `
+                ${document.getElementById('knownFemaleCarrierFeatures').value ? `
+                <p><span class="bold">Known Female Carrier Features:</span> ${document.getElementById('knownFemaleCarrierFeatures').value}</p>
+                ` : ''}
+                <p>In other words, each tested embryo has a:</p>
                 <ul>
                     <li>25% chance of being a chromosomally normal/${gene}-negative male</li>
                     <li>25% chance of being a chromosomally normal/${gene}-negative female</li>
                     <li>25% chance of being a chromosomally normal/${gene}-positive male: This child is expected to have ${diseaseName}.</li>
                     <li>25% chance of being a chromosomally normal/${gene}-positive female: Many ${gene}-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.</li>
-                </ul>` : '';
+                </ul>
+                <p>On average, we recommend 2-3 embryos for each desired child.</p>
+            ` : '';
             
             var summaryText = `
                 <h2 class="underline">Patient Consult Summary - Genetic Counseling</h2>
@@ -188,28 +197,25 @@
                 <h2 class="underline">Gamete Sources</h2>
                 <p><span class="bold">Egg Source:</span> ${document.getElementById('eggSource').value}</p>
                 <p><span class="bold">State of Egg:</span> ${eggState}</p>
-                <p><span class="bold">Age of Egg:</span> ${document.getElementById('ageOfEgg').value}</p>
+                <p><span class="bold">Age of Egg:</span> ${ageOfEgg}</p>
                 <p><span class="bold">Sperm Source:</span> ${document.getElementById('spermSource').value}</p>
 
                 <h2 class="underline">PGT-M Indication</h2>
-                <p><span class="bold">Gene:</span> ${document.getElementById('gene').value}</p>
+                <p><span class="bold">Gene:</span> <span class="italic">${document.getElementById('gene').value}</span></p>
+                <p><span class="bold">Variant(s):</span> ${document.getElementById('variants').value}</p>
                 <p><span class="bold">Disease Name:</span> ${document.getElementById('diseaseName').value}</p>
                 <p><span class="bold">Inheritance Pattern:</span> ${document.getElementById('inheritancePattern').value}</p>
-                <p><span class="bold">Variant(s):</span> ${document.getElementById('variants').value}</p>
                 <p><span class="bold">Positive Gamete Source(s):</span> ${document.getElementById('positiveGameteSource').value}</p>
                 
-                ${document.getElementById('knownFemaleCarrierFeatures').value ? `
-                <p><span class="bold">Known Female Carrier Features:</span> ${document.getElementById('knownFemaleCarrierFeatures').value}</p>` : ''}
+                ${xLinkedText}
 
                 <h2 class="underline">Embryo Genetic Testing Expectations</h2>
                 <ul>
-                    <li>For each embryo created with ${document.getElementById('eggState').value} eggs from a 24 year old, there is a [chance]% chance that it will be chromosomally normal.</li>
-                    <li>For each embryo created from a ${document.getElementById('gene').value} carrier, there is a [chance]% chance that it will be ${document.getElementById('gene').value}-negative.</li>
-                    <li>Combined, there is a [chance]% chance that every tested embryo is both chromosomally normal and ${document.getElementById('gene').value}-negative.</li>
+                    <li>For each embryo created with ${document.getElementById('eggState').value.toLowerCase()} eggs retrieved from a ${ageOfEgg}, there is a [chance]% chance that it will be chromosomally normal.</li>
+                    <li>For each embryo created from a <span class="italic">${document.getElementById('gene').value}</span> carrier, there is a [chance]% chance that it will be <span class="italic">${document.getElementById('gene').value}</span>-negative.</li>
+                    <li>Combined, there is a [chance]% chance that every tested embryo will be both chromosomally normal and <span class="italic">${document.getElementById('gene').value}</span>-negative.</li>
                 </ul>
                 <p>On average, we recommend 2-3 embryos for each desired child.</p>
-                
-                ${xLinkedText}
             `;
 
             document.getElementById('summaryOutput').innerHTML = summaryText;
