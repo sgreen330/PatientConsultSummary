@@ -6,25 +6,21 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
             margin: 0;
+            padding: 20px;
         }
         .form-container {
-            width: 100%;
-            max-width: 800px;
+            flex: 1;
+            max-width: 400px;
             background-color: white;
             border: 2px solid #4b0082;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-            max-height: 80vh;
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-right: 20px;
         }
         .form-section {
             display: none;
@@ -107,6 +103,16 @@
             flex: 0 0 48%;
             box-sizing: border-box;
             margin-bottom: 20px;
+        }
+        #summaryOutput {
+            flex: 1;
+            border: 2px solid #4b0082;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 100vh;
         }
     </style>
 </head>
@@ -258,7 +264,7 @@
         </form>
     </div>
 
-    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; font-family: 'Helvetica', sans-serif;" class="hidden">
+    <div id="summaryOutput" class="hidden">
         <!-- The summary output will be displayed here -->
     </div>
 
@@ -312,9 +318,6 @@
         }
 
         function submitForm() {
-            // Hide the form
-            document.getElementById('formContainer').classList.add('hidden');
-            
             // Generate the summary output
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
@@ -463,7 +466,7 @@
                 output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive male: This child is expected to have <span class='italic'>" + document.getElementById('diseaseName').value + "</span>.</li>";
                 output += "<li>25% chance of being a chromosomally normal/<span class='italic'>" + gene + "</span>-positive female: Many <span class='italic'>" + gene + "</span>-positive females are asymptomatic due to X-linked inactivation, a natural process where one of the two X chromosomes in each cell is turned off and the other is left on. If the X chromosome with the mutated gene is turned on more than the one with the normal gene, the female might show symptoms of the condition. However, it is unpredictable which females will be symptomatic and to what extent. Most females with X-linked conditions remain asymptomatic.";
                 if (knownFemaleCarrierFeatures) {
-                    output += " Known Female Carrier Features: " + knownFemaleCarrierFeatures + ".";
+                    output += " " + knownFemaleCarrierFeatures;
                 }
                 output += "</li></ul>";
                 output += "<p>On average, we recommend 2-3 embryos for each desired child.</p>";
@@ -473,7 +476,6 @@
 
             document.getElementById('summaryOutput').innerHTML = output;
             document.getElementById('summaryOutput').classList.remove('hidden');
-            document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
         }
 
         function calculateAge() {
@@ -500,8 +502,6 @@
 
         function backToForm() {
             document.getElementById('summaryOutput').classList.add('hidden');
-            document.getElementById('formContainer').classList.remove('hidden');
-            document.querySelector('.button-container button[onclick="backToForm()"]').classList.add('hidden');
         }
     </script>
 </body>
