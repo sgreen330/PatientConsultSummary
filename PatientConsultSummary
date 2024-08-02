@@ -3,17 +3,18 @@
 <head>
     <title>Patient Consult Summary Form</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            display: flex; 
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh; 
-            background-color: #f0f0f0; 
-            margin: 0; 
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
         }
         .form-container {
-            width: 400px;
+            width: 100%; /* Make the form wider */
+            max-width: 800px; /* Limit max width for better readability */
             background-color: white;
             border: 2px solid #4b0082;
             border-radius: 10px;
@@ -184,7 +185,7 @@
                         <option value="Egg and sperm source">Egg and sperm source</option>
                     </select>
                 </div>
-                <div class="form-group" id="knownFemaleCarrierFeaturesContainer" class="hidden">
+                <div class="form-group hidden" id="knownFemaleCarrierFeaturesContainer">
                     <label for="knownFemaleCarrierFeatures"><span class="bold">Known Female Carrier Features:</span></label>
                     <input type="text" id="knownFemaleCarrierFeatures" name="knownFemaleCarrierFeatures">
                 </div>
@@ -199,7 +200,7 @@
         </form>
     </div>
 
-    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; font-family: 'Helvetica', sans-serif;">
+    <div id="summaryOutput" style="border: 1px solid #4b0082; padding: 10px; font-family: 'Helvetica', sans-serif;" class="hidden">
         <!-- The summary output will be displayed here -->
     </div>
 
@@ -253,6 +254,10 @@
         }
 
         function submitForm() {
+            // Hide the form
+            document.getElementById('formContainer').classList.add('hidden');
+            
+            // Generate the summary output
             var consultationDate = new Date(document.getElementById('consultationTime').value);
             var hours = consultationDate.getHours() % 12 === 0 ? 12 : consultationDate.getHours() % 12;
             var minutes = consultationDate.getMinutes() < 10 ? '0' + consultationDate.getMinutes() : consultationDate.getMinutes();
@@ -326,6 +331,8 @@
             }
 
             document.getElementById('summaryOutput').innerHTML = output;
+            document.getElementById('summaryOutput').classList.remove('hidden');
+            document.querySelector('.button-container button[onclick="backToForm()"]').classList.remove('hidden');
         }
 
         function calculateAge() {
@@ -348,6 +355,12 @@
                 age--;
             }
             document.getElementById('partnerAge').value = age;
+        }
+
+        function backToForm() {
+            document.getElementById('summaryOutput').classList.add('hidden');
+            document.getElementById('formContainer').classList.remove('hidden');
+            document.querySelector('.button-container button[onclick="backToForm()"]').classList.add('hidden');
         }
     </script>
 </body>
